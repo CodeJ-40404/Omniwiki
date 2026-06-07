@@ -1,0 +1,82 @@
+<!-- templates/index.html - 首页 -->
+{% extends "base.html" %}
+
+{% block title %}首页{% endblock %}
+
+{% block content %}
+<div class="featured-card">
+    <div class="featured-tag"><i class="fas fa-star-of-life"></i> 欢迎来到寰宇维基</div>
+    <div class="featured-title">📚 你的本地知识库</div>
+    <p>寰宇维基是一个完全运行在你电脑上的Wiki系统。所有数据本地存储，无需联网，保护隐私。你可以创建、编辑、搜索任何感兴趣的内容！</p>
+    <div style="margin-top: 20px; display: flex; gap: 12px;">
+        {% if username %}
+        <a href="/create" class="btn-primary" style="display: inline-block;">➕ 创建新页面</a>
+        {% else %}
+        <a href="/login" class="btn-primary" style="display: inline-block;">🔑 登录开始编辑</a>
+        <a href="/register" class="btn-outline" style="display: inline-block;">📝 注册账号</a>
+        {% endif %}
+    </div>
+</div>
+
+<!-- 统计卡片 -->
+<div class="stats-mini">
+    <div class="stat-item"><i class="fas fa-file-alt"></i> <span class="stat-number">{{ stats.total_pages }}</span> 词条</div>
+    <div class="stat-item"><i class="fas fa-users"></i> <span class="stat-number">{{ stats.total_users }}</span> 贡献者</div>
+    <div class="stat-item"><i class="fas fa-eye"></i> <span class="stat-number">{{ stats.total_views }}</span> 浏览量</div>
+</div>
+
+<div class="two-columns">
+    <!-- 左侧：热门页面 -->
+    <div class="column">
+        <h2><i class="fas fa-fire"></i> 热门页面</h2>
+        <div class="article-list">
+            {% for name, page in hot_pages %}
+            <div class="article-list-item">
+                <a href="/page/{{ name }}" class="article-title">{{ page.title }}</a>
+                <div class="article-meta">
+                    <span><i class="fas fa-eye"></i> {{ page.views }}次浏览</span>
+                    <span><i class="fas fa-user"></i> {{ page.author }}</span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- 右侧：最近更新 -->
+    <div class="column">
+        <h2><i class="fas fa-clock"></i> 最近更新</h2>
+        <div class="article-list">
+            {% for name, page in recent_pages %}
+            <div class="article-list-item">
+                <a href="/page/{{ name }}" class="article-title">{{ page.title }}</a>
+                <div class="article-meta">
+                    <span><i class="fas fa-edit"></i> {{ page.last_edit }}</span>
+                    <span><i class="fas fa-user"></i> {{ page.author }}</span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!-- 最近活动 -->
+<div class="activity-feed">
+    <h2><i class="fas fa-history"></i> 最近活动</h2>
+    <ul class="activity-list">
+        {% for activity in recent_activity %}
+        <li>
+            <i class="fas fa-user-circle"></i>
+            <strong>{{ activity.user }}</strong> {{ activity.action }}
+            {% if activity.page %} - <a href="/page/{{ activity.page }}">《{{ activity.page }}》</a>{% endif %}
+            <span class="activity-time">{{ activity.time }}</span>
+        </li>
+        {% else %}
+        <li>暂无活动记录</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
+
+{% block right_rail %}
+{{ super() }}
+{% endblock %}

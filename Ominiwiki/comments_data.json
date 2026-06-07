@@ -1,0 +1,40 @@
+{
+  "香蕉": [
+    {
+      "id": 1780823997309,
+      "content": "wow",
+      "author": "codej-40404",
+      "avatar": "C",
+      "time": "2026-06-07 17:19",
+      "timestamp": 1780823997.309835,
+      "likes": 1,
+      "parent_id": null,
+      "replies": [
+        {
+          "id": 1780824008621,
+          "content": "yeah",
+          "author": "codej-40404",
+          "avatar": "C",
+          "time": "2026-06-07 17:20",
+          "timestamp": 1780824008.622037,
+          "likes": 0,
+          "parent_id": 1780823997309,
+          "replies": []
+        }
+      ]
+    }
+  ],
+  "wiki": [
+    {
+      "id": 1780824572942,
+      "content": "加油！",
+      "author": "codej-40404",
+      "avatar": "C",
+      "time": "2026-06-07 17:29",
+      "timestamp": 1780824572.942356,
+      "likes": 0,
+      "parent_id": null,
+      "replies": []
+    }
+  ]
+}

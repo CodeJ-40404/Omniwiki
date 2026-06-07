@@ -1,0 +1,173 @@
+{
+  "users": {
+    "admin": {
+      "password": "admin123",
+      "role": "admin"
+    },
+    "visitor": {
+      "password": "123456",
+      "role": "user"
+    },
+    "codej-40404": {
+      "password": "123",
+      "role": "contributor",
+      "avatar": "C",
+      "join_date": "2026-06-07",
+      "email": ""
+    }
+  },
+  "pages": {
+    "首页": {
+      "title": "首页",
+      "content": "# 欢迎来到寰宇维基！\r\n\r\n这是一个本地的Wiki系统。\r\n\r\n## 快速开始\r\n- 点击右上角登录\r\n- 创建和编辑页面\r\n- 探索知识  ",
+      "author": "admin",
+      "last_edit": "2026-06-07 16:43",
+      "views": 7,
+      "tags": []
+    },
+    "香蕉": {
+      "title": "香蕉",
+      "content": "# 香蕉\r\n\r\n香蕉是一种草本植物的浆果...\r\n\r\n## 有趣的事实\r\n- 香蕉含有钾元素\r\n- 猴子真的爱吃香蕉\r\n- 香蕉很好吃\r\n>**你好!**  \r\n> banana  \r\n\r\n***这很有趣***",
+      "author": "codej-40404",
+      "last_edit": "2026-06-07 17:22",
+      "views": 32,
+      "tags": []
+    },
+    "wiki": {
+      "title": "wiki-介绍",
+      "content": "# WIKI\r\n## 什么是wiki\r\n### 此页面编写中",
+      "author": "codej-40404",
+      "last_edit": "2026-06-07 17:29",
+      "views": 3,
+      "tags": []
+    }
+  },
+  "recent_activity": [
+    {
+      "action": "在页面「wiki」发表了评论",
+      "user": "codej-40404",
+      "page": "wiki",
+      "time": "2026-06-07 17:29"
+    },
+    {
+      "action": "创建了新页面「wiki」",
+      "user": "codej-40404",
+      "page": "wiki",
+      "time": "2026-06-07 17:29"
+    },
+    {
+      "action": "编辑了页面「香蕉」",
+      "user": "codej-40404",
+      "page": "香蕉",
+      "time": "2026-06-07 17:22"
+    },
+    {
+      "action": "在页面「香蕉」发表了评论",
+      "user": "codej-40404",
+      "page": "香蕉",
+      "time": "2026-06-07 17:20"
+    },
+    {
+      "action": "在页面「香蕉」发表了评论",
+      "user": "codej-40404",
+      "page": "香蕉",
+      "time": "2026-06-07 17:19"
+    },
+    {
+      "action": "编辑了页面「香蕉」",
+      "user": "codej-40404",
+      "page": "香蕉",
+      "time": "2026-06-07 17:10"
+    },
+    {
+      "action": "编辑了页面「香蕉」",
+      "user": "codej-40404",
+      "page": "香蕉",
+      "time": "2026-06-07 17:09"
+    },
+    {
+      "action": "编辑了页面「香蕉」",
+      "user": "codej-40404",
+      "page": "香蕉",
+      "time": "2026-06-07 16:59"
+    },
+    {
+      "action": "编辑了页面「香蕉」",
+      "user": "codej-40404",
+      "page": "香蕉",
+      "time": "2026-06-07 16:59"
+    },
+    {
+      "action": "编辑了页面「香蕉」",
+      "user": "codej-40404",
+      "page": "香蕉",
+      "time": "2026-06-07 16:59"
+    },
+    {
+      "action": "编辑了页面「香蕉」",
+      "user": "codej-40404",
+      "page": "香蕉",
+      "time": "2026-06-07 16:59"
+    },
+    {
+      "action": "编辑了页面「香蕉」",
+      "user": "codej-40404",
+      "page": "香蕉",
+      "time": "2026-06-07 16:58"
+    },
+    {
+      "action": "编辑了页面「香蕉」",
+      "user": "codej-40404",
+      "page": "香蕉",
+      "time": "2026-06-07 16:58"
+    },
+    {
+      "action": "登录了系统",
+      "user": "codej-40404",
+      "page": null,
+      "time": "2026-06-07 16:44"
+    },
+    {
+      "action": "登出系统",
+      "user": "admin",
+      "page": null,
+      "time": "2026-06-07 16:44"
+    },
+    {
+      "action": "编辑了页面「首页」",
+      "user": "admin",
+      "page": "首页",
+      "time": "2026-06-07 16:43"
+    },
+    {
+      "action": "编辑了页面「首页」",
+      "user": "admin",
+      "page": "首页",
+      "time": "2026-06-07 16:43"
+    },
+    {
+      "action": "登录了系统",
+      "user": "admin",
+      "page": null,
+      "time": "2026-06-07 16:41"
+    },
+    {
+      "action": "编辑了页面「香蕉」",
+      "user": "codej-40404",
+      "page": "香蕉",
+      "time": "2026-06-07 13:41"
+    },
+    {
+      "action": "编辑了页面「香蕉」",
+      "user": "codej-40404",
+      "page": "香蕉",
+      "time": "2026-06-07 13:41"
+    },
+    {
+      "action": "注册了新账号",
+      "user": "codej-40404",
+      "page": null,
+      "time": "2026-06-07 13:40"
+    }
+  ]
+}

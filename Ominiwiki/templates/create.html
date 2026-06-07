@@ -1,0 +1,745 @@
+<!-- templates/create.html - 创建新页面 -->
+{% extends "base.html" %}
+
+{% block title %}创建新页面{% endblock %}
+
+{% block extra_head %}
+<!-- 代码高亮 -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<!-- Markdown 解析库 -->
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<style>
+    .create-container {
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+
+    .create-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 24px;
+        flex-wrap: wrap;
+        gap: 16px;
+    }
+
+        .create-header h1 {
+            font-size: 1.8rem;
+        }
+
+    .url-preview {
+        background: var(--surface-card);
+        border-radius: 16px;
+        padding: 16px 20px;
+        margin-bottom: 24px;
+        border: 1px solid var(--border-light);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+    .url-preview-label {
+        color: var(--text-muted);
+        font-size: 0.85rem;
+    }
+
+    .url-preview-url {
+        background: var(--bg-dark);
+        padding: 8px 16px;
+        border-radius: 40px;
+        font-family: monospace;
+        font-size: 0.9rem;
+        color: var(--accent-gold);
+    }
+
+    .url-preview-warning {
+        color: #ff6b6b;
+        font-size: 0.75rem;
+        margin-left: auto;
+    }
+
+    .editor-pane {
+        background: var(--surface-card);
+        border-radius: 24px;
+        border: 1px solid var(--border-light);
+        overflow: hidden;
+    }
+
+    .editor-toolbar {
+        background: var(--bg-sidebar);
+        border-bottom: 1px solid var(--border-light);
+        padding: 8px 12px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        align-items: center;
+    }
+
+    .toolbar-group {
+        display: flex;
+        gap: 2px;
+        padding: 0 8px;
+        border-right: 1px solid var(--border-light);
+    }
+
+        .toolbar-group:last-child {
+            border-right: none;
+        }
+
+    .tool-btn {
+        background: transparent;
+        border: none;
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        color: var(--text-muted);
+        cursor: pointer;
+        font-size: 1rem;
+        transition: all 0.2s;
+    }
+
+        .tool-btn:hover {
+            background: var(--surface-hover);
+            color: var(--accent-gold);
+        }
+
+    .title-bar {
+        padding: 16px 20px;
+        border-bottom: 1px solid var(--border-light);
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+    }
+
+    .page-name-input {
+        flex: 1;
+        background: var(--bg-dark);
+        border: 1px solid var(--border-light);
+        border-radius: 12px;
+        padding: 12px 16px;
+        font-size: 1rem;
+        color: var(--text-primary);
+        font-family: monospace;
+    }
+
+        .page-name-input:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+        }
+
+    .page-title-input {
+        flex: 2;
+        background: var(--bg-dark);
+        border: 1px solid var(--border-light);
+        border-radius: 12px;
+        padding: 12px 16px;
+        font-size: 1rem;
+        color: var(--text-primary);
+        font-family: inherit;
+    }
+
+        .page-title-input:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+        }
+
+    .metadata-bar {
+        padding: 12px 20px;
+        border-bottom: 1px solid var(--border-light);
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    .tag-area {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
+        flex: 1;
+    }
+
+    .tag {
+        background: rgba(60, 122, 255, 0.15);
+        color: var(--accent-blue);
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .tag-remove {
+        cursor: pointer;
+        opacity: 0.7;
+    }
+
+        .tag-remove:hover {
+            opacity: 1;
+        }
+
+    .tag-input {
+        background: transparent;
+        border: none;
+        color: var(--text-primary);
+        padding: 6px 8px;
+        min-width: 100px;
+        font-size: 0.8rem;
+    }
+
+        .tag-input:focus {
+            outline: none;
+        }
+
+    .editor-area {
+        display: flex;
+        flex-direction: column;
+        min-height: 500px;
+    }
+
+    .editor-split {
+        display: flex;
+        flex: 1;
+        min-height: 500px;
+    }
+
+    .editor-input {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        border-right: 1px solid var(--border-light);
+    }
+
+        .editor-input textarea {
+            flex: 1;
+            background: var(--surface-card);
+            border: none;
+            color: var(--text-primary);
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            padding: 20px;
+            resize: none;
+            outline: none;
+            min-height: 450px;
+        }
+
+    .editor-preview {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+        padding: 20px;
+        background: var(--bg-dark);
+    }
+
+    .preview-header {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        margin-bottom: 12px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid var(--border-light);
+    }
+
+    .preview-content {
+        flex: 1;
+        line-height: 1.7;
+    }
+
+        .preview-content h1 {
+            font-size: 1.8rem;
+            margin: 1em 0 0.5em;
+        }
+
+        .preview-content h2 {
+            font-size: 1.4rem;
+            margin: 1em 0 0.5em;
+            color: var(--accent-gold);
+        }
+
+        .preview-content h3 {
+            font-size: 1.2rem;
+            margin: 0.8em 0 0.5em;
+        }
+
+        .preview-content code {
+            background: var(--surface-card);
+            padding: 2px 6px;
+            border-radius: 6px;
+        }
+
+        .preview-content pre {
+            background: var(--surface-card);
+            padding: 16px;
+            border-radius: 12px;
+            overflow-x: auto;
+        }
+
+        .preview-content blockquote {
+            border-left: 4px solid var(--accent-gold);
+            padding-left: 20px;
+            color: var(--text-muted);
+        }
+
+        .preview-content img {
+            max-width: 100%;
+            border-radius: 12px;
+        }
+
+    .form-actions {
+        display: flex;
+        gap: 16px;
+        justify-content: flex-end;
+        padding: 20px;
+        border-top: 1px solid var(--border-light);
+        background: var(--surface-card);
+    }
+
+    .error-message {
+        background: rgba(255, 68, 68, 0.15);
+        border: 1px solid rgba(255, 68, 68, 0.3);
+        border-radius: 12px;
+        padding: 12px 20px;
+        margin-bottom: 20px;
+        color: #ff6b6b;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .btn-outline {
+        background: transparent;
+        border: 1px solid var(--border-light);
+        padding: 10px 24px;
+        border-radius: 40px;
+        color: var(--text-primary);
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+        .btn-outline:hover {
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+        }
+
+    .btn-primary {
+        background: var(--accent-gold);
+        border: none;
+        padding: 10px 28px;
+        border-radius: 40px;
+        font-weight: 600;
+        color: #0f0f12;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+        .btn-primary:hover {
+            background: #ffda77;
+            transform: translateY(-1px);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+    .char-count {
+        font-size: 0.7rem;
+        color: var(--text-muted);
+        padding: 8px 20px;
+        background: var(--bg-sidebar);
+        border-top: 1px solid var(--border-light);
+        display: flex;
+        justify-content: space-between;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="create-container">
+    <div class="create-header">
+        <h1><i class="fas fa-plus-circle"></i> 创建新页面</h1>
+        <a href="/" class="btn-outline"><i class="fas fa-arrow-left"></i> 返回首页</a>
+    </div>
+
+    {% if error %}
+    <div class="error-message">
+        <i class="fas fa-exclamation-triangle"></i> {{ error }}
+    </div>
+    {% endif %}
+
+    <!-- URL 预览 -->
+    <div class="url-preview">
+        <span class="url-preview-label"><i class="fas fa-link"></i> 页面URL：</span>
+        <span class="url-preview-url" id="urlPreview">/page/</span>
+        <span class="url-preview-warning"><i class="fas fa-info-circle"></i> 只能使用字母、数字、中文和连字符</span>
+    </div>
+
+    <form id="createForm" method="POST">
+        <div class="editor-pane">
+            <!-- 工具栏 -->
+            <div class="editor-toolbar">
+                <div class="toolbar-group">
+                    <button type="button" class="tool-btn" data-action="bold" title="粗体"><i class="fas fa-bold"></i></button>
+                    <button type="button" class="tool-btn" data-action="italic" title="斜体"><i class="fas fa-italic"></i></button>
+                    <button type="button" class="tool-btn" data-action="strikethrough" title="删除线"><i class="fas fa-strikethrough"></i></button>
+                </div>
+                <div class="toolbar-group">
+                    <button type="button" class="tool-btn" data-action="heading1" title="一级标题">H1</button>
+                    <button type="button" class="tool-btn" data-action="heading2" title="二级标题">H2</button>
+                    <button type="button" class="tool-btn" data-action="heading3" title="三级标题">H3</button>
+                </div>
+                <div class="toolbar-group">
+                    <button type="button" class="tool-btn" data-action="ul" title="无序列表"><i class="fas fa-list-ul"></i></button>
+                    <button type="button" class="tool-btn" data-action="ol" title="有序列表"><i class="fas fa-list-ol"></i></button>
+                    <button type="button" class="tool-btn" data-action="task" title="任务列表"><i class="fas fa-check-square"></i></button>
+                </div>
+                <div class="toolbar-group">
+                    <button type="button" class="tool-btn" data-action="link" title="链接"><i class="fas fa-link"></i></button>
+                    <button type="button" class="tool-btn" data-action="image" title="图片"><i class="fas fa-image"></i></button>
+                    <button type="button" class="tool-btn" data-action="table" title="表格"><i class="fas fa-table"></i></button>
+                </div>
+                <div class="toolbar-group">
+                    <button type="button" class="tool-btn" data-action="code" title="行内代码"><i class="fas fa-code"></i></button>
+                    <button type="button" class="tool-btn" data-action="codeblock" title="代码块"><i class="fas fa-code-branch"></i></button>
+                    <button type="button" class="tool-btn" data-action="quote" title="引用"><i class="fas fa-quote-right"></i></button>
+                </div>
+            </div>
+
+            <!-- 标题和页面名 -->
+            <div class="title-bar">
+                <input type="text" name="page_name" id="pageName" class="page-name-input" placeholder="页面标识符 (如: Bananas, 香蕉, Python编程)" value="{{ prefill_name }}" required>
+                <input type="text" name="title" id="pageTitle" class="page-title-input" placeholder="页面显示标题 (如: 🍌 香蕉 - 完整指南)" required>
+            </div>
+
+            <!-- 标签 -->
+            <div class="metadata-bar">
+                <div class="tag-area" id="tagArea">
+                    <input type="text" id="tagInput" class="tag-input" placeholder="添加标签 (按回车)...">
+                </div>
+                <div>
+                    <button type="button" id="uploadImageBtn" class="btn-outline" style="padding: 4px 12px; font-size: 0.75rem;">
+                        <i class="fas fa-cloud-upload-alt"></i> 上传图片
+                    </button>
+                    <input type="file" id="imageUpload" accept="image/*" style="display:none">
+                </div>
+            </div>
+
+            <!-- 编辑区：左右分屏 -->
+            <div class="editor-area">
+                <div class="editor-split">
+                    <div class="editor-input">
+                        <textarea name="content" id="markdownEditor" placeholder="# 开始编写你的Wiki内容...
+
+支持 **Markdown** 语法，右侧会实时预览效果。">{{ page.content if page else '' }}</textarea>
+                    </div>
+                    <div class="editor-preview">
+                        <div class="preview-header">
+                            <i class="fas fa-eye"></i> 实时预览
+                        </div>
+                        <div id="previewContent" class="preview-content">
+                            <div style="color: var(--text-muted); text-align: center; padding: 40px;">
+                                输入内容后预览将显示在这里...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 统计和按钮 -->
+            <div class="char-count">
+                <span><i class="fas fa-file-alt"></i> <span id="charCount">0</span> 字符</span>
+                <span><i class="fas fa-paragraph"></i> <span id="wordCount">0</span> 单词</span>
+                <span><i class="fas fa-heading"></i> 支持 Markdown 语法</span>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" id="cancelBtn" class="btn-outline" onclick="history.back()">
+                    <i class="fas fa-times"></i> 取消
+                </button>
+                <button type="submit" id="submitBtn" class="btn-primary">
+                    <i class="fas fa-check-circle"></i> 创建页面
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    // 配置 marked
+    marked.setOptions({
+        highlight: function(code, lang) {
+            if (lang && hljs.getLanguage(lang)) {
+                return hljs.highlight(code, { language: lang }).value;
+            }
+            return hljs.highlightAuto(code).value;
+        },
+        breaks: true,
+        gfm: true
+    });
+
+    // DOM 元素
+    const editor = document.getElementById('markdownEditor');
+    const previewDiv = document.getElementById('previewContent');
+    const pageNameInput = document.getElementById('pageName');
+    const pageTitleInput = document.getElementById('pageTitle');
+    const urlPreviewSpan = document.getElementById('urlPreview');
+    const charSpan = document.getElementById('charCount');
+    const wordSpan = document.getElementById('wordCount');
+
+    // 更新 URL 预览
+    function updateUrlPreview() {
+        let pageName = pageNameInput.value.trim();
+        if (!pageName) {
+            urlPreviewSpan.textContent = '/page/';
+        } else {
+            // 清理页面名称（保留中文、字母、数字、连字符）
+            let cleanName = pageName.replace(/[^\w\u4e00-\u9fa5-]/g, '');
+            urlPreviewSpan.textContent = `/page/${encodeURIComponent(cleanName)}`;
+        }
+    }
+
+    pageNameInput.addEventListener('input', updateUrlPreview);
+    updateUrlPreview();
+
+    // 实时预览更新
+    function updatePreview() {
+        const markdown = editor.value;
+        try {
+            const html = marked.parse(markdown);
+            previewDiv.innerHTML = html;
+            previewDiv.querySelectorAll('pre code').forEach(block => {
+                hljs.highlightElement(block);
+            });
+        } catch (e) {
+            previewDiv.innerHTML = `<div style="color: #ff6b6b;">解析错误: ${e.message}</div>`;
+        }
+
+        const text = editor.value;
+        charSpan.innerText = text.length;
+        const words = text.trim().split(/\s+/).filter(w => w.length > 0).length;
+        wordSpan.innerText = words;
+    }
+
+    let debounceTimer;
+    editor.addEventListener('input', () => {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(updatePreview, 50);
+    });
+    updatePreview();
+
+    // ========== 工具栏功能 ==========
+    function insertText(start, end, defaultText = '') {
+        const startPos = editor.selectionStart;
+        const endPos = editor.selectionEnd;
+        const selectedText = editor.value.substring(startPos, endPos);
+        const replacement = start + (selectedText || defaultText) + end;
+        editor.value = editor.value.substring(0, startPos) + replacement + editor.value.substring(endPos);
+        editor.focus();
+        editor.selectionStart = startPos + start.length;
+        editor.selectionEnd = startPos + start.length + (selectedText || defaultText).length;
+        updatePreview();
+    }
+
+    function wrapSelection(prefix, suffix) {
+        insertText(prefix, suffix);
+    }
+
+    const actions = {
+        bold: () => wrapSelection('**', '**'),
+        italic: () => wrapSelection('*', '*'),
+        strikethrough: () => wrapSelection('~~', '~~'),
+        heading1: () => insertText('# ', ''),
+        heading2: () => insertText('## ', ''),
+        heading3: () => insertText('### ', ''),
+        ul: () => insertText('- ', ''),
+        ol: () => insertText('1. ', ''),
+        task: () => insertText('- [ ] ', ''),
+        link: () => {
+            const url = prompt('输入链接地址:', 'https://');
+            if (url) insertText('[', `](${url})`, '链接文字');
+        },
+        image: () => {
+            const imgUrl = prompt('输入图片地址:', 'https://');
+            if (imgUrl) insertText('![', `](${imgUrl})`, '图片描述');
+        },
+        table: () => insertText('| 列1 | 列2 | 列3 |\n|-----|-----|-----|\n| 内容 | 内容 | 内容 |\n', ''),
+        code: () => wrapSelection('`', '`'),
+        codeblock: () => insertText('```\n', '\n```', '代码'),
+        quote: () => insertText('> ', '')
+    };
+
+    document.querySelectorAll('.tool-btn').forEach(btn => {
+        const action = btn.dataset.action;
+        if (action && actions[action]) {
+            btn.addEventListener('click', () => actions[action]());
+        }
+    });
+
+    // 快捷键
+    document.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && document.activeElement === editor) {
+            switch(e.key) {
+                case 'b': e.preventDefault(); actions.bold(); break;
+                case 'i': e.preventDefault(); actions.italic(); break;
+                case 'k': e.preventDefault(); actions.link(); break;
+            }
+        }
+    });
+
+    // ========== 标签管理 ==========
+    let tags = [];
+    const tagArea = document.getElementById('tagArea');
+    const tagInput = document.getElementById('tagInput');
+
+    function renderTags() {
+        const existingTags = tagArea.querySelectorAll('.tag');
+        existingTags.forEach(tag => tag.remove());
+        tags.forEach(tag => {
+            const tagSpan = document.createElement('span');
+            tagSpan.className = 'tag';
+            tagSpan.innerHTML = `${tag} <span class="tag-remove" data-tag="${tag}">×</span>`;
+            tagArea.insertBefore(tagSpan, tagInput);
+        });
+        document.querySelectorAll('.tag-remove').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const tagToRemove = btn.dataset.tag;
+                tags = tags.filter(t => t !== tagToRemove);
+                renderTags();
+            });
+        });
+    }
+
+    tagInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter' || e.key === ',') {
+            e.preventDefault();
+            let newTag = tagInput.value.trim().replace(/,/g, '');
+            if (newTag && !tags.includes(newTag)) {
+                tags.push(newTag);
+                renderTags();
+            }
+            tagInput.value = '';
+        }
+    });
+    renderTags();
+
+    // ========== 图片上传 ==========
+    const uploadBtn = document.getElementById('uploadImageBtn');
+    const imageUpload = document.getElementById('imageUpload');
+    uploadBtn.addEventListener('click', () => imageUpload.click());
+    imageUpload.addEventListener('change', async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const formData = new FormData();
+        formData.append('image', file);
+        uploadBtn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i>';
+        try {
+            const res = await fetch('/upload-image', { method: 'POST', body: formData });
+            const data = await res.json();
+            if (data.url) {
+                const startPos = editor.selectionStart;
+                editor.value = editor.value.substring(0, startPos) + `![图片](${data.url})` + editor.value.substring(startPos);
+                updatePreview();
+            }
+        } catch(err) { console.error(err); }
+        uploadBtn.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> 上传图片';
+        imageUpload.value = '';
+    });
+
+    // ========== 表单提交 ==========
+    const form = document.getElementById('createForm');
+    const submitBtn = document.getElementById('submitBtn');
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        let pageName = pageNameInput.value.trim();
+        const title = pageTitleInput.value.trim();
+        const content = editor.value;
+
+        // 验证
+        if (!pageName) {
+            alert('请输入页面标识符');
+            pageNameInput.focus();
+            return;
+        }
+        if (!title) {
+            alert('请输入页面标题');
+            pageTitleInput.focus();
+            return;
+        }
+
+        // 清理页面名称
+        pageName = pageName.replace(/[^\w\u4e00-\u9fa5-]/g, '');
+
+        // 构建 FormData
+        const formData = new FormData();
+        formData.append('page_name', pageName);
+        formData.append('title', title);
+        formData.append('content', content);
+        formData.append('tags', tags.join(','));
+
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> 创建中...';
+
+        try {
+            const response = await fetch('/create', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (response.ok) {
+                // 创建成功，跳转到新页面
+                window.location.href = `/page/${encodeURIComponent(pageName)}`;
+            } else {
+                const errorText = await response.text();
+                if (errorText.includes('已存在')) {
+                    alert('页面已存在！请使用不同的页面标识符。');
+                } else {
+                    alert('创建失败：' + errorText);
+                }
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-check-circle"></i> 创建页面';
+            }
+        } catch (error) {
+            console.error('创建失败:', error);
+            alert('网络错误，请重试');
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<i class="fas fa-check-circle"></i> 创建页面';
+        }
+    });
+
+    // 自动保存草稿
+    setInterval(() => {
+        const draft = {
+            pageName: pageNameInput.value,
+            title: pageTitleInput.value,
+            content: editor.value,
+            tags: tags,
+            time: Date.now()
+        };
+        localStorage.setItem('wiki_create_draft', JSON.stringify(draft));
+    }, 30000);
+
+    // 恢复草稿
+    const savedDraft = localStorage.getItem('wiki_create_draft');
+    if (savedDraft && !pageNameInput.value && !editor.value) {
+        const draftData = JSON.parse(savedDraft);
+        const draftAge = Date.now() - draftData.time;
+        if (draftAge < 5 * 60 * 1000 && confirm('检测到未完成的草稿，是否恢复？')) {
+            pageNameInput.value = draftData.pageName;
+            pageTitleInput.value = draftData.title;
+            editor.value = draftData.content;
+            tags = draftData.tags;
+            renderTags();
+            updatePreview();
+            updateUrlPreview();
+        }
+        localStorage.removeItem('wiki_create_draft');
+    }
+</script>
+{% endblock %}

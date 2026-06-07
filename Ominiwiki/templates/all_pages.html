@@ -1,0 +1,40 @@
+<!-- templates/all_pages.html - 所有页面列表 -->
+{% extends "base.html" %}
+
+{% block title %}所有页面{% endblock %}
+
+{% block content %}
+<h1><i class="fas fa-layer-group"></i> 所有页面（{{ pages|length }}个）</h1>
+
+<div class="page-directory">
+    <div class="directory-search">
+        <input type="text" id="directoryFilter" placeholder="筛选页面..." class="search-input">
+    </div>
+
+    <ul class="directory-list" id="directoryList">
+        {% for name, page in pages %}
+        <li data-name="{{ name|lower }}">
+            <a href="/page/{{ name }}">
+                <strong>{{ page.title }}</strong>
+                <span class="page-info">{{ name }} · {{ page.author }} · {{ page.last_edit[:10] }}</span>
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
+<script>
+    document.getElementById('directoryFilter').addEventListener('input', function(e) {
+        const filter = e.target.value.toLowerCase();
+        const items = document.querySelectorAll('#directoryList li');
+        items.forEach(item => {
+            const name = item.getAttribute('data-name');
+            if (name.includes(filter)) {
+                item.style.display = '';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    });
+</script>
+{% endblock %}

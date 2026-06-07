@@ -1,0 +1,37 @@
+<!-- templates/register.html - 注册页面 -->
+{% extends "base.html" %}
+
+{% block title %}注册{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card">
+        <h1><i class="fas fa-user-plus"></i> 注册新账号</h1>
+        <p class="auth-subtitle">加入寰宇维基，共同建设知识库</p>
+
+        {% if error %}
+        <div class="error-message">{{ error }}</div>
+        {% endif %}
+
+        <form method="POST" class="auth-form">
+            <div class="form-group">
+                <label><i class="fas fa-user"></i> 用户名</label>
+                <input type="text" name="username" placeholder="至少2个字符" required>
+            </div>
+            <div class="form-group">
+                <label><i class="fas fa-envelope"></i> 邮箱（可选）</label>
+                <input type="email" name="email" placeholder="your@email.com">
+            </div>
+            <div class="form-group">
+                <label><i class="fas fa-lock"></i> 密码</label>
+                <input type="password" name="password" placeholder="至少3个字符" required>
+            </div>
+            <button type="submit" class="btn-primary btn-block"><i class="fas fa-check-circle"></i> 注册</button>
+        </form>
+
+        <p class="auth-footer">
+            已有账号？ <a href="/login">立即登录</a>
+        </p>
+    </div>
+</div>
+{% endblock %}

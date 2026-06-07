@@ -1,0 +1,105 @@
+<!-- templates/base.html - 基础模板 -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}寰宇维基{% endblock %} · 万物知识库</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    <div class="wiki-wrapper">
+        <!-- 顶部导航栏 -->
+        <div class="top-bar">
+            <div class="logo-area">
+                <h1><i class="fas fa-globe-americas"></i> 寰宇维基</h1>
+                <span>OmniWiki · 万物互联的知识圣殿</span>
+            </div>
+            <div class="search-bar">
+                <input type="text" placeholder="搜索词条..." id="globalSearchInput" autocomplete="off">
+                <button id="searchButton"><i class="fas fa-search"></i></button>
+                <div id="searchSuggestions" class="search-suggestions"></div>
+            </div>
+            <div class="user-zone">
+                {% if username %}
+                <div class="avatar-placeholder" id="userMenuBtn">
+                    <div class="avatar-icon">{{ user_avatar if user_avatar else username[0].upper() }}</div>
+                    <span>{{ username }}</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div id="userDropdown" class="user-dropdown">
+                    <a href="/profile"><i class="fas fa-user"></i> 个人主页</a>
+                    <a href="/create"><i class="fas fa-plus-circle"></i> 创建页面</a>
+                    <hr>
+                    <a href="/logout"><i class="fas fa-sign-out-alt"></i> 登出</a>
+                </div>
+                {% else %}
+                <button class="btn-outline" onclick="location.href='/login'"><i class="fas fa-sign-in-alt"></i> 登录</button>
+                <button class="btn-primary" onclick="location.href='/register'"><i class="fas fa-user-plus"></i> 注册</button>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- 主体三栏布局 -->
+        <div class="wiki-grid">
+            <!-- 左侧导航栏 -->
+            <aside class="side-nav">
+                <h3><i class="fas fa-compass"></i> 知识导航</h3>
+                <ul class="nav-list">
+                    <li><a href="/"><i class="fas fa-home"></i> 首页</a></li>
+                    <li><a href="/all-pages"><i class="fas fa-layer-group"></i> 所有页面</a></li>
+                    <li><a href="/random"><i class="fas fa-dice-d6"></i> 随机逛逛</a></li>
+                    <li><a href="#"><i class="fas fa-clock"></i> 最近更改</a></li>
+                    <li><a href="#"><i class="fas fa-comments"></i> 社区讨论</a></li>
+                </ul>
+                <hr>
+                <h3><i class="fas fa-tag"></i> 热门分类</h3>
+                <ul class="nav-list" id="categoryList">
+                    <li><a href="#"><i class="fas fa-apple-alt"></i> 食物与饮品</a></li>
+                    <li><a href="#"><i class="fas fa-dragon"></i> 奇幻生物</a></li>
+                    <li><a href="#"><i class="fas fa-microchip"></i> 科技前沿</a></li>
+                    <li><a href="#"><i class="fas fa-landmark"></i> 历史事件</a></li>
+                </ul>
+            </aside>
+
+            <!-- 中间主内容区 -->
+            <main class="main-feed">
+                {% block content %}{% endblock %}
+            </main>
+
+            <!-- 右侧边栏 -->
+            <aside class="right-rail">
+                {% block right_rail %}
+                <div class="module">
+                    <h3><i class="fas fa-fire"></i> 热门页面</h3>
+                    <ul class="trending-list" id="hotPagesList">
+                        <li><i class="fas fa-spinner fa-pulse"></i> 加载中...</li>
+                    </ul>
+                </div>
+                <div class="module">
+                    <h3><i class="fas fa-chart-line"></i> 统计</h3>
+                    <div class="stats-widget" id="statsWidget"></div>
+                </div>
+                <div class="module">
+                    <h3><i class="fas fa-ad"></i> 加入我们</h3>
+                    <p>注册账号即可开始编辑，共同打造属于所有人的知识库。</p>
+                    {% if not username %}
+                    <button class="btn-primary" style="width:100%; margin-top:12px;" onclick="location.href='/register'">➕ 注册新账户</button>
+                    {% endif %}
+                </div>
+                {% endblock %}
+            </aside>
+        </div>
+
+        <footer>
+            <i class="fas fa-database"></i> 寰宇维基 · 本地离线知识库 | 所有内容皆可编辑 | 运行在您的电脑上<br>
+            ⚡ 数据安全，隐私保护 | {% if username %}欢迎回来，{{ username }}{% else %}未登录{% endif %}
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>
