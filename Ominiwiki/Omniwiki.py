@@ -476,24 +476,7 @@ def logout():
     session.clear()
     return redirect(url_for('index'))
 
-@app.route('/profile')
-@login_required
-def profile():
-    """用户个人页面"""
-    data = load_data()
-    user_data = data['users'].get(session['username'], {})
-    
-    # 获取用户贡献的页面
-    user_pages = []
-    for name, page in data['pages'].items():
-        if page.get('author') == session['username']:
-            user_pages.append({'name': name, 'title': page['title'], 'last_edit': page.get('last_edit')})
-    
-    return render_template('profile.html',
-                         user_data=user_data,
-                         user_pages=user_pages,
-                         username=session.get('username'),
-                         user_avatar=session.get('avatar'))
+
 
 # ==================== 路由：所有页面 ====================
 
@@ -621,30 +604,138 @@ from flask import send_from_directory
 def uploaded_file(filename):
     return send_from_directory(UPLOAD_FOLDER, filename)
 
-# ==================== 新增：页面分类和标签云 ====================
+# ==================== 标签系统 ====================
 
 @app.route('/tags')
 def tags_page():
     """标签云页面"""
+    data = load_data()
+    
+    # 统计所有标签
+    tag_counts = {}
+    for page_name, page in data['pages'].items():
+        for tag in page.get('tags', []):
+            tag_counts[tag] = tag_counts.get(tag, 0) + 1
+    
+    if not tag_counts:
+        return render_template('tags.html', 
+                             tags=[],
+                             hot_tags=[],
+                             total_tags=0,
+                             total_used=0,
+                             total_pages_with_tags=0,
+                             most_used_tag_count=0,
+                             username=session.get('username'))
+    
+    # 计算字体大小（最小14px，最大36px）
+    max_count = max(tag_counts.values())
+    min_count = min(tag_counts.values())
+    
+    tags_list = []
+    for tag, count in sorted(tag_counts.items(), key=lambda x: x[0].lower()):
+        # 字体大小：14 + (count - min) / (max - min) * 22
+        if max_count > min_count:
+            font_size = 14 + (count - min_count) / (max_count - min_count) * 22
+        else:
+            font_size = 20
+        opacity = 0.6 + (count / max_count) * 0.4 if max_count > 0 else 0.8
+        
+        tags_list.append({
+            'name': tag,
+            'count': count,
+            'font_size': round(font_size),
+            'opacity': round(opacity, 2)
+        })
+    
+    # 热门标签（按使用次数排序，取前12个）
+    hot_tags = sorted([{'name': k, 'count': v} for k, v in tag_counts.items()], 
+                     key=lambda x: x['count'], reverse=True)[:12]
+    
+    # 统计信息
+    total_pages_with_tags = sum(1 for p in data['pages'].values() if p.get('tags'))
+    most_used_tag_count = max(tag_counts.values()) if tag_counts else 0
+    
+    return render_template('tags.html',
+                         tags=tags_list,
+                         hot_tags=hot_tags,
+                         total_tags=len(tag_counts),
+                         total_used=len([t for t in tag_counts.values() if t > 0]),
+                         total_pages_with_tags=total_pages_with_tags,
+                         most_used_tag_count=most_used_tag_count,
+                         username=session.get('username'),
+                         user_avatar=session.get('avatar'))
+
+@app.route('/tag/<tag_name>')
+def tag_pages(tag_name):
+    """查看标签下的所有页面"""
+    data = load_data()
+    
+    # 查找包含该标签的页面
+    pages_with_tag = []
+    total_views = 0
+    last_updated = ''
+    
+    for name, page in data['pages'].items():
+        if tag_name in page.get('tags', []):
+            pages_with_tag.append({
+                'name': name,
+                'page': page
+            })
+            total_views += page.get('views', 0)
+            if page.get('last_edit', '') > last_updated:
+                last_updated = page.get('last_edit', '')
+    
+    # 按最后编辑时间排序
+    pages_with_tag.sort(key=lambda x: x['page'].get('last_edit', ''), reverse=True)
+    
+    # 查找相关标签（共同出现在同一页面中的其他标签）
+    related_tags = {}
+    for name, page in data['pages'].items():
+        if tag_name in page.get('tags', []):
+            for tag in page.get('tags', []):
+                if tag != tag_name:
+                    related_tags[tag] = related_tags.get(tag, 0) + 1
+    
+    related_tags_list = sorted([{'name': k, 'count': v} for k, v in related_tags.items()],
+                              key=lambda x: x['count'], reverse=True)[:10]
+    
+    return render_template('tag_pages.html',
+                         tag=tag_name,
+                         pages=pages_with_tag,
+                         total_views=total_views,
+                         last_updated=last_updated[:10] if last_updated else '暂无',
+                         related_tags=related_tags_list,
+                         username=session.get('username'),
+                         user_avatar=session.get('avatar'))
+
+@app.route('/api/tags')
+def api_tags():
+    """标签API（用于自动补全）"""
     data = load_data()
     tag_counts = {}
     for page in data['pages'].values():
         for tag in page.get('tags', []):
             tag_counts[tag] = tag_counts.get(tag, 0) + 1
     
-    tags_sorted = sorted(tag_counts.items(), key=lambda x: x[1], reverse=True)
-    return render_template('tags.html', tags=tags_sorted, username=session.get('username'))
+    return jsonify([{'name': k, 'count': v} for k, v in sorted(tag_counts.items())])
 
-@app.route('/tag/<tag_name>')
-def tag_pages(tag_name):
-    """按标签查看页面"""
-    data = load_data()
-    pages_with_tag = []
-    for name, page in data['pages'].items():
-        if tag_name in page.get('tags', []):
-            pages_with_tag.append({'name': name, 'page': page})
+@app.route('/api/tags/related')
+def api_related_tags():
+    """获取相关标签"""
+    tag = request.args.get('tag', '')
+    if not tag:
+        return jsonify([])
     
-    return render_template('tag_pages.html', tag=tag_name, pages=pages_with_tag, username=session.get('username'))
+    data = load_data()
+    related = {}
+    for page in data['pages'].values():
+        if tag in page.get('tags', []):
+            for t in page.get('tags', []):
+                if t != tag:
+                    related[t] = related.get(t, 0) + 1
+    
+    return jsonify([{'name': k, 'count': v} for k, v in sorted(related.items(), key=lambda x: x[1], reverse=True)[:10]])
+
 
 
 # ==================== 评论系统 ====================
@@ -1324,6 +1415,198 @@ def api_my_discussions_full():
     }
     
     return jsonify({'topics': my_topics, 'stats': stats})
+
+
+@app.route('/profile')
+@login_required
+def profile():
+    """个人中心主页"""
+    username = session['username']
+    data = load_data()
+    discussions_data = load_discussions()
+    
+    # 用户资料
+    user_data = data['users'].get(username, {})
+    
+    # 统计用户创建的页面
+    user_pages = []
+    for name, page in data['pages'].items():
+        if page.get('author') == username:
+            user_pages.append({
+                'name': name,
+                'title': page.get('title', name),
+                'views': page.get('views', 0),
+                'last_edit': page.get('last_edit', '')
+            })
+    
+    # 统计用户发起的话题和回复
+    topics_count = 0
+    replies_count = 0
+    total_likes = 0
+    
+    for page_name, topics in discussions_data.items():
+        for topic in topics:
+            if topic.get('author') == username:
+                topics_count += 1
+                total_likes += topic.get('likes', 0)
+            for reply in topic.get('replies', []):
+                if reply.get('author') == username:
+                    replies_count += 1
+                    total_likes += reply.get('likes', 0)
+    
+    # 用户常用标签
+    tag_counts = {}
+    for page in user_pages:
+        page_data = data['pages'].get(page['name'], {})
+        for tag in page_data.get('tags', []):
+            tag_counts[tag] = tag_counts.get(tag, 0) + 1
+    
+    favorite_tags = sorted(tag_counts.items(), key=lambda x: x[1], reverse=True)[:10]
+    
+    # 贡献日历数据
+    contributions = {}
+    for page in user_pages:
+        date = page.get('last_edit', '')[:10]
+        if date:
+            contributions[date] = contributions.get(date, 0) + 1
+    
+    # 最近活动（结合页面编辑和讨论）
+    recent_activities = []
+    
+    # 添加页面编辑活动
+    for page in sorted(user_pages, key=lambda x: x.get('last_edit', ''), reverse=True)[:5]:
+        recent_activities.append({
+            'icon': 'fa-file-alt',
+            'page_name': page['title'],
+            'page_url': f"/page/{page['name']}",
+            'description': f'编辑了页面「{page["title"]}」',
+            'time_ago': format_time_ago(page.get('last_edit', ''))
+        })
+    
+    # 添加讨论活动
+    for page_name, topics in discussions_data.items():
+        page_title = data['pages'].get(page_name, {}).get('title', page_name)
+        for topic in topics:
+            if topic.get('author') == username:
+                recent_activities.append({
+                    'icon': 'fa-comments',
+                    'page_name': topic['title'],
+                    'page_url': f"/discussions/{page_name}#topic-{topic['id']}",
+                    'description': f'发起了话题「{topic["title"]}」',
+                    'time_ago': format_time_ago(topic.get('created_at', ''))
+                })
+            for reply in topic.get('replies', []):
+                if reply.get('author') == username:
+                    recent_activities.append({
+                        'icon': 'fa-reply',
+                        'page_name': topic['title'],
+                        'page_url': f"/discussions/{page_name}#topic-{topic['id']}",
+                        'description': f'回复了话题「{topic["title"]}」',
+                        'time_ago': format_time_ago(reply.get('created_at', ''))
+                    })
+    
+    # 排序并去重
+    recent_activities.sort(key=lambda x: x.get('time_ago', ''), reverse=False)
+    recent_activities = recent_activities[:10]
+    
+    # 计算贡献等级
+    total_contributions = len(user_pages) + topics_count + replies_count
+    level = min(10, max(1, total_contributions // 10 + 1))
+    
+    stats = {
+        'pages_created': len(user_pages),
+        'topics_count': topics_count,
+        'replies_count': replies_count,
+        'total_likes': total_likes,
+        'last_active': format_time_ago(datetime.now().strftime("%Y-%m-%d %H:%M")),
+        'level': level,
+        'achievement_points': total_contributions,
+        'contributions_total': total_contributions
+    }
+    
+    return render_template('profile.html',
+                         username=username,
+                         user_avatar=session.get('avatar', username[0].upper()),
+                         profile_data={
+                             'real_name': user_data.get('real_name', ''),
+                             'bio': user_data.get('bio', ''),
+                             'location': user_data.get('location', ''),
+                             'website': user_data.get('website', ''),
+                             'join_date': user_data.get('join_date', datetime.now().strftime("%Y-%m-%d"))
+                         },
+                         email=user_data.get('email', ''),
+                         stats=stats,
+                         favorite_tags=[{'name': k, 'count': v} for k, v in favorite_tags],
+                         contributions_data=contributions,
+                         recent_activities=recent_activities,
+                         created_pages=user_pages,
+                         is_own_profile=True)
+
+def format_time_ago(date_str):
+    """格式化时间为相对时间"""
+    if not date_str:
+        return '刚刚'
+    try:
+        date = datetime.strptime(date_str[:10], "%Y-%m-%d")
+        now = datetime.now()
+        diff = (now - date).days
+        if diff == 0:
+            return '今天'
+        elif diff == 1:
+            return '昨天'
+        elif diff < 7:
+            return f'{diff}天前'
+        elif diff < 30:
+            return f'{diff // 7}周前'
+        else:
+            return f'{diff // 30}个月前'
+    except:
+        return date_str
+
+@app.route('/profile/edit', methods=['POST'])
+@login_required
+def edit_profile():
+    """编辑个人资料"""
+    username = session['username']
+    data = load_data()
+    
+    if 'users' not in data:
+        data['users'] = {}
+    if username not in data['users']:
+        data['users'][username] = {}
+    
+    data['users'][username]['real_name'] = request.form.get('real_name', '')
+    data['users'][username]['bio'] = request.form.get('bio', '')
+    data['users'][username]['location'] = request.form.get('location', '')
+    data['users'][username]['website'] = request.form.get('website', '')
+    
+    if request.form.get('email'):
+        data['users'][username]['email'] = request.form.get('email')
+    
+    save_data(data)
+    return redirect(url_for('profile'))
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+    """自定义404页面"""
+    # 获取请求的路径
+    path = request.path
+    page_name = path.split('/')[-1] if '/page/' in path else path
+    
+    # 获取可能的建议（模糊匹配）
+    data = load_data()
+    suggestions = []
+    if page_name and page_name != '/':
+        for name in data['pages'].keys():
+            if page_name.lower() in name.lower() or name.lower() in page_name.lower():
+                suggestions.append(name)
+    
+    return render_template('404.html', 
+                         page_name=page_name,
+                         suggestions=suggestions[:5],
+                         username=session.get('username'),
+                         user_avatar=session.get('avatar')), 404
 
 # ==================== 启动服务器 ====================
 

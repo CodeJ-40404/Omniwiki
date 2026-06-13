@@ -34,6 +34,7 @@
     <Content Include="discussions_data.json" />
     <Content Include="static\script.js" />
     <Content Include="static\style.css" />
+    <Content Include="templates\404.html" />
     <Content Include="templates\all_pages.html" />
     <Content Include="templates\base.html" />
     <Content Include="templates\comments_data.json" />
@@ -45,10 +46,12 @@
     <Content Include="templates\index.html" />
     <Content Include="templates\login.html" />
     <Content Include="templates\my_discussions.html" />
+    <Content Include="templates\profile.html" />
     <Content Include="templates\recent_discussions.html" />
     <Content Include="templates\register.html" />
     <Content Include="templates\search.html" />
     <Content Include="templates\tags.html" />
+    <Content Include="templates\tag_pages.html" />
     <Content Include="templates\wiki_page.html" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />

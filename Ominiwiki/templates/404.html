@@ -1,0 +1,407 @@
+<!-- templates/404.html - 精美的404错误页面 -->
+{% extends "base.html" %}
+
+{% block title %}404 - 页面未找到{% endblock %}
+
+{% block extra_head %}
+<style>
+    .error-container {
+        min-height: 70vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 20px;
+    }
+
+    .error-card {
+        background: var(--surface-card);
+        border-radius: 48px;
+        padding: 48px;
+        max-width: 600px;
+        width: 100%;
+        text-align: center;
+        border: 1px solid var(--border-light);
+        position: relative;
+        overflow: hidden;
+        animation: fadeInUp 0.5s ease;
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* 装饰性背景元素 */
+    .error-card::before {
+        content: '404';
+        position: absolute;
+        top: -30px;
+        right: -30px;
+        font-size: 180px;
+        font-weight: 900;
+        opacity: 0.03;
+        pointer-events: none;
+        font-family: monospace;
+    }
+
+    .error-card::after {
+        content: '🔍';
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        font-size: 80px;
+        opacity: 0.05;
+        pointer-events: none;
+    }
+
+    /* 404 动画数字 */
+    .error-number {
+        font-size: 8rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, var(--accent-gold), #ff6b6b);
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+        margin-bottom: 16px;
+        animation: pulse 2s ease infinite;
+    }
+
+    @keyframes pulse {
+        0%, 100% {
+            opacity: 1;
+        }
+
+        50% {
+            opacity: 0.7;
+        }
+    }
+
+    .error-title {
+        font-size: 1.8rem;
+        margin-bottom: 16px;
+        color: var(--text-primary);
+    }
+
+    .error-message {
+        color: var(--text-secondary);
+        margin-bottom: 24px;
+        line-height: 1.6;
+    }
+
+    /* 搜索框 */
+    .error-search {
+        margin: 32px 0;
+        position: relative;
+    }
+
+    .error-search-input {
+        width: 100%;
+        background: var(--bg-dark);
+        border: 2px solid var(--border-light);
+        border-radius: 60px;
+        padding: 14px 20px;
+        padding-right: 50px;
+        color: var(--text-primary);
+        font-size: 1rem;
+        transition: all 0.2s;
+    }
+
+        .error-search-input:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+        }
+
+    .error-search-btn {
+        position: absolute;
+        right: 8px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: transparent;
+        border: none;
+        color: var(--text-muted);
+        cursor: pointer;
+        padding: 8px 16px;
+        border-radius: 40px;
+        transition: all 0.2s;
+    }
+
+        .error-search-btn:hover {
+            color: var(--accent-gold);
+        }
+
+    /* 建议链接 */
+    .suggestions {
+        margin: 24px 0;
+        text-align: left;
+    }
+
+    .suggestions-title {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .suggestions-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .suggestion-link {
+        background: var(--bg-dark);
+        border: 1px solid var(--border-light);
+        border-radius: 40px;
+        padding: 8px 16px;
+        text-decoration: none;
+        color: var(--text-primary);
+        font-size: 0.85rem;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+        .suggestion-link:hover {
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+            transform: translateY(-2px);
+        }
+
+    /* 操作按钮组 */
+    .action-buttons {
+        display: flex;
+        gap: 16px;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-top: 24px;
+    }
+
+    .action-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 24px;
+        border-radius: 40px;
+        text-decoration: none;
+        transition: all 0.2s;
+    }
+
+    .action-btn-primary {
+        background: var(--accent-gold);
+        color: #0f0f12;
+        font-weight: 600;
+    }
+
+        .action-btn-primary:hover {
+            background: #ffda77;
+            transform: translateY(-2px);
+        }
+
+    .action-btn-secondary {
+        background: transparent;
+        border: 1px solid var(--border-light);
+        color: var(--text-primary);
+    }
+
+        .action-btn-secondary:hover {
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+            transform: translateY(-2px);
+        }
+
+    /* 趣味彩蛋 */
+    .easter-egg {
+        margin-top: 32px;
+        padding-top: 24px;
+        border-top: 1px solid var(--border-light);
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+        .easter-egg:hover {
+            color: var(--accent-gold);
+        }
+
+    /* 香蕉动画 */
+    .banana-bounce {
+        display: inline-block;
+        animation: bounce 1s ease infinite;
+    }
+
+    @keyframes bounce {
+        0%, 100% {
+            transform: translateY(0);
+        }
+
+        50% {
+            transform: translateY(-5px);
+        }
+    }
+
+    /* 响应式 */
+    @media (max-width: 600px) {
+        .error-card {
+            padding: 32px 24px;
+        }
+
+        .error-number {
+            font-size: 5rem;
+        }
+
+        .error-title {
+            font-size: 1.4rem;
+        }
+
+        .action-buttons {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .action-btn {
+            justify-content: center;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="error-container">
+    <div class="error-card">
+        <!-- 404 动画数字 -->
+        <div class="error-number">
+            <span class="banana-bounce">4</span>
+            <span class="banana-bounce" style="animation-delay: 0.1s;">0</span>
+            <span class="banana-bounce" style="animation-delay: 0.2s;">4</span>
+        </div>
+
+        <h1 class="error-title">
+            <i class="fas fa-map-signs"></i> 页面走丢了
+        </h1>
+
+        <p class="error-message">
+            抱歉，您访问的页面 <strong>"{{ page_name }}"</strong> 不存在或已被移动。<br>
+            也许您可以试试搜索，或者看看下面的推荐内容？
+        </p>
+
+        <!-- 搜索框 -->
+        <div class="error-search">
+            <input type="text" id="errorSearchInput" class="error-search-input" placeholder="🔍 搜索其他页面..." autocomplete="off">
+            <button id="errorSearchBtn" class="error-search-btn">
+                <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+
+        <!-- 建议链接 -->
+        {% if suggestions %}
+        <div class="suggestions">
+            <div class="suggestions-title">
+                <i class="fas fa-lightbulb"></i> 您是不是想找：
+            </div>
+            <div class="suggestions-list">
+                {% for suggestion in suggestions %}
+                <a href="/page/{{ suggestion }}" class="suggestion-link">
+                    <i class="fas fa-file-alt"></i> {{ suggestion }}
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- 操作按钮 -->
+        <div class="action-buttons">
+            <a href="/" class="action-btn action-btn-primary">
+                <i class="fas fa-home"></i> 返回首页
+            </a>
+            <a href="/all-pages" class="action-btn action-btn-secondary">
+                <i class="fas fa-list"></i> 浏览所有页面
+            </a>
+            <a href="/random" class="action-btn action-btn-secondary">
+                <i class="fas fa-dice-d6"></i> 随机逛逛
+            </a>
+        </div>
+
+        <!-- 如果用户已登录，显示创建页面按钮 -->
+        {% if username %}
+        <div class="action-buttons" style="margin-top: 12px;">
+            <a href="/create?prefill_name={{ page_name }}" class="action-btn action-btn-secondary">
+                <i class="fas fa-plus-circle"></i> 创建 "{{ page_name }}" 页面
+            </a>
+        </div>
+        {% endif %}
+
+        <!-- 趣味彩蛋 -->
+        <div class="easter-egg" id="easterEgg">
+            <i class="fas fa-seedling"></i> 你知道吗？香蕉其实是一种浆果！
+            <span style="opacity: 0.5;"> (点击有惊喜)</span>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 搜索功能
+    const searchInput = document.getElementById('errorSearchInput');
+    const searchBtn = document.getElementById('errorSearchBtn');
+
+    function performSearch() {
+        const query = searchInput.value.trim();
+        if (query) {
+            window.location.href = `/search?q=${encodeURIComponent(query)}`;
+        }
+    }
+
+    searchBtn.addEventListener('click', performSearch);
+    searchInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            performSearch();
+        }
+    });
+
+    // 彩蛋效果
+    let eggClickCount = 0;
+    const easterEgg = document.getElementById('easterEgg');
+
+    easterEgg.addEventListener('click', () => {
+        eggClickCount++;
+
+        const messages = [
+            '🍌 没错，香蕉属于浆果科！',
+            '🎉 你知道吗？香蕉皮可以擦亮银器！',
+            '🌍 香蕉是世界上贸易量最大的水果！',
+            '🐒 其实野生猴子吃的香蕉是有籽的！',
+            '⚡ 香蕉含有天然放射性同位素钾-40！',
+            '🎨 安迪·沃霍尔画过一根价值12万美元的香蕉！',
+            '📚 寰宇维基欢迎你继续探索！'
+        ];
+
+        if (eggClickCount <= messages.length) {
+            easterEgg.innerHTML = `<i class="fas fa-star"></i> ${messages[eggClickCount - 1]}`;
+        } else {
+            easterEgg.innerHTML = `<i class="fas fa-crown"></i> 恭喜发现隐藏成就！你是一位真正的知识探索者！ 🍌✨`;
+            easterEgg.style.color = 'var(--accent-gold)';
+
+            // 产生烟花效果
+            if (typeof createColorfulFirework === 'function') {
+                const rect = easterEgg.getBoundingClientRect();
+                createColorfulFirework(rect.left + rect.width / 2, rect.top + rect.height / 2);
+            }
+        }
+    });
+
+    // 自动聚焦到搜索框
+    searchInput.focus();
+</script>
+{% endblock %}
+
+<!-- 如果用户没有登录，base.html 中的 username 变量可能为空，需要确保模板正常工作 -->

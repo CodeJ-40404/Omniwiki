@@ -511,6 +511,11 @@
                     <button class="tool-btn" data-action="quote" title="引用"><i class="fas fa-quote-right"></i></button>
                     <button class="tool-btn" data-action="hr" title="分割线"><i class="fas fa-minus"></i></button>
                 </div>
+                <div class="toolbar-group">
+                    <button class="tool-btn" data-action="latex" title="LaTeX 公式">
+                        <i class="fas fa-square-root-alt"></i>
+                    </button>
+                </div>
             </div>
 
             <div class="title-bar">
@@ -604,17 +609,18 @@
     }
 
     // 实时预览更新
-    function updatePreview() {
+        function updatePreview() {
+
         const markdown = editor.value;
         try {
             const html = marked.parse(markdown);
             previewDiv.innerHTML = html;
-        
+
             // 高亮代码
             previewDiv.querySelectorAll('pre code').forEach(block => {
                 hljs.highlightElement(block);
             });
-        
+
         } catch (e) {
             previewDiv.innerHTML = `<div style="color: #ff6b6b;">解析错误: ${e.message}</div>`;
         }
@@ -674,29 +680,31 @@
         codeblock: () => insertText('```\n', '\n```', '代码'),
         quote: () => insertText('> ', ''),
         hr: () => insertText('\n---\n', '')
+
     };
 
+
     document.querySelectorAll('.tool-btn').forEach(btn => {
-        const action = btn.dataset.action;
-        if (action && actions[action]) {
-            btn.addEventListener('click', () => actions[action]());
-        }
+    const action = btn.dataset.action;
+    if (action && actions[action]) {
+    btn.addEventListener('click', () => actions[action]());
+    }
     });
 
     // 快捷键
     document.addEventListener('keydown', (e) => {
-        if ((e.ctrlKey || e.metaKey) && document.activeElement === editor) {
-            switch(e.key) {
-                case 'b': e.preventDefault(); actions.bold(); break;
-                case 'i': e.preventDefault(); actions.italic(); break;
-                case 'k': e.preventDefault(); actions.link(); break;
-            }
-        }
-        // Ctrl+S 保存
-        if ((e.ctrlKey || e.metaKey) && e.key === 's') {
-            e.preventDefault();
-            saveBtn.click();
-        }
+    if ((e.ctrlKey || e.metaKey) && document.activeElement === editor) {
+    switch(e.key) {
+    case 'b': e.preventDefault(); actions.bold(); break;
+    case 'i': e.preventDefault(); actions.italic(); break;
+    case 'k': e.preventDefault(); actions.link(); break;
+    }
+    }
+    // Ctrl+S 保存
+    if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+    e.preventDefault();
+    saveBtn.click();
+    }
     });
 
     // ========== 标签管理 ==========
@@ -705,37 +713,37 @@
     const tagInput = document.getElementById('tagInput');
 
     function renderTags() {
-        const existingTags = tagArea.querySelectorAll('.tag');
-        existingTags.forEach(tag => {
-            if (tag !== tagInput && tag.parentElement === tagArea) {
-                tag.remove();
-            }
-        });
-        tags.forEach(tag => {
-            const tagSpan = document.createElement('span');
-            tagSpan.className = 'tag';
-            tagSpan.innerHTML = `${tag} <span class="tag-remove" data-tag="${tag}">×</span>`;
-            tagArea.insertBefore(tagSpan, tagInput);
-        });
-        document.querySelectorAll('.tag-remove').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const tagToRemove = btn.dataset.tag;
-                tags = tags.filter(t => t !== tagToRemove);
-                renderTags();
-            });
-        });
+    const existingTags = tagArea.querySelectorAll('.tag');
+    existingTags.forEach(tag => {
+    if (tag !== tagInput && tag.parentElement === tagArea) {
+    tag.remove();
+    }
+    });
+    tags.forEach(tag => {
+    const tagSpan = document.createElement('span');
+    tagSpan.className = 'tag';
+    tagSpan.innerHTML = `${tag} <span class="tag-remove" data-tag="${tag}">×</span>`;
+    tagArea.insertBefore(tagSpan, tagInput);
+    });
+    document.querySelectorAll('.tag-remove').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+    const tagToRemove = btn.dataset.tag;
+    tags = tags.filter(t => t !== tagToRemove);
+    renderTags();
+    });
+    });
     }
 
     tagInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter' || e.key === ',') {
-            e.preventDefault();
-            let newTag = tagInput.value.trim().replace(/,/g, '');
-            if (newTag && !tags.includes(newTag)) {
-                tags.push(newTag);
-                renderTags();
-            }
-            tagInput.value = '';
-        }
+    if (e.key === 'Enter' || e.key === ',') {
+    e.preventDefault();
+    let newTag = tagInput.value.trim().replace(/,/g, '');
+    if (newTag && !tags.includes(newTag)) {
+    tags.push(newTag);
+    renderTags();
+    }
+    tagInput.value = '';
+    }
     });
     renderTags();
 
@@ -744,25 +752,25 @@
     const imageUpload = document.getElementById('imageUpload');
     uploadBtn.addEventListener('click', () => imageUpload.click());
     imageUpload.addEventListener('change', async (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-        const formData = new FormData();
-        formData.append('image', file);
-        uploadBtn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i>';
-        try {
-            const res = await fetch('/upload-image', { method: 'POST', body: formData });
-            const data = await res.json();
-            if (data.url) {
-                const startPos = editor.selectionStart;
-                editor.value = editor.value.substring(0, startPos) + `![图片](${data.url})` + editor.value.substring(startPos);
-                updatePreview();
-                showToast('图片上传成功', 'success');
-            }
-        } catch(err) {
-            showToast('上传失败', 'error');
-        }
-        uploadBtn.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> 上传图片';
-        imageUpload.value = '';
+    const file = e.target.files[0];
+    if (!file) return;
+    const formData = new FormData();
+    formData.append('image', file);
+    uploadBtn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i>';
+    try {
+    const res = await fetch('/upload-image', { method: 'POST', body: formData });
+    const data = await res.json();
+    if (data.url) {
+    const startPos = editor.selectionStart;
+    editor.value = editor.value.substring(0, startPos) + `![图片](${data.url})` + editor.value.substring(startPos);
+    updatePreview();
+    showToast('图片上传成功', 'success');
+    }
+    } catch(err) {
+    showToast('上传失败', 'error');
+    }
+    uploadBtn.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> 上传图片';
+    imageUpload.value = '';
     });
 
     // ========== 同步滚动 ==========
@@ -770,91 +778,91 @@
     const syncBtn = document.getElementById('scrollSyncBtn');
     const previewContent = document.querySelector('.preview-content');
     syncBtn.addEventListener('click', () => {
-        scrollSync = !scrollSync;
-        syncBtn.style.opacity = scrollSync ? '1' : '0.5';
+    scrollSync = !scrollSync;
+    syncBtn.style.opacity = scrollSync ? '1' : '0.5';
     });
     editor.addEventListener('scroll', () => {
-        if (!scrollSync || !previewContent) return;
-        const scrollPercent = editor.scrollTop / (editor.scrollHeight - editor.clientHeight);
-        previewContent.scrollTop = scrollPercent * (previewContent.scrollHeight - previewContent.clientHeight);
+    if (!scrollSync || !previewContent) return;
+    const scrollPercent = editor.scrollTop / (editor.scrollHeight - editor.clientHeight);
+    previewContent.scrollTop = scrollPercent * (previewContent.scrollHeight - previewContent.clientHeight);
     });
 
     // ========== 🔥 核心：保存功能 - 真正提交到后端 ==========
     saveBtn.addEventListener('click', async () => {
-        const title = pageTitleInput.value.trim();
-        const content = editor.value;
+    const title = pageTitleInput.value.trim();
+    const content = editor.value;
 
-        if (!title) {
-            showToast('请填写页面标题', 'error');
-            return;
-        }
+    if (!title) {
+    showToast('请填写页面标题', 'error');
+    return;
+    }
 
-        // 保存按钮状态
-        const originalText = saveBtn.innerHTML;
-        saveBtn.disabled = true;
-        saveBtn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> 保存中...';
+    // 保存按钮状态
+    const originalText = saveBtn.innerHTML;
+    saveBtn.disabled = true;
+    saveBtn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> 保存中...';
 
-        // 构建 FormData
-        const formData = new FormData();
-        formData.append('title', title);
-        formData.append('content', content);
-        formData.append('tags', tags.join(','));
+    // 构建 FormData
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('content', content);
+    formData.append('tags', tags.join(','));
 
-        try {
-            // 发送 POST 请求到编辑路由
-            const response = await fetch(window.location.href, {
-                method: 'POST',
-                body: formData
-            });
+    try {
+    // 发送 POST 请求到编辑路由
+    const response = await fetch(window.location.href, {
+    method: 'POST',
+    body: formData
+    });
 
-            if (response.ok) {
-                showToast('✅ 保存成功！正在跳转...', 'success');
-                saveBtn.innerHTML = '<i class="fas fa-check"></i> 已保存';
-                // 延迟跳转到页面查看
-                setTimeout(() => {
-                    window.location.href = `/page/${PAGE_NAME}`;
-                }, 800);
-            } else {
-                const errorText = await response.text();
-                console.error('保存失败:', errorText);
-                showToast('❌ 保存失败，请重试', 'error');
-                saveBtn.innerHTML = originalText;
-                saveBtn.disabled = false;
-            }
-        } catch (error) {
-            console.error('网络错误:', error);
-            showToast('❌ 网络错误，保存失败', 'error');
-            saveBtn.innerHTML = originalText;
-            saveBtn.disabled = false;
-        }
+    if (response.ok) {
+    showToast('✅ 保存成功！正在跳转...', 'success');
+    saveBtn.innerHTML = '<i class="fas fa-check"></i> 已保存';
+    // 延迟跳转到页面查看
+    setTimeout(() => {
+    window.location.href = `/page/${PAGE_NAME}`;
+    }, 800);
+    } else {
+    const errorText = await response.text();
+    console.error('保存失败:', errorText);
+    showToast('❌ 保存失败，请重试', 'error');
+    saveBtn.innerHTML = originalText;
+    saveBtn.disabled = false;
+    }
+    } catch (error) {
+    console.error('网络错误:', error);
+    showToast('❌ 网络错误，保存失败', 'error');
+    saveBtn.innerHTML = originalText;
+    saveBtn.disabled = false;
+    }
     });
 
     // 自动保存草稿（每30秒）
     setInterval(() => {
-        const draft = {
-            title: pageTitleInput.value,
-            content: editor.value,
-            tags: tags,
-            time: Date.now()
-        };
-        localStorage.setItem(`wiki_draft_${PAGE_NAME}`, JSON.stringify(draft));
+    const draft = {
+    title: pageTitleInput.value,
+    content: editor.value,
+    tags: tags,
+    time: Date.now()
+    };
+    localStorage.setItem(`wiki_draft_${PAGE_NAME}`, JSON.stringify(draft));
     }, 30000);
 
     // 恢复草稿
     const draftKey = `wiki_draft_${PAGE_NAME}`;
     const savedDraft = localStorage.getItem(draftKey);
     if (savedDraft) {
-        const draftData = JSON.parse(savedDraft);
-        const draftAge = Date.now() - draftData.time;
-        if (draftAge < 5 * 60 * 1000 && confirm('检测到未保存的草稿，是否恢复？')) {
-            pageTitleInput.value = draftData.title;
-            editor.value = draftData.content;
-            tags = draftData.tags;
-            renderTags();
-            updatePreview();
-            showToast('已恢复草稿', 'success');
-        }
-        localStorage.removeItem(draftKey);
+    const draftData = JSON.parse(savedDraft);
+    const draftAge = Date.now() - draftData.time;
+    if (draftAge < 5 * 60 * 1000 && confirm('检测到未保存的草稿，是否恢复？')) {
+    pageTitleInput.value = draftData.title;
+    editor.value = draftData.content;
+    tags = draftData.tags;
+    renderTags();
+    updatePreview();
+    showToast('已恢复草稿', 'success');
+    }
+    localStorage.removeItem(draftKey);
     }
     </script>
 </body>

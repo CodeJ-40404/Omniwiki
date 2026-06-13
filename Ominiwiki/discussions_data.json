@@ -107,5 +107,63 @@
         }
       ]
     }
+  ],
+  "oxygen": [
+    {
+      "id": 1781326004979,
+      "title": "有个小问题",
+      "content": "你们觉得这篇文章如何",
+      "author": "codej-40404",
+      "avatar": "C",
+      "created_at": "2026-06-13 12:46",
+      "timestamp": 1781326004.979615,
+      "views": 0,
+      "likes": 30,
+      "reply_count": 4,
+      "is_pinned": false,
+      "is_closed": false,
+      "replies": [
+        {
+          "id": 1781326021107,
+          "content": "goood",
+          "author": "codej-40404",
+          "avatar": "C",
+          "created_at": "2026-06-13 12:47",
+          "timestamp": 1781326021.107516,
+          "likes": 9,
+          "reply_to": null
+        },
+        {
+          "id": 1781326031628,
+          "content": "yes",
+          "author": "codej-40404",
+          "avatar": "C",
+          "created_at": "2026-06-13 12:47",
+          "timestamp": 1781326031.628776,
+          "likes": 5,
+          "reply_to": null
+        },
+        {
+          "id": 1781326039450,
+          "content": "很不错",
+          "author": "codej-40404",
+          "avatar": "C",
+          "created_at": "2026-06-13 12:47",
+          "timestamp": 1781326039.450697,
+          "likes": 7,
+          "reply_to": null
+        },
+        {
+          "id": 1781326047901,
+          "content": "amazing！！！！！",
+          "author": "codej-40404",
+          "avatar": "C",
+          "created_at": "2026-06-13 12:47",
+          "timestamp": 1781326047.901824,
+          "likes": 5,
+          "reply_to": null
+        }
+      ]
+    }
   ]
 }
