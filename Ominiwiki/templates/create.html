@@ -512,9 +512,11 @@
         try {
             const html = marked.parse(markdown);
             previewDiv.innerHTML = html;
+
             previewDiv.querySelectorAll('pre code').forEach(block => {
                 hljs.highlightElement(block);
             });
+
         } catch (e) {
             previewDiv.innerHTML = `<div style="color: #ff6b6b;">解析错误: ${e.message}</div>`;
         }

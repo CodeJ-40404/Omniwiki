@@ -23,8 +23,46 @@
         <a href="/edit/{{ page_name }}" class="btn-outline"><i class="fas fa-edit"></i> 编辑</a>
         <a href="/delete/{{ page_name }}" class="btn-outline" onclick="return confirm('确定要删除这个页面吗？')"><i class="fas fa-trash"></i> 删除</a>
         {% endif %}
+        <a href="/discussions/{{ page_name }}" class="btn-outline" id="discussionsBtn">
+            <i class="fas fa-comments"></i> 讨论区
+            <span id="discussionCount" class="discussion-badge">0</span>
+        </a>
         <button id="copyPageUrl" class="btn-outline"><i class="fas fa-link"></i> 复制链接</button>
     </div>
+
+    <style>
+        .discussion-badge {
+            background: var(--accent-gold);
+            color: #0f0f12;
+            border-radius: 20px;
+            padding: 2px 8px;
+            font-size: 0.7rem;
+            margin-left: 6px;
+            font-weight: bold;
+        }
+    </style>
+
+    <script>
+        // 在页面加载时获取讨论区数量
+        async function loadDiscussionCount() {
+            try {
+                const response = await fetch(`/api/discussions/${encodeURIComponent(PAGE_NAME)}`);
+                const discussions = await response.json();
+                const count = discussions.length;
+                const badge = document.getElementById('discussionCount');
+                if (badge && count > 0) {
+                    badge.textContent = count;
+                    badge.style.display = 'inline';
+                } else if (badge) {
+                    badge.style.display = 'none';
+                }
+            } catch (error) {
+                console.error('加载讨论数失败:', error);
+            }
+        }
+        loadDiscussionCount();
+    </script>
+
 </div>
 
 <div class="page-content markdown-body">
@@ -98,8 +136,52 @@
         </ul>
     </div>
     {% endif %}
+
+    <div class="module">
+        <h3><i class="fas fa-comments"></i> 页面讨论</h3>
+        <p style="font-size: 0.8rem; margin-bottom: 12px;">参与关于本页面的讨论，分享你的观点和问题。</p>
+        <a href="/discussions/{{ page_name }}" class="btn-primary" style="display: block; text-align: center; width: 100%;">
+            <i class="fas fa-plus-circle"></i> 前往讨论区
+        </a>
+    </div>
+
+    <!-- 热门讨论模块 -->
+    <div class="module">
+        <h3><i class="fas fa-fire"></i> 热门讨论</h3>
+        <ul class="trending-list" id="hotDiscussionsList">
+            <li><i class="fas fa-spinner fa-pulse"></i> 加载中...</li>
+        </ul>
+    </div>
+
 </aside>
 {% endblock %}
+
+<script>
+    // 加载热门讨论
+    async function loadHotDiscussions() {
+        try {
+            const response = await fetch('/api/hot-discussions');
+            const topics = await response.json();
+            const list = document.getElementById('hotDiscussionsList');
+            if (list && topics.length > 0) {
+                list.innerHTML = topics.slice(0, 5).map(topic => `
+                    <li>
+                        <a href="/discussions/${topic.page_name}#topic-${topic.id}">
+                            ${escapeHtml(topic.title.length > 30 ? topic.title.substring(0, 30) + '...' : topic.title)}
+                        </a>
+                        <span style="font-size: 0.65rem; color: var(--text-muted);">${topic.reply_count || 0}回复</span>
+                    </li>
+                `).join('');
+            } else if (list) {
+                list.innerHTML = '<li>暂无热门讨论</li>';
+            }
+        } catch (error) {
+            console.error('加载热门讨论失败:', error);
+        }
+    }
+    loadHotDiscussions();
+</script>
+
 
 {% block extra_scripts %}
 <style>

@@ -19,30 +19,236 @@
   "pages": {
     "首页": {
       "title": "首页",
-      "content": "# 欢迎来到寰宇维基！\r\n\r\n这是一个本地的Wiki系统。\r\n\r\n## 快速开始\r\n- 点击右上角登录\r\n- 创建和编辑页面\r\n- 探索知识  ",
-      "author": "admin",
-      "last_edit": "2026-06-07 16:43",
-      "views": 7,
+      "content": "# 欢迎来到寰宇维基！\r\n\r\n这是一个本地的Wiki系统。\r\n\r\n## 快速开始\r\n- 点击右上角登录\r\n- 创建和编辑页面\r\n- 探索知识  \r\n- ***享受乐趣***\r\n*wiki*\r\n",
+      "author": "codej-40404",
+      "last_edit": "2026-06-12 22:35",
+      "views": 17,
       "tags": []
     },
     "香蕉": {
       "title": "香蕉",
-      "content": "# 香蕉\r\n\r\n香蕉是一种草本植物的浆果...\r\n\r\n## 有趣的事实\r\n- 香蕉含有钾元素\r\n- 猴子真的爱吃香蕉\r\n- 香蕉很好吃\r\n>**你好!**  \r\n> banana  \r\n\r\n***这很有趣***",
+      "content": "# 🍌 香蕉大百科\r\n\r\n*Musa · 智慧之果 · 快乐源泉*\r\n\r\n---\r\n\r\n## 📜 什么是香蕉？\r\n\r\n**香蕉**（学名：*Musa* 属，主要是*Musa acuminata* 和 *Musa balbisiana* 杂交种）是一种巨型草本植物结出的浆果——严格来说，香蕉是**浆果**而不是树上的水果！世界上很少有人知道：你剥开吃掉的那一根根香甜软糯的“水果”，其实来自一种草本植物。\r\n\r\n> 💡 **趣味事实**：野生香蕉充满硬籽，几乎无法食用！我们今天吃到的无籽香蕉是几千年来人类选择和培育的结果。\r\n\r\n---\r\n\r\n## 📊 香蕉档案\r\n\r\n| 项目 | 内容 |\r\n|------|------|\r\n| **界** | 植物界 Plantae |\r\n| **科** | 芭蕉科 Musaceae |\r\n| **属** | 芭蕉属 Musa |\r\n| **常见品种** | 香芽蕉（Cavendish）、大麦克（Gros Michel，几乎绝迹）、红香蕉、苹果蕉、千层蕉 |\r\n| **原产地** | 东南亚（马来西亚、印度尼西亚、菲律宾等地） |\r\n| **高度** | 最高可达7~9米（虽然是草本！） |\r\n| **绰号** | “智慧之果”、“快乐水果”、“运动员能量棒” |\r\n\r\n---\r\n\r\n## 🗺️ 香蕉的奇幻旅程\r\n\r\n考古学家发现，香蕉在巴布亚新几内亚地区被驯化的历史可以追溯到**7000年前**甚至更久！后来香蕉搭乘阿拉伯商人的船只传播到非洲，再后来跟随哥伦布的航船跨越太平洋来到美洲。\r\n\r\n> 🎤 一个有趣的插曲：现在的全球主流品种香芽蕉（Cavendish）之所以能取代过去的大麦克香蕉，是因为大麦克在1950年代惨遭香蕉枯萎病（巴拿马病）几乎灭绝。如今我们吃的香蕉，基因高度单一，非常容易受到新型病害的威胁。\r\n\r\n在世界各地文化中，香蕉代表富足、生育和幽默。在某些国家，香蕉叶也是神圣的餐盘，用来盛装食物。\r\n\r\n---\r\n\r\n## 🥗 营养成分 · 运动健将的秘密\r\n\r\n香蕉富含**钾、维生素B6、维生素C、膳食纤维和天然糖分**。一根中等大小的香蕉约提供105卡路里能量。\r\n\r\n| 营养素 (每100g) | 含量 | 趣评 |\r\n|----------------|------|------|\r\n| 热量 | 89 kcal | 天然快乐能量包 |\r\n| 钾 | 358 mg | 帮助肌肉放松，对抗抽筋💪 |\r\n| 维生素B6 | 0.4 mg | 提升情绪，合成血清素 |\r\n| 膳食纤维 | 2.6 g | 肠道小刷子 |\r\n| 镁 | 27 mg | 助眠&神经稳定 |\r\n\r\n> 🧠 香蕉含有少量色氨酸——身体用来制造血清素的成分，所以吃香蕉真的会让心情变好，这可不是心理作用！\r\n\r\n---\r\n\r\n## 🤯 你没听过的香蕉冷知识\r\n\r\n- 🍌 **香蕉的“树”不是树**：香蕉植株其实是巨型草本，它的“茎”由叶鞘层层包裹形成假茎，最高可以达到9米！\r\n- 🎨 **紫外线下的香蕉**：成熟的香蕉在紫外光下会呈现亮蓝色荧光，这是由于叶绿素降解产物的神奇反应。\r\n- 🔊 **香蕉皮滑倒**：这是全球共识的幽默梗，虽然实际摩擦系数并不低。\r\n- 📞 **香蕉电话？** 安迪·沃霍尔为地下丝绒乐队设计的经典“香蕉”封面，成为流行文化标志。\r\n- 👕 **香蕉纤维可以做衣服**：香蕉茎秆纤维非常坚韧，可用于制作背包、纸和织物。\r\n- ⚡ **放射性？** 香蕉富含钾-40（天然放射性同位素），但微量到可以忽略——吃一根香蕉所受辐射约等于自然本底辐射的0.01%。\r\n\r\n---\r\n\r\n## 🍌 世界香蕉奇妙品种\r\n\r\n| 品种 | 特点 |\r\n|------|------|\r\n| 香芽蕉 | 最常见，超市里的标准香蕉 |\r\n| 苹果蕉 | 酸甜似苹果，小巧迷人 |\r\n| 红香蕉 | 外皮红紫，果肉奶油香 |\r\n| 千层蕉 | 花开多层，观赏性极佳 |\r\n| 大麦克香蕉 | 绝迹传说，据传更香甜 |\r\n| 煮食蕉(大蕉) | 烹饪用，淀粉含量高 |\r\n\r\n世界各地还有几百种野生和栽培香蕉，颜色从绿、黄到红、紫。\r\n\r\n---\r\n\r\n## 👩‍🍳 香蕉创意吃法\r\n\r\n**经典甜品区**：香蕉船、香蕉松饼、香蕉面包、炸香蕉、烤香蕉片、拔丝香蕉、冷冻香蕉蘸巧克力\r\n\r\n**咸口大冒险**：泰国香蕉花沙拉、非洲香蕉炖肉、哥斯达黎加甜煮大蕉、加勒比炸大蕉片\r\n\r\n**饮品界明星**：香蕉奶昔、香蕉燕麦能量饮、香蕉咖啡拿铁，甚至香蕉发酵酿造的啤酒\r\n\r\n> 🥄 烹饪小诀窍：香蕉皮内侧可以用来擦亮银器、滋润皮革，甚至能堆肥！\r\n\r\n---\r\n\r\n## 📈 香蕉经济\r\n\r\n香蕉是全球贸易量最大的水果之一，每年出口量超过2000万吨。**印度**是世界上最大的香蕉生产国（年产超过3000万吨），其次是巴西和中国。欧洲人和美国人平均每人每年吃掉约12公斤香蕉！\r\n\r\n> 🏅 你知道吗？美国每年消耗的香蕉比苹果和橙子加起来还多！\r\n\r\n---\r\n\r\n## 🎤 香蕉在流行文化中\r\n\r\n- 地下丝绒乐队那张黄色香蕉专辑封面，由安迪·沃霍尔设计\r\n- 《神偷奶爸》里小黄人对香蕉的疯狂热爱\r\n- 互联网模因“香蕉皮滑倒”\r\n- 艺术作品“胶带香蕉”以12万美元成交\r\n\r\n> 🎶 “Hollaback Girl”歌词中唱道 “This shit is bananas, B-A-N-A-N-A-S”\r\n\r\n---\r\n\r\n## 🌍 香蕉的未来\r\n\r\n当前全球商业化香蕉的品种过于单一（卡文迪什占国际贸易的99%），极易受到新出现的香蕉枯萎病TR4的打击。科学家正在努力寻找和培育抗病品种，保护野生香蕉基因库。\r\n\r\n✅ **行动起来**：支持多样化水果、购买有机或公平贸易香蕉、进行香蕉皮堆肥。\r\n\r\n---\r\n\r\n## 🤔 香蕉小测验\r\n\r\n**问1**：香蕉在植物学意义上属于哪一类水果？\r\n- A. 核果  B. 仁果  C. 浆果  D. 柑橘类\r\n> 答案：**C**（浆果！香蕉是多室浆果）\r\n\r\n**问2**：香蕉植株最高可以长到多少米？\r\n- A. 2米  B. 4米  C. 9米  D. 12米\r\n> 答案：**C**（某些野生品种可高达9米！）\r\n\r\n**问3**：哪个国家香蕉人均消费最高？\r\n- A. 美国  B. 乌干达  C. 菲律宾  D. 德国\r\n> 答案：**B**（乌干达当地香蕉是主食之一，每人每年吃掉约200公斤）\r\n\r\n---\r\n\r\n*最后更新：2026年 · 保持好奇，保持有趣，每天一根香蕉，让生活更美妙*\r\n\r\n🍌❤️ **祝你今天也像香蕉一样金灿灿、笑眯眯！**",
       "author": "codej-40404",
-      "last_edit": "2026-06-07 17:22",
-      "views": 32,
+      "last_edit": "2026-06-13 08:36",
+      "views": 50,
       "tags": []
     },
     "wiki": {
-      "title": "wiki-介绍",
-      "content": "# WIKI\r\n## 什么是wiki\r\n### 此页面编写中",
+      "title": "Omniwiki-介绍",
+      "content": "# 🌍 寰宇维基 / OmniWiki\r\n\r\n![Python Version](https://img.shields.io/badge/Python-3.8+-blue.svg)  \r\n\r\n![Flask Version](https://img.shields.io/badge/Flask-2.0+-green.svg)  \r\n\r\n![License](https://img.shields.io/badge/License-MIT-yellow.svg)  \r\n\r\n![Status](https://img.shields.io/badge/Status-Active-brightgreen.svg)  \r\n\r\n\r\n**一个功能完整的本地Wiki系统，支持页面编辑、讨论区、用户系统等完整功能**  \r\n\r\n**A fully-featured local Wiki system with page editing, discussion forums, user system and more**  \r\n\r\n\r\n[快速开始](#-快速开始--quick-start) • [功能介绍](#-功能介绍--features) • [安装指南](#-安装指南--installation) • [截图](#-截图--screenshots)  \r\n\r\n\r\n---\r\n\r\n## 📖 目录 / Table of Contents\r\n\r\n- [项目简介 / Introduction](#-项目简介--introduction)  \r\n- [功能介绍 / Features](#-功能介绍--features)  \r\n- [技术栈 / Tech Stack](#-技术栈--tech-stack)  \r\n- [快速开始 / Quick Start](#-快速开始--quick-start)  \r\n- [详细安装 / Detailed Installation](#-详细安装--detailed-installation)  \r\n- [项目结构 / Project Structure](#-项目结构--project-structure)\r\n- [API 文档 / API Documentation](#-api-文档--api-documentation)\r\n- [配置说明 / Configuration](#-配置说明--configuration)\r\n- [截图 / Screenshots](#-截图--screenshots)\r\n- [常见问题 / FAQ](#-常见问题--faq)\r\n- [贡献指南 / Contributing](#-贡献指南--contributing)\r\n- [许可证 / License](#-许可证--license)\r\n\r\n---\r\n\r\n## 📋 项目简介 / Introduction\r\n\r\n### 中文\r\n\r\n**寰宇维基 (OmniWiki)** 是一个功能完整的本地Wiki系统，专为个人知识管理和团队协作设计。所有数据存储在本地，无需联网，完全保护您的隐私。系统采用现代化的Fandom风格界面，提供流畅的编辑体验和强大的讨论功能。\r\n\r\n### English\r\n\r\n**OmniWiki** is a fully-featured local Wiki system designed for personal knowledge management and team collaboration. All data is stored locally, requiring no internet connection and ensuring complete privacy. The system features a modern Fandom-style interface, providing a smooth editing experience and powerful discussion capabilities.\r\n**Notice!** there's only chinese version available now, eng version is still designing\r\n---\r\n\r\n## ✨ 功能介绍 / Features\r\n\r\n### 核心功能 / Core Features\r\n\r\n| 功能 / Feature | 描述 / Description |\r\n|---------------|-------------------|\r\n| 📝 **页面系统 / Page System** | 创建、编辑、浏览、删除Wiki页面，支持Markdown语法 |\r\n| 👤 **用户系统 / User System** | 注册、登录、个人主页、角色权限管理 |\r\n| 🔍 **搜索功能 / Search** | 实时搜索建议、全文检索、搜索结果高亮 |\r\n| 🏷️ **标签系统 / Tags** | 标签云、按标签筛选页面 |\r\n| 💬 **评论系统 / Comments** | 发表评论、回复、点赞、删除，支持Markdown |\r\n| 🗣️ **讨论区 / Discussions** | 发起话题、回复、置顶、关闭、热度排序 |\r\n| 📸 **图片上传 / Image Upload** | 上传图片并自动插入编辑器 |\r\n| 📜 **版本历史 / Version History** | 查看编辑历史、恢复到任意版本 |\r\n| 🎨 **视觉特效 / Visual Effects** | 点击烟花特效、鼠标几何图形跟随 |\r\n\r\n### 界面特性 / UI Features\r\n\r\n| 特性 / Feature | 描述 / Description |\r\n|---------------|-------------------|\r\n| 🌙 **深色主题 / Dark Theme** | 舒适的深色界面，保护眼睛 |\r\n| 📱 **响应式设计 / Responsive** | 适配桌面、平板、手机 |\r\n| 🎯 **Fandom风格 / Fandom Style** | 三栏布局，侧边栏导航 |\r\n| ⚡ **实时预览 / Live Preview** | 编辑时右侧实时渲染Markdown |\r\n| 🛠️ **富文本工具栏 / Rich Toolbar** | 快捷按钮支持Markdown语法 |\r\n\r\n---\r\n\r\n## 🛠️ 技术栈 / Tech Stack\r\n\r\n| 技术 / Technology | 用途 / Purpose |\r\n|------------------|----------------|\r\n| **Python 3.8+** | 后端语言 |\r\n| **Flask 2.0+** | Web框架 |\r\n| **Markdown** | 内容渲染 |\r\n| **Marked.js** | 前端Markdown解析 |\r\n| **Highlight.js** | 代码语法高亮 |\r\n| **Font Awesome 6** | 图标库 |\r\n| **JSON** | 数据存储 |\r\n\r\n---\r\n\r\n## 🚀 快速开始 / Quick Start\r\n\r\n### 中文\r\n\r\n```bash\r\n# 1. 克隆项目\r\ngit clone https://github.com/yourusername/omniwiki.git\r\ncd omniwiki\r\n\r\n# 2. 安装依赖\r\npip install flask markdown\r\n\r\n# 3. 运行服务器\r\npython Omniwiki.py\r\n\r\n# 4. 打开浏览器访问\r\n# http://localhost:5000\r\n\r\n# 5. 登录测试账号\r\n# 用户名: admin / 密码: admin123\r\n```\r\n\r\n### English\r\n\r\n```bash\r\n# 1. Clone the repository\r\ngit clone https://github.com/yourusername/omniwiki.git\r\ncd omniwiki\r\n\r\n# 2. Install dependencies\r\npip install flask markdown\r\n\r\n# 3. Run the server\r\npython Omniwiki.py\r\n\r\n# 4. Open your browser and visit\r\n# http://localhost:5000\r\n\r\n# 5. Login with test account\r\n# Username: admin / Password: admin123\r\n```\r\n\r\n---\r\n\r\n## 📦 详细安装 / Detailed Installation\r\n\r\n### 中文\r\n\r\n#### 系统要求\r\n- Python 3.8 或更高版本\r\n- pip 包管理器\r\n- 现代浏览器（Chrome, Firefox, Edge 等）\r\n\r\n#### 安装步骤\r\n\r\n1. **下载项目**\r\n   ```bash\r\n   git clone https://github.com/yourusername/omniwiki.git\r\n   cd omniwiki\r\n   ```\r\n\r\n2. **创建虚拟环境（推荐）**\r\n   ```bash\r\n   # Windows\r\n   python -m venv venv\r\n   venv\\Scripts\\activate\r\n\r\n   # macOS / Linux\r\n   python3 -m venv venv\r\n   source venv/bin/activate\r\n   ```\r\n\r\n3. **安装依赖**\r\n   ```bash\r\n   pip install flask markdown\r\n   ```\r\n\r\n4. **初始化数据**\r\n   ```bash\r\n   # 运行后会自动创建数据文件\r\n   python app.py\r\n   ```\r\n\r\n5. **访问系统**\r\n   - 打开浏览器访问 `http://localhost:5000`\r\n   - 使用测试账号登录：`admin / admin123`\r\n\r\n### English\r\n\r\n#### Requirements\r\n- Python 3.8 or higher\r\n- pip package manager\r\n- Modern browser (Chrome, Firefox, Edge, etc.)\r\n\r\n#### Installation Steps\r\n\r\n1. **Download the project**\r\n   ```bash\r\n   git clone https://github.com/yourusername/omniwiki.git\r\n   cd omniwiki\r\n   ```\r\n\r\n2. **Create virtual environment (recommended)**\r\n   ```bash\r\n   # Windows\r\n   python -m venv venv\r\n   venv\\Scripts\\activate\r\n\r\n   # macOS / Linux\r\n   python3 -m venv venv\r\n   source venv/bin/activate\r\n   ```\r\n\r\n3. **Install dependencies**\r\n   ```bash\r\n   pip install flask markdown\r\n   ```\r\n\r\n4. **Initialize data**\r\n   ```bash\r\n   # Data files will be created automatically when running\r\n   python app.py\r\n   ```\r\n\r\n5. **Access the system**\r\n   - Open your browser and visit `http://localhost:5000`\r\n   - Login with test account: `admin / admin123`\r\n\r\n---\r\n\r\n## 📁 项目结构 / Project Structure\r\n~~some are still designing~~\r\n\r\n```\r\nomniwiki/\r\n│\r\n├── Omniwiki.py                          # 主服务器程序\r\n├── wiki_data.json                  # Wiki数据文件（自动生成）\r\n├── discussions_data.json           # 讨论数据文件（自动生成）\r\n├── comments_data.json              # 评论数据文件（自动生成）\r\n├── uploads/                        # 上传的图片文件夹\r\n│\r\n├── templates/                      # 模板文件夹\r\n│   ├── base.html                   # 基础模板\r\n│   ├── index.html                  # 首页\r\n│   ├── wiki_page.html              # 页面浏览\r\n│   ├── edit.html                   # 编辑页面\r\n│   ├── create.html                 # 创建页面\r\n│   ├── discussions.html            # 讨论区\r\n│   ├── recent_discussions.html     # 最新讨论\r\n│   ├── hot_discussions.html        # 热门讨论\r\n│   ├── my_discussions.html         # 我的讨论\r\n│   ├── search.html                 # 搜索结果\r\n│   ├── login.html                  # 登录页\r\n│   ├── register.html               # 注册页\r\n│   ├── all_pages.html              # 所有页面\r\n│   ├── tags.html                   # 标签云\r\n│   ├── history.html                # 版本历史\r\n│   └── 404.html                    # 404页面\r\n│\r\n└── static/                         # 静态文件\r\n    ├── style.css                   # 主样式表\r\n    └── script.js                   # 前端脚本\r\n```\r\n\r\n---\r\n\r\n## 🔌 API 文档 / API Documentation\r\n\r\n### 中文\r\n\r\n| 端点 / Endpoint | 方法 / Method | 描述 / Description |\r\n|----------------|---------------|-------------------|\r\n| `/api/search?q={query}` | GET | 搜索建议API |\r\n| `/api/comments/{page}` | GET | 获取页面评论 |\r\n| `/api/comments/{page}` | POST | 添加评论 |\r\n| `/api/comments/{page}/{id}/like` | POST | 点赞评论 |\r\n| `/api/discussions/{page}` | GET | 获取讨论列表 |\r\n| `/api/discussions/{page}/topic` | POST | 创建话题 |\r\n| `/api/discussions/{page}/topic/{id}/reply` | POST | 回复话题 |\r\n| `/api/hot-discussions-full` | GET | 获取热门讨论 |\r\n| `/api/my-discussions-full` | GET | 获取我的讨论 |\r\n\r\n### English\r\n\r\n| Endpoint | Method | Description |\r\n|----------|--------|-------------|\r\n| `/api/search?q={query}` | GET | Search suggestions API |\r\n| `/api/comments/{page}` | GET | Get page comments |\r\n| `/api/comments/{page}` | POST | Add comment |\r\n| `/api/comments/{page}/{id}/like` | POST | Like comment |\r\n| `/api/discussions/{page}` | GET | Get discussion list |\r\n| `/api/discussions/{page}/topic` | POST | Create topic |\r\n| `/api/discussions/{page}/topic/{id}/reply` | POST | Reply to topic |\r\n| `/api/hot-discussions-full` | GET | Get hot discussions |\r\n| `/api/my-discussions-full` | GET | Get my discussions |\r\n\r\n---\r\n\r\n## ⚙️ 配置说明 / Configuration\r\n\r\n### 中文\r\n\r\n#### 环境变量\r\n\r\n| 变量 | 描述 | 默认值 |\r\n|------|------|--------|\r\n| `SECRET_KEY` | Flask会话密钥 | `huan-yu-wiki-secret-key-2026` |\r\n| `PORT` | 服务器端口 | `5000` |\r\n| `DEBUG` | 调试模式 | `True` |\r\n\r\n#### 修改端口\r\n\r\n```python\r\n# 在 app.py 中修改\r\napp.run(debug=True, host='127.0.0.1', port=8080)\r\n```\r\n\r\n### English\r\n\r\n#### Environment Variables\r\n\r\n| Variable | Description | Default |\r\n|----------|-------------|---------|\r\n| `SECRET_KEY` | Flask session secret key | `huan-yu-wiki-secret-key-2026` |\r\n| `PORT` | Server port | `5000` |\r\n| `DEBUG` | Debug mode | `True` |\r\n\r\n#### Change Port\r\n\r\n```python\r\n# Modify in app.py\r\napp.run(debug=True, host='127.0.0.1', port=8080)\r\n```\r\n\r\n---\r\n\r\n## 📸 截图 / Screenshots\r\n\r\n### 中文\r\n\r\n> 由于项目是本地运行，请自行启动后体验。界面风格类似于 Fandom Wiki，采用深色主题和三栏布局。\r\n\r\n### English\r\n\r\n> Since the project runs locally, please start it yourself to experience. The UI style is similar to Fandom Wiki, featuring a dark theme and three-column layout.\r\n\r\n---\r\n\r\n## ❓ 常见问题 / FAQ\r\n\r\n### 中文\r\n\r\n**Q: 保存页面后没有变化？**\r\nA: 检查 `app.py` 中 `/edit/<page_name>` 的 POST 处理逻辑是否正确。\r\n\r\n**Q: 图片上传失败？**\r\nA: 确保 `uploads/` 文件夹存在且有写入权限。\r\n\r\n**Q: 评论功能不工作？**\r\nA: 检查 `comments_data.json` 文件是否已创建。\r\n\r\n**Q: 如何备份数据？**\r\nA: 备份以下文件：`wiki_data.json`、`discussions_data.json`、`comments_data.json` 和 `uploads/` 文件夹。\r\n\r\n### English\r\n\r\n**Q: The page doesn't change after saving?**\r\nA: Check if the POST handling logic in `/edit/<page_name>` of `app.py` is correct.\r\n\r\n**Q: Image upload fails?**\r\nA: Make sure the `uploads/` folder exists and has write permissions.\r\n\r\n**Q: Comment feature doesn't work?**\r\nA: Check if the `comments_data.json` file has been created.\r\n\r\n**Q: How to backup data?**\r\nA: Backup the following files: `wiki_data.json`, `discussions_data.json`, `comments_data.json` and the `uploads/` folder.\r\n\r\n---\r\n\r\n## 👥 贡献指南 / Contributing\r\n\r\n### 中文\r\n\r\n欢迎贡献代码、报告问题或提出新功能建议！\r\n\r\n1. Fork 本项目\r\n2. 创建您的功能分支 (`git checkout -b feature/AmazingFeature`)\r\n3. 提交您的更改 (`git commit -m 'Add some AmazingFeature'`)\r\n4. 推送到分支 (`git push origin feature/AmazingFeature`)\r\n5. 打开 Pull Request\r\n\r\n### English\r\n\r\nContributions, issues, and feature requests are welcome!\r\n\r\n1. Fork the project\r\n2. Create your feature branch (`git checkout -b feature/AmazingFeature`)\r\n3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)\r\n4. Push to the branch (`git push origin feature/AmazingFeature`)\r\n5. Open a Pull Request\r\n\r\n---\r\n\r\n## 📄 许可证 / License\r\n\r\n### 中文\r\n\r\n本项目采用 MIT 许可证。详见 [LICENSE](LICENSE) 文件。\r\n\r\n### English\r\n\r\nThis project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.\r\n\r\n---\r\n\r\n## 🙏 致谢 / Acknowledgements\r\n\r\n### 中文\r\n\r\n- [Flask](https://flask.palletsprojects.com/) - 轻量级Web框架\r\n- [Marked.js](https://marked.js.org/) - Markdown解析器\r\n- [Highlight.js](https://highlightjs.org/) - 代码高亮\r\n- [Font Awesome](https://fontawesome.com/) - 图标库\r\n\r\n### English\r\n\r\n- [Flask](https://flask.palletsprojects.com/) - Lightweight web framework\r\n- [Marked.js](https://marked.js.org/) - Markdown parser\r\n- [Highlight.js](https://highlightjs.org/) - Code syntax highlighting\r\n- [Font Awesome](https://fontawesome.com/) - Icon library\r\n\r\n---\r\n\r\n**Made with 🍌 by OmniWiki Contributors**  \r\n\r\n*codej-40404*\r\n\r\n[⬆ 返回顶部 / Back to Top](#)\r\n\r\n",
       "author": "codej-40404",
-      "last_edit": "2026-06-07 17:29",
-      "views": 3,
+      "last_edit": "2026-06-13 08:33",
+      "views": 22,
+      "tags": []
+    },
+    "markdown": {
+      "title": "markdown",
+      "content": "# markdown\r\n> it's ez\r\n# ez\r\nwell...",
+      "author": "codej-40404",
+      "last_edit": "2026-06-12 22:46",
+      "views": 5,
       "tags": []
     }
   },
   "recent_activity": [
+    {
+      "action": "在「香蕉」的讨论区回复了话题「wow」",
+      "user": "codej-40404",
+      "page": "香蕉",
+      "time": "2026-06-13 08:37"
+    },
+    {
+      "action": "在「香蕉」的讨论区回复了话题「wow」",
+      "user": "codej-40404",
+      "page": "香蕉",
+      "time": "2026-06-13 08:37"
+    },
+    {
+      "action": "在「香蕉」的讨论区发起了新话题「wow」",
+      "user": "codej-40404",
+      "page": "香蕉",
+      "time": "2026-06-13 08:36"
+    },
+    {
+      "action": "编辑了页面「香蕉」",
+      "user": "codej-40404",
+      "page": "香蕉",
+      "time": "2026-06-13 08:36"
+    },
+    {
+      "action": "在「wiki」的讨论区回复了话题「这是个惊人的GitHub的README！」",
+      "user": "codej-40404",
+      "page": "wiki",
+      "time": "2026-06-13 08:34"
+    },
+    {
+      "action": "在「wiki」的讨论区发起了新话题「这是个惊人的GitHub的README！」",
+      "user": "codej-40404",
+      "page": "wiki",
+      "time": "2026-06-13 08:34"
+    },
+    {
+      "action": "编辑了页面「wiki」",
+      "user": "codej-40404",
+      "page": "wiki",
+      "time": "2026-06-13 08:33"
+    },
+    {
+      "action": "编辑了页面「wiki」",
+      "user": "codej-40404",
+      "page": "wiki",
+      "time": "2026-06-13 08:31"
+    },
+    {
+      "action": "编辑了页面「wiki」",
+      "user": "codej-40404",
+      "page": "wiki",
+      "time": "2026-06-13 08:31"
+    },
+    {
+      "action": "编辑了页面「wiki」",
+      "user": "codej-40404",
+      "page": "wiki",
+      "time": "2026-06-13 08:30"
+    },
+    {
+      "action": "编辑了页面「wiki」",
+      "user": "codej-40404",
+      "page": "wiki",
+      "time": "2026-06-13 08:29"
+    },
+    {
+      "action": "登录了系统",
+      "user": "codej-40404",
+      "page": null,
+      "time": "2026-06-13 08:28"
+    },
+    {
+      "action": "编辑了页面「markdown」",
+      "user": "codej-40404",
+      "page": "markdown",
+      "time": "2026-06-12 22:46"
+    },
+    {
+      "action": "在页面「markdown」发表了评论",
+      "user": "codej-40404",
+      "page": "markdown",
+      "time": "2026-06-12 22:46"
+    },
+    {
+      "action": "创建了新页面「markdown」",
+      "user": "codej-40404",
+      "page": "markdown",
+      "time": "2026-06-12 22:46"
+    },
+    {
+      "action": "编辑了页面「首页」",
+      "user": "codej-40404",
+      "page": "首页",
+      "time": "2026-06-12 22:35"
+    },
+    {
+      "action": "在「首页」的讨论区回复了话题「这里说一下」",
+      "user": "codej-40404",
+      "page": "首页",
+      "time": "2026-06-12 22:31"
+    },
+    {
+      "action": "在「首页」的讨论区发起了新话题「这里说一下」",
+      "user": "codej-40404",
+      "page": "首页",
+      "time": "2026-06-12 22:29"
+    },
+    {
+      "action": "在「香蕉」的讨论区发起了新话题「你觉得这个怎样」",
+      "user": "codej-40404",
+      "page": "香蕉",
+      "time": "2026-06-12 22:19"
+    },
+    {
+      "action": "登录了系统",
+      "user": "codej-40404",
+      "page": null,
+      "time": "2026-06-12 22:18"
+    },
+    {
+      "action": "删除了「香蕉」讨论区的话题「你觉得这个怎样」",
+      "user": "codej-40404",
+      "page": "香蕉",
+      "time": "2026-06-12 22:13"
+    },
+    {
+      "action": "在「香蕉」的讨论区发起了新话题「你觉得这个怎样」",
+      "user": "codej-40404",
+      "page": "香蕉",
+      "time": "2026-06-12 22:12"
+    },
+    {
+      "action": "登录了系统",
+      "user": "codej-40404",
+      "page": null,
+      "time": "2026-06-12 22:08"
+    },
+    {
+      "action": "登录了系统",
+      "user": "codej-40404",
+      "page": null,
+      "time": "2026-06-07 20:03"
+    },
+    {
+      "action": "编辑了页面「香蕉」",
+      "user": "codej-40404",
+      "page": "香蕉",
+      "time": "2026-06-07 19:21"
+    },
+    {
+      "action": "登录了系统",
+      "user": "codej-40404",
+      "page": null,
+      "time": "2026-06-07 19:20"
+    },
+    {
+      "action": "在页面「wiki」发表了评论",
+      "user": "codej-40404",
+      "page": "wiki",
+      "time": "2026-06-07 17:40"
+    },
+    {
+      "action": "登录了系统",
+      "user": "codej-40404",
+      "page": null,
+      "time": "2026-06-07 17:40"
+    },
+    {
+      "action": "登出系统",
+      "user": "codej-40404",
+      "page": null,
+      "time": "2026-06-07 17:40"
+    },
+    {
+      "action": "在页面「香蕉」发表了评论",
+      "user": "codej-40404",
+      "page": "香蕉",
+      "time": "2026-06-07 17:40"
+    },
+    {
+      "action": "在页面「香蕉」发表了评论",
+      "user": "codej-40404",
+      "page": "香蕉",
+      "time": "2026-06-07 17:39"
+    },
+    {
+      "action": "在页面「香蕉」发表了评论",
+      "user": "codej-40404",
+      "page": "香蕉",
+      "time": "2026-06-07 17:39"
+    },
+    {
+      "action": "编辑了页面「香蕉」",
+      "user": "codej-40404",
+      "page": "香蕉",
+      "time": "2026-06-07 17:39"
+    },
     {
       "action": "在页面「wiki」发表了评论",
       "user": "codej-40404",
@@ -144,30 +350,6 @@
       "user": "admin",
       "page": "首页",
       "time": "2026-06-07 16:43"
-    },
-    {
-      "action": "登录了系统",
-      "user": "admin",
-      "page": null,
-      "time": "2026-06-07 16:41"
-    },
-    {
-      "action": "编辑了页面「香蕉」",
-      "user": "codej-40404",
-      "page": "香蕉",
-      "time": "2026-06-07 13:41"
-    },
-    {
-      "action": "编辑了页面「香蕉」",
-      "user": "codej-40404",
-      "page": "香蕉",
-      "time": "2026-06-07 13:41"
-    },
-    {
-      "action": "注册了新账号",
-      "user": "codej-40404",
-      "page": null,
-      "time": "2026-06-07 13:40"
     }
   ]
 }

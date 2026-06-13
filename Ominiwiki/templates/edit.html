@@ -471,6 +471,7 @@
                 <a href="/all-pages" class="nav-link"><i class="fas fa-layer-group"></i> 所有页面</a>
                 <a href="/random" class="nav-link"><i class="fas fa-dice-d6"></i> 随机</a>
                 <a href="/tags" class="nav-link"><i class="fas fa-tags"></i> 标签</a>
+                <a href="/recent-discussions" class="nav-link"><i class="fas fa-comments"></i> 讨论</a>
             </div>
         </div>
         <div class="nav-right">
@@ -608,9 +609,12 @@
         try {
             const html = marked.parse(markdown);
             previewDiv.innerHTML = html;
+        
+            // 高亮代码
             previewDiv.querySelectorAll('pre code').forEach(block => {
                 hljs.highlightElement(block);
             });
+        
         } catch (e) {
             previewDiv.innerHTML = `<div style="color: #ff6b6b;">解析错误: ${e.message}</div>`;
         }

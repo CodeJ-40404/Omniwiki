@@ -331,49 +331,79 @@ def delete_page(page_name):
 
 # ==================== 路由：搜索 ====================
 
+@app.route('/api/search')
+def api_search():
+    """搜索API（用于前端自动补全）"""
+    query = request.args.get('q', '').strip().lower()
+    
+    print(f"API搜索请求: {query}")  # 调试用
+    
+    if not query:
+        return jsonify([])
+    
+    data = load_data()
+    results = []
+    
+    for name, page in data['pages'].items():
+        if query in name.lower() or query in page.get('title', '').lower():
+            results.append({
+                'name': name,
+                'title': page.get('title', name)
+            })
+    
+    print(f"API搜索结果: {len(results)} 条")  # 调试用
+    return jsonify(results[:10])
+
 @app.route('/search')
 def search_page():
     """搜索页面"""
     query = request.args.get('q', '').strip()
-    data = load_data()
+    
+    print(f"搜索页面请求: {query}")  # 调试用
     
     if not query:
         return redirect(url_for('index'))
     
+    data = load_data()
     results = []
+    
     for name, page in data['pages'].items():
         score = 0
         if query.lower() in name.lower():
             score += 10
-        if query.lower() in page['title'].lower():
-            score += 5
-        if query.lower() in page['content'].lower():
+        if query.lower() in page.get('title', '').lower():
+            score += 8
+        for tag in page.get('tags', []):
+            if query.lower() in tag.lower():
+                score += 5
+        if query.lower() in page.get('content', '').lower():
             score += 1
+        
         if score > 0:
+            content = page.get('content', '')
+            excerpt = content[:300].replace('\n', ' ')
+            import re
+            pattern = re.compile(f'({re.escape(query)})', re.IGNORECASE)
+            excerpt = pattern.sub(r'<mark>\1</mark>', excerpt)
+            
             results.append({
                 'name': name,
-                'title': page['title'],
-                'excerpt': page['content'][:200].replace('\n', ' '),
+                'title': page.get('title', name),
+                'author': page.get('author', '未知'),
+                'last_edit': page.get('last_edit', ''),
+                'views': page.get('views', 0),
+                'tags': page.get('tags', []),
+                'excerpt': excerpt,
                 'score': score
             })
     
     results.sort(key=lambda x: x['score'], reverse=True)
     
-    return render_template('search.html',
-                         query=query,
+    return render_template('search.html', 
+                         query=query, 
                          results=results,
                          username=session.get('username'),
                          user_avatar=session.get('avatar'))
-
-@app.route('/api/search')
-def api_search():
-    """搜索API（用于前端自动补全）"""
-    query = request.args.get('q', '').lower()
-    data = load_data()
-    results = [{'name': p, 'title': data['pages'][p]['title']} 
-               for p in data['pages'].keys() if query in p.lower()]
-    return jsonify(results[:10])
-
 # ==================== 路由：用户系统 ====================
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -797,6 +827,503 @@ def create_page():
                          prefill_name=prefill_name, 
                          username=session.get('username'), 
                          user_avatar=session.get('avatar'))
+
+
+
+# ==================== 讨论区系统 ====================
+
+DISCUSSIONS_FILE = 'discussions_data.json'
+
+def init_discussions_file():
+    """初始化讨论数据文件"""
+    if not os.path.exists(DISCUSSIONS_FILE):
+        default_data = {}
+        with open(DISCUSSIONS_FILE, 'w', encoding='utf-8') as f:
+            json.dump(default_data, f, ensure_ascii=False, indent=2)
+
+def load_discussions():
+    """加载所有讨论"""
+    with open(DISCUSSIONS_FILE, 'r', encoding='utf-8') as f:
+        return json.load(f)
+
+def save_discussions(discussions):
+    """保存讨论"""
+    with open(DISCUSSIONS_FILE, 'w', encoding='utf-8') as f:
+        json.dump(discussions, f, ensure_ascii=False, indent=2)
+
+@app.route('/discussions/<page_name>')
+def view_discussions(page_name):
+    """查看页面的讨论区"""
+    data = load_data()
+    if page_name not in data['pages']:
+        return redirect(url_for('index'))
+    
+    discussions_data = load_discussions()
+    page_discussions = discussions_data.get(page_name, [])
+    # 按时间倒序
+    page_discussions.sort(key=lambda x: x.get('created_at', ''), reverse=True)
+    
+    # 统计讨论数量
+    topic_count = len(page_discussions)
+    reply_count = sum(len(t.get('replies', [])) for t in page_discussions)
+    
+    return render_template('discussions.html',
+                         page_name=page_name,
+                         page=data['pages'][page_name],
+                         discussions=page_discussions,
+                         topic_count=topic_count,
+                         reply_count=reply_count,
+                         username=session.get('username'),
+                         user_avatar=session.get('avatar'))
+
+@app.route('/api/discussions/<page_name>', methods=['GET'])
+def get_discussions(page_name):
+    """获取页面的讨论列表API"""
+    discussions_data = load_discussions()
+    page_discussions = discussions_data.get(page_name, [])
+    page_discussions.sort(key=lambda x: x.get('created_at', ''), reverse=True)
+    return jsonify(page_discussions)
+
+@app.route('/api/discussions/<page_name>/topic', methods=['POST'])
+@login_required
+def create_topic(page_name):
+    """创建新话题"""
+    data = request.json
+    title = data.get('title', '').strip()
+    content = data.get('content', '').strip()
+    
+    if not title:
+        return jsonify({'error': '标题不能为空'}), 400
+    if not content:
+        return jsonify({'error': '内容不能为空'}), 400
+    if len(title) > 200:
+        return jsonify({'error': '标题不能超过200字'}), 400
+    if len(content) > 5000:
+        return jsonify({'error': '内容不能超过5000字'}), 400
+    
+    discussions_data = load_discussions()
+    if page_name not in discussions_data:
+        discussions_data[page_name] = []
+    
+    topic_id = int(datetime.now().timestamp() * 1000)
+    
+    new_topic = {
+        'id': topic_id,
+        'title': title,
+        'content': content,
+        'author': session['username'],
+        'avatar': session.get('avatar', session['username'][0].upper()),
+        'created_at': datetime.now().strftime("%Y-%m-%d %H:%M"),
+        'timestamp': datetime.now().timestamp(),
+        'views': 0,
+        'likes': 0,
+        'reply_count': 0,
+        'is_pinned': False,
+        'is_closed': False,
+        'replies': []
+    }
+    
+    discussions_data[page_name].append(new_topic)
+    save_discussions(discussions_data)
+    
+    # 记录活动
+    add_activity(f"在「{page_name}」的讨论区发起了新话题「{title}」", session['username'], page_name)
+    
+    return jsonify(new_topic), 201
+
+@app.route('/api/discussions/<page_name>/topic/<int:topic_id>/reply', methods=['POST'])
+@login_required
+def add_reply(page_name, topic_id):
+    """回复话题"""
+    data = request.json
+    content = data.get('content', '').strip()
+    
+    if not content:
+        return jsonify({'error': '回复内容不能为空'}), 400
+    if len(content) > 3000:
+        return jsonify({'error': '回复内容不能超过3000字'}), 400
+    
+    discussions_data = load_discussions()
+    
+    if page_name not in discussions_data:
+        return jsonify({'error': '讨论不存在'}), 404
+    
+    for topic in discussions_data[page_name]:
+        if topic['id'] == topic_id:
+            if topic.get('is_closed', False):
+                return jsonify({'error': '该话题已关闭，无法回复'}), 403
+            
+            reply_id = int(datetime.now().timestamp() * 1000)
+            new_reply = {
+                'id': reply_id,
+                'content': content,
+                'author': session['username'],
+                'avatar': session.get('avatar', session['username'][0].upper()),
+                'created_at': datetime.now().strftime("%Y-%m-%d %H:%M"),
+                'timestamp': datetime.now().timestamp(),
+                'likes': 0,
+                'reply_to': None
+            }
+            topic['replies'].append(new_reply)
+            topic['reply_count'] = topic.get('reply_count', 0) + 1
+            save_discussions(discussions_data)
+            
+            add_activity(f"在「{page_name}」的讨论区回复了话题「{topic['title']}」", session['username'], page_name)
+            
+            return jsonify(new_reply), 201
+    
+    return jsonify({'error': '话题不存在'}), 404
+
+@app.route('/api/discussions/<page_name>/topic/<int:topic_id>/like', methods=['POST'])
+@login_required
+def like_topic(page_name, topic_id):
+    """点赞话题"""
+    discussions_data = load_discussions()
+    
+    if page_name not in discussions_data:
+        return jsonify({'error': '讨论不存在'}), 404
+    
+    for topic in discussions_data[page_name]:
+        if topic['id'] == topic_id:
+            topic['likes'] = topic.get('likes', 0) + 1
+            save_discussions(discussions_data)
+            return jsonify({'likes': topic['likes']})
+    
+    return jsonify({'error': '话题不存在'}), 404
+
+@app.route('/api/discussions/<page_name>/topic/<int:topic_id>/reply/<int:reply_id>/like', methods=['POST'])
+@login_required
+def like_reply(page_name, topic_id, reply_id):
+    """点赞回复"""
+    discussions_data = load_discussions()
+    
+    if page_name not in discussions_data:
+        return jsonify({'error': '讨论不存在'}), 404
+    
+    for topic in discussions_data[page_name]:
+        if topic['id'] == topic_id:
+            for reply in topic.get('replies', []):
+                if reply['id'] == reply_id:
+                    reply['likes'] = reply.get('likes', 0) + 1
+                    save_discussions(discussions_data)
+                    return jsonify({'likes': reply['likes']})
+    
+    return jsonify({'error': '回复不存在'}), 404
+
+@app.route('/api/discussions/<page_name>/topic/<int:topic_id>/close', methods=['POST'])
+@login_required
+def close_topic(page_name, topic_id):
+    """关闭/开启话题（仅管理员或作者）"""
+    discussions_data = load_discussions()
+    username = session['username']
+    role = session.get('role', 'user')
+    
+    if page_name not in discussions_data:
+        return jsonify({'error': '讨论不存在'}), 404
+    
+    for topic in discussions_data[page_name]:
+        if topic['id'] == topic_id:
+            if topic['author'] == username or role == 'admin':
+                topic['is_closed'] = not topic.get('is_closed', False)
+                save_discussions(discussions_data)
+                return jsonify({'is_closed': topic['is_closed']})
+            return jsonify({'error': '无权操作'}), 403
+    
+    return jsonify({'error': '话题不存在'}), 404
+
+@app.route('/api/discussions/<page_name>/topic/<int:topic_id>/pin', methods=['POST'])
+@login_required
+def pin_topic(page_name, topic_id):
+    """置顶话题（仅管理员）"""
+    if session.get('role') != 'admin':
+        return jsonify({'error': '需要管理员权限'}), 403
+    
+    discussions_data = load_discussions()
+    
+    if page_name not in discussions_data:
+        return jsonify({'error': '讨论不存在'}), 404
+    
+    for topic in discussions_data[page_name]:
+        if topic['id'] == topic_id:
+            topic['is_pinned'] = not topic.get('is_pinned', False)
+            save_discussions(discussions_data)
+            return jsonify({'is_pinned': topic['is_pinned']})
+    
+    return jsonify({'error': '话题不存在'}), 404
+
+@app.route('/api/discussions/<page_name>/topic/<int:topic_id>', methods=['DELETE'])
+@login_required
+def delete_topic(page_name, topic_id):
+    """删除话题（仅管理员或作者）"""
+    discussions_data = load_discussions()
+    username = session['username']
+    role = session.get('role', 'user')
+    
+    if page_name not in discussions_data:
+        return jsonify({'error': '讨论不存在'}), 404
+    
+    for i, topic in enumerate(discussions_data[page_name]):
+        if topic['id'] == topic_id:
+            if topic['author'] == username or role == 'admin':
+                del discussions_data[page_name][i]
+                save_discussions(discussions_data)
+                add_activity(f"删除了「{page_name}」讨论区的话题「{topic['title']}」", username, page_name)
+                return jsonify({'success': True})
+            return jsonify({'error': '无权删除'}), 403
+    
+    return jsonify({'error': '话题不存在'}), 404
+
+
+@app.route('/recent-discussions')
+def recent_discussions():
+    """最新讨论 - 全局讨论区首页"""
+    discussions_data = load_discussions()
+    
+    # 收集所有话题
+    all_topics = []
+    for page_name, topics in discussions_data.items():
+        for topic in topics:
+            topic['page_name'] = page_name
+            # 获取页面标题
+            data = load_data()
+            page_title = data['pages'].get(page_name, {}).get('title', page_name)
+            topic['page_title'] = page_title
+            all_topics.append(topic)
+    
+    # 按时间倒序排序
+    all_topics.sort(key=lambda x: x.get('created_at', ''), reverse=True)
+    
+    return render_template('recent_discussions.html',
+                         topics=all_topics[:50],  # 只显示最近50条
+                         username=session.get('username'),
+                         user_avatar=session.get('avatar'))
+
+@app.route('/hot-discussions')
+def hot_discussions():
+    """热门讨论 - 按回复数和点赞数排序"""
+    discussions_data = load_discussions()
+    
+    # 收集所有话题
+    all_topics = []
+    for page_name, topics in discussions_data.items():
+        for topic in topics:
+            topic['page_name'] = page_name
+            data = load_data()
+            page_title = data['pages'].get(page_name, {}).get('title', page_name)
+            topic['page_title'] = page_title
+            # 计算热度 = 点赞数 + 回复数 * 2 + 浏览量 * 0.5
+            topic['hot_score'] = (topic.get('likes', 0) + 
+                                  topic.get('reply_count', 0) * 2 + 
+                                  topic.get('views', 0) * 0.5)
+            all_topics.append(topic)
+    
+    # 按热度排序
+    all_topics.sort(key=lambda x: x.get('hot_score', 0), reverse=True)
+    
+    return render_template('hot_discussions.html',
+                         topics=all_topics[:50],
+                         username=session.get('username'),
+                         user_avatar=session.get('avatar'))
+
+@app.route('/my-discussions')
+@login_required
+def my_discussions():
+    """我的讨论 - 用户参与的话题"""
+    discussions_data = load_discussions()
+    username = session['username']
+    
+    my_topics = []
+    for page_name, topics in discussions_data.items():
+        for topic in topics:
+            # 我发起的话题
+            if topic['author'] == username:
+                topic['page_name'] = page_name
+                data = load_data()
+                page_title = data['pages'].get(page_name, {}).get('title', page_name)
+                topic['page_title'] = page_title
+                topic['my_role'] = 'author'
+                my_topics.append(topic)
+            # 我回复过的话题
+            for reply in topic.get('replies', []):
+                if reply['author'] == username:
+                    # 避免重复添加
+                    if not any(t.get('id') == topic['id'] for t in my_topics):
+                        topic_copy = topic.copy()
+                        topic_copy['page_name'] = page_name
+                        data = load_data()
+                        page_title = data['pages'].get(page_name, {}).get('title', page_name)
+                        topic_copy['page_title'] = page_title
+                        topic_copy['my_role'] = 'replied'
+                        my_topics.append(topic_copy)
+                    break
+    
+    my_topics.sort(key=lambda x: x.get('created_at', ''), reverse=True)
+    
+    return render_template('my_discussions.html',
+                         topics=my_topics,
+                         username=username,
+                         user_avatar=session.get('avatar'))
+
+@app.route('/api/all-discussions')
+def api_all_discussions():
+    """获取所有讨论（用于最新讨论页面）"""
+    discussions_data = load_discussions()
+    data = load_data()
+    
+    all_topics = []
+    for page_name, topics in discussions_data.items():
+        page_title = data['pages'].get(page_name, {}).get('title', page_name)
+        for topic in topics:
+            topic['page_name'] = page_name
+            topic['page_title'] = page_title
+            all_topics.append(topic)
+    
+    all_topics.sort(key=lambda x: x.get('created_at', ''), reverse=True)
+    return jsonify(all_topics)
+
+@app.route('/api/hot-discussions-full')
+def api_hot_discussions_full():
+    """获取热门讨论完整数据"""
+    discussions_data = load_discussions()
+    data = load_data()
+    
+    all_topics = []
+    for page_name, topics in discussions_data.items():
+        page_title = data['pages'].get(page_name, {}).get('title', page_name)
+        for topic in topics:
+            topic['page_name'] = page_name
+            topic['page_title'] = page_title
+            # 热度计算：点赞 + 回复数*3 + 浏览量*0.3
+            topic['hot_score'] = (topic.get('likes', 0) + 
+                                  topic.get('reply_count', 0) * 3 + 
+                                  topic.get('views', 0) * 0.3)
+            all_topics.append(topic)
+    
+    all_topics.sort(key=lambda x: x.get('hot_score', 0), reverse=True)
+    return jsonify(all_topics[:50])
+
+@app.route('/api/discussions-stats')
+def api_discussions_stats():
+    """获取讨论区统计数据"""
+    discussions_data = load_discussions()
+    data = load_data()
+    
+    total_topics = 0
+    total_replies = 0
+    participants = set()
+    today_active = 0
+    today = datetime.now().strftime("%Y-%m-%d")
+    
+    for page_name, topics in discussions_data.items():
+        for topic in topics:
+            total_topics += 1
+            total_replies += topic.get('reply_count', 0)
+            participants.add(topic['author'])
+            for reply in topic.get('replies', []):
+                participants.add(reply['author'])
+                if reply.get('created_at', '').startswith(today):
+                    today_active += 1
+            if topic.get('created_at', '').startswith(today):
+                today_active += 1
+    
+    return jsonify({
+        'total_topics': total_topics,
+        'total_replies': total_replies,
+        'total_participants': len(participants),
+        'today_active': today_active
+    })
+
+@app.route('/api/my-discussions')
+@login_required
+def api_my_discussions():
+    """获取当前用户的讨论"""
+    discussions_data = load_discussions()
+    data = load_data()
+    username = session['username']
+    
+    my_topics = []
+    for page_name, topics in discussions_data.items():
+        page_title = data['pages'].get(page_name, {}).get('title', page_name)
+        for topic in topics:
+            if topic['author'] == username:
+                topic_copy = topic.copy()
+                topic_copy['page_name'] = page_name
+                topic_copy['page_title'] = page_title
+                topic_copy['my_role'] = 'author'
+                my_topics.append(topic_copy)
+            else:
+                for reply in topic.get('replies', []):
+                    if reply['author'] == username:
+                        topic_copy = topic.copy()
+                        topic_copy['page_name'] = page_name
+                        topic_copy['page_title'] = page_title
+                        topic_copy['my_role'] = 'replied'
+                        my_topics.append(topic_copy)
+                        break
+    
+    # 去重（如果既是作者又是回复者，只显示为作者）
+    seen_ids = set()
+    unique_topics = []
+    for topic in my_topics:
+        if topic['id'] not in seen_ids:
+            seen_ids.add(topic['id'])
+            unique_topics.append(topic)
+    
+    unique_topics.sort(key=lambda x: x.get('created_at', ''), reverse=True)
+    
+    stats = {
+        'total': len([t for t in unique_topics if t['my_role'] == 'author']),
+        'replies': len([t for t in unique_topics if t['my_role'] == 'replied'])
+    }
+    
+    return jsonify({'topics': unique_topics, 'stats': stats})
+
+@app.route('/api/my-discussions-full')
+@login_required
+def api_my_discussions_full():
+    """获取当前用户的完整讨论数据"""
+    discussions_data = load_discussions()
+    data = load_data()
+    username = session['username']
+    
+    # 收集所有参与的话题
+    topic_map = {}
+    
+    for page_name, topics in discussions_data.items():
+        page_title = data['pages'].get(page_name, {}).get('title', page_name)
+        for topic in topics:
+            # 我发起的话题
+            if topic['author'] == username:
+                topic_copy = topic.copy()
+                topic_copy['page_name'] = page_name
+                topic_copy['page_title'] = page_title
+                topic_copy['my_role'] = 'author'
+                topic_map[topic['id']] = topic_copy
+            
+            # 我回复过的话题
+            for reply in topic.get('replies', []):
+                if reply['author'] == username:
+                    if topic['id'] not in topic_map:
+                        topic_copy = topic.copy()
+                        topic_copy['page_name'] = page_name
+                        topic_copy['page_title'] = page_title
+                        topic_copy['my_role'] = 'replied'
+                        topic_copy['my_reply'] = reply
+                        topic_map[topic['id']] = topic_copy
+    
+    # 转换为列表并排序
+    my_topics = list(topic_map.values())
+    my_topics.sort(key=lambda x: x.get('created_at', ''), reverse=True)
+    
+    # 统计信息
+    stats = {
+        'authored': len([t for t in my_topics if t['my_role'] == 'author']),
+        'replied': len([t for t in my_topics if t['my_role'] == 'replied']),
+        'totalLikes': sum(t.get('likes', 0) for t in my_topics),
+        'rank': 0  # 可以后续实现排名计算
+    }
+    
+    return jsonify({'topics': my_topics, 'stats': stats})
 
 # ==================== 启动服务器 ====================
 

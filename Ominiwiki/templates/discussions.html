@@ -1,0 +1,1037 @@
+<!-- templates/discussions.html - 参照edit.html风格重新设计的讨论区页面 -->
+{% extends "base.html" %}
+
+{% block title %}讨论区 - {{ page.title }}{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<style>
+    /* 讨论区容器 - 参照edit.html风格 */
+    .discussions-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    /* 头部区域 */
+    .discussions-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: 20px;
+        margin-bottom: 32px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid var(--border-light);
+    }
+
+    .header-left h1 {
+        font-size: 1.8rem;
+        margin-bottom: 8px;
+        background: linear-gradient(135deg, #fff, var(--accent-gold));
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+    }
+
+    .discussion-subtitle {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+    }
+
+        .discussion-subtitle a {
+            color: var(--accent-gold);
+            text-decoration: none;
+        }
+
+    .discussion-stats {
+        display: flex;
+        gap: 24px;
+        margin-bottom: 12px;
+    }
+
+        .discussion-stats span {
+            background: var(--surface-card);
+            padding: 6px 14px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            border: 1px solid var(--border-light);
+        }
+
+        .discussion-stats i {
+            margin-right: 6px;
+            color: var(--accent-gold);
+        }
+
+    /* 标签页 */
+    .discussions-tabs {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 24px;
+        border-bottom: 1px solid var(--border-light);
+        padding-bottom: 12px;
+    }
+
+    .tab-btn {
+        background: transparent;
+        border: none;
+        padding: 8px 20px;
+        border-radius: 40px;
+        color: var(--text-muted);
+        cursor: pointer;
+        transition: all 0.2s;
+        font-size: 0.9rem;
+    }
+
+        .tab-btn:hover {
+            color: var(--accent-gold);
+            background: var(--surface-hover);
+        }
+
+        .tab-btn.active {
+            background: var(--accent-gold);
+            color: #0f0f12;
+        }
+
+    /* 话题列表 */
+    .topics-list {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .topic-item {
+        background: var(--surface-card);
+        border-radius: 20px;
+        padding: 20px;
+        border: 1px solid var(--border-light);
+        transition: all 0.2s;
+        cursor: pointer;
+    }
+
+        .topic-item:hover {
+            border-color: var(--accent-gold);
+            transform: translateX(4px);
+        }
+
+        .topic-item.pinned {
+            border-left: 4px solid var(--accent-gold);
+            background: rgba(255, 194, 68, 0.05);
+        }
+
+        .topic-item.closed {
+            opacity: 0.6;
+        }
+
+    .topic-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-bottom: 12px;
+    }
+
+    .topic-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+    }
+
+        .topic-title a {
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+            .topic-title a:hover {
+                color: var(--accent-gold);
+            }
+
+    .topic-badges {
+        display: flex;
+        gap: 6px;
+    }
+
+    .badge-pinned {
+        background: var(--accent-gold);
+        color: #0f0f12;
+        padding: 2px 8px;
+        border-radius: 20px;
+        font-size: 0.65rem;
+        font-weight: 600;
+    }
+
+    .badge-closed {
+        background: rgba(255, 85, 85, 0.2);
+        color: #ff6b6b;
+        padding: 2px 8px;
+        border-radius: 20px;
+        font-size: 0.65rem;
+    }
+
+    .topic-meta {
+        display: flex;
+        gap: 20px;
+        font-size: 0.7rem;
+        color: var(--text-muted);
+        margin-bottom: 12px;
+    }
+
+    .topic-preview {
+        color: var(--text-secondary);
+        font-size: 0.85rem;
+        margin-bottom: 12px;
+        line-height: 1.5;
+    }
+
+    .topic-stats {
+        display: flex;
+        gap: 16px;
+        font-size: 0.7rem;
+        color: var(--text-muted);
+    }
+
+        .topic-stats span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+    /* 话题详情视图 - 参照edit.html的预览区风格 */
+    .topic-detail-view {
+        background: var(--surface-card);
+        border-radius: 24px;
+        border: 1px solid var(--border-light);
+        overflow: hidden;
+    }
+
+    .topic-detail-header {
+        padding: 24px;
+        border-bottom: 1px solid var(--border-light);
+        background: var(--bg-sidebar);
+    }
+
+    .topic-detail-title {
+        font-size: 1.5rem;
+        margin-bottom: 12px;
+    }
+
+    .topic-detail-meta {
+        display: flex;
+        gap: 20px;
+        font-size: 0.8rem;
+        color: var(--text-muted);
+    }
+
+    .topic-detail-content {
+        padding: 24px;
+        border-bottom: 1px solid var(--border-light);
+    }
+
+        .topic-detail-content .markdown-body {
+            line-height: 1.7;
+        }
+
+    /* 回复区域 */
+    .replies-section {
+        padding: 24px;
+    }
+
+    .replies-title {
+        font-size: 1rem;
+        margin-bottom: 20px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid var(--border-light);
+    }
+
+    .reply-item {
+        padding: 20px 0;
+        border-bottom: 1px solid var(--border-light);
+    }
+
+        .reply-item:last-child {
+            border-bottom: none;
+        }
+
+    .reply-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+        flex-wrap: wrap;
+    }
+
+    .reply-author {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .reply-avatar {
+        width: 32px;
+        height: 32px;
+        background: linear-gradient(135deg, var(--accent-gold), #ffa500);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 0.8rem;
+    }
+
+    .reply-author-name {
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
+
+    .reply-time {
+        font-size: 0.7rem;
+        color: var(--text-muted);
+    }
+
+    .reply-content {
+        margin-left: 42px;
+        color: var(--text-secondary);
+        line-height: 1.6;
+    }
+
+    .reply-actions {
+        margin-left: 42px;
+        margin-top: 12px;
+        display: flex;
+        gap: 16px;
+    }
+
+    .reply-action-btn {
+        background: transparent;
+        border: none;
+        color: var(--text-muted);
+        cursor: pointer;
+        font-size: 0.7rem;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        transition: all 0.2s;
+    }
+
+        .reply-action-btn:hover {
+            color: var(--accent-gold);
+        }
+
+    /* 模态窗 - 参照edit.html风格 */
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(8px);
+        justify-content: center;
+        align-items: center;
+        z-index: 2000;
+    }
+
+    .modal-content {
+        background: var(--surface-card);
+        border-radius: 24px;
+        max-width: 800px;
+        width: 90%;
+        max-height: 85vh;
+        overflow-y: auto;
+        border: 1px solid var(--border-light);
+        animation: modalFadeIn 0.3s ease;
+    }
+
+    @keyframes modalFadeIn {
+        from {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    .modal-header {
+        padding: 20px 24px;
+        border-bottom: 1px solid var(--border-light);
+        background: var(--bg-sidebar);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+        .modal-header h2 {
+            font-size: 1.3rem;
+            margin: 0;
+        }
+
+    .close-modal {
+        font-size: 28px;
+        cursor: pointer;
+        color: var(--text-muted);
+        transition: all 0.2s;
+    }
+
+        .close-modal:hover {
+            color: var(--accent-gold);
+        }
+
+    /* 编辑器样式 - 参照edit.html */
+    .editor-toolbar-mini {
+        background: var(--bg-sidebar);
+        border-bottom: 1px solid var(--border-light);
+        padding: 8px 12px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+    }
+
+    .tool-btn-mini {
+        background: transparent;
+        border: none;
+        width: 28px;
+        height: 28px;
+        border-radius: 6px;
+        color: var(--text-muted);
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+        .tool-btn-mini:hover {
+            background: var(--surface-hover);
+            color: var(--accent-gold);
+        }
+
+    .form-group {
+        padding: 16px 24px;
+    }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--accent-gold);
+        }
+
+    .form-input, .form-textarea {
+        width: 100%;
+        background: var(--bg-dark);
+        border: 1px solid var(--border-light);
+        border-radius: 12px;
+        padding: 12px 16px;
+        color: var(--text-primary);
+        font-family: inherit;
+        font-size: 0.9rem;
+    }
+
+    .form-textarea {
+        resize: vertical;
+        font-family: 'JetBrains Mono', monospace;
+    }
+
+        .form-input:focus, .form-textarea:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+        }
+
+    .form-hint {
+        font-size: 0.7rem;
+        color: var(--text-muted);
+        margin-top: 6px;
+    }
+
+    .modal-actions {
+        padding: 16px 24px;
+        border-top: 1px solid var(--border-light);
+        display: flex;
+        justify-content: flex-end;
+        gap: 12px;
+    }
+
+    .reply-topic-title {
+        background: var(--bg-dark);
+        margin: 0 24px 16px 24px;
+        padding: 12px 16px;
+        border-radius: 12px;
+        font-size: 0.9rem;
+        color: var(--accent-gold);
+        border: 1px solid var(--border-light);
+    }
+
+    .back-btn {
+        margin-bottom: 20px;
+    }
+
+    .loading-spinner {
+        text-align: center;
+        padding: 60px;
+        color: var(--text-muted);
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 60px;
+        background: var(--surface-card);
+        border-radius: 24px;
+        border: 1px solid var(--border-light);
+    }
+
+        .empty-state i {
+            font-size: 3rem;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+
+    .toast {
+        position: fixed;
+        bottom: 80px;
+        right: 24px;
+        background: var(--surface-card);
+        border-left: 4px solid var(--accent-gold);
+        padding: 12px 20px;
+        border-radius: 12px;
+        color: var(--text-primary);
+        z-index: 3000;
+        animation: slideIn 0.3s ease;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+
+    @keyframes slideIn {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="discussions-container">
+    <!-- 讨论区头部 -->
+    <div class="discussions-header">
+        <div class="header-left">
+            <h1><i class="fas fa-comments"></i> 讨论区</h1>
+            <p class="discussion-subtitle">
+                关于 <a href="/page/{{ page_name }}">{{ page.title }}</a> 的讨论
+            </p>
+        </div>
+        <div class="header-right">
+            <div class="discussion-stats">
+                <span><i class="fas fa-file-alt"></i> <span id="topicCount">{{ topic_count }}</span> 个话题</span>
+                <span><i class="fas fa-reply-all"></i> <span id="replyCount">{{ reply_count }}</span> 条回复</span>
+            </div>
+            {% if username %}
+            <button id="newTopicBtn" class="btn-primary">
+                <i class="fas fa-plus-circle"></i> 发起新话题
+            </button>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- 标签页 -->
+    <div class="discussions-tabs">
+        <button class="tab-btn active" data-tab="latest"><i class="fas fa-clock"></i> 最新</button>
+        <button class="tab-btn" data-tab="hot"><i class="fas fa-fire"></i> 最热</button>
+        <button class="tab-btn" data-tab="pinned"><i class="fas fa-thumbtack"></i> 置顶</button>
+    </div>
+
+    <!-- 话题列表 -->
+    <div id="topicsList" class="topics-list">
+        <div class="loading-spinner">
+            <i class="fas fa-spinner fa-pulse"></i> 加载讨论中...
+        </div>
+    </div>
+</div>
+
+<!-- 发起新话题模态窗 - 参照edit.html风格 -->
+<div id="newTopicModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2><i class="fas fa-plus-circle"></i> 发起新话题</h2>
+            <span class="close-modal" onclick="closeModal('newTopicModal')">&times;</span>
+        </div>
+
+        <!-- 迷你工具栏 -->
+        <div class="editor-toolbar-mini">
+            <button type="button" class="tool-btn-mini" data-editor="topic" data-action="bold" title="粗体"><i class="fas fa-bold"></i></button>
+            <button type="button" class="tool-btn-mini" data-editor="topic" data-action="italic" title="斜体"><i class="fas fa-italic"></i></button>
+            <button type="button" class="tool-btn-mini" data-editor="topic" data-action="heading" title="标题"><i class="fas fa-heading"></i></button>
+            <button type="button" class="tool-btn-mini" data-editor="topic" data-action="link" title="链接"><i class="fas fa-link"></i></button>
+            <button type="button" class="tool-btn-mini" data-editor="topic" data-action="code" title="代码"><i class="fas fa-code"></i></button>
+            <button type="button" class="tool-btn-mini" data-editor="topic" data-action="quote" title="引用"><i class="fas fa-quote-right"></i></button>
+        </div>
+
+        <form id="newTopicForm">
+            <div class="form-group">
+                <label><i class="fas fa-heading"></i> 标题</label>
+                <input type="text" id="topicTitle" class="form-input" placeholder="简明扼要地描述你的问题或建议..." maxlength="200">
+                <div class="form-hint">不超过200字</div>
+            </div>
+            <div class="form-group">
+                <label><i class="fas fa-pen"></i> 内容</label>
+                <textarea id="topicContent" class="form-textarea" rows="8" placeholder="详细描述你的想法...&#10;&#10;支持 **Markdown** 语法"></textarea>
+                <div class="form-hint">支持 Markdown 语法，不超过5000字</div>
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="btn-outline" onclick="closeModal('newTopicModal')">取消</button>
+                <button type="submit" class="btn-primary">发布话题</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- 回复模态窗 - 参照edit.html风格 -->
+<div id="replyModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2><i class="fas fa-reply"></i> 回复话题</h2>
+            <span class="close-modal" onclick="closeModal('replyModal')">&times;</span>
+        </div>
+
+        <!-- 迷你工具栏 -->
+        <div class="editor-toolbar-mini">
+            <button type="button" class="tool-btn-mini" data-editor="reply" data-action="bold" title="粗体"><i class="fas fa-bold"></i></button>
+            <button type="button" class="tool-btn-mini" data-editor="reply" data-action="italic" title="斜体"><i class="fas fa-italic"></i></button>
+            <button type="button" class="tool-btn-mini" data-editor="reply" data-action="code" title="代码"><i class="fas fa-code"></i></button>
+            <button type="button" class="tool-btn-mini" data-editor="reply" data-action="quote" title="引用"><i class="fas fa-quote-right"></i></button>
+        </div>
+
+        <div id="replyTopicTitle" class="reply-topic-title"></div>
+        <form id="replyForm">
+            <div class="form-group">
+                <textarea id="replyContent" class="form-textarea" rows="6" placeholder="写下你的回复...&#10;&#10;支持 **Markdown** 语法"></textarea>
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="btn-outline" onclick="closeModal('replyModal')">取消</button>
+                <button type="submit" class="btn-primary">发布回复</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    const PAGE_NAME = '{{ page_name }}';
+    let discussionsData = [];
+    let currentView = 'list';
+    let currentTopic = null;
+    let currentSort = 'latest';
+
+    // Markdown 渲染
+    function renderMarkdown(text) {
+        if (!text) return '';
+        return marked.parse(text);
+    }
+
+    // 显示提示
+    function showToast(message, type = 'success') {
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i> ${message}`;
+        if (type === 'error') toast.style.borderLeftColor = '#ff6b6b';
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 3000);
+    }
+
+    // 关闭模态窗
+    function closeModal(modalId) {
+        document.getElementById(modalId).style.display = 'none';
+    }
+
+    // 编辑器工具栏功能
+    function setupEditorToolbar(editorId, textareaId) {
+        const btns = document.querySelectorAll(`.tool-btn-mini[data-editor="${editorId}"]`);
+        const textarea = document.getElementById(textareaId);
+
+        function insertText(start, end, defaultText = '') {
+            const startPos = textarea.selectionStart;
+            const endPos = textarea.selectionEnd;
+            const selectedText = textarea.value.substring(startPos, endPos);
+            const replacement = start + (selectedText || defaultText) + end;
+            textarea.value = textarea.value.substring(0, startPos) + replacement + textarea.value.substring(endPos);
+            textarea.focus();
+            textarea.selectionStart = startPos + start.length;
+            textarea.selectionEnd = startPos + start.length + (selectedText || defaultText).length;
+        }
+
+        const actions = {
+            bold: () => insertText('**', '**'),
+            italic: () => insertText('*', '*'),
+            heading: () => insertText('# ', ''),
+            link: () => {
+                const url = prompt('输入链接地址:', 'https://');
+                if (url) insertText('[', `](${url})`, '链接文字');
+            },
+            code: () => insertText('`', '`'),
+            quote: () => insertText('> ', '')
+        };
+
+        btns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const action = btn.dataset.action;
+                if (actions[action]) actions[action]();
+            });
+        });
+    }
+
+    // 加载讨论列表
+    async function loadDiscussions() {
+        const topicsList = document.getElementById('topicsList');
+        topicsList.innerHTML = '<div class="loading-spinner"><i class="fas fa-spinner fa-pulse"></i> 加载讨论中...</div>';
+
+        try {
+            const response = await fetch(`/api/discussions/${encodeURIComponent(PAGE_NAME)}`);
+            discussionsData = await response.json();
+            renderTopicList();
+        } catch (error) {
+            topicsList.innerHTML = '<div class="empty-state"><i class="fas fa-exclamation-circle"></i><p>加载失败，请刷新重试</p></div>';
+        }
+    }
+
+    // 渲染话题列表
+    function renderTopicList() {
+        let filtered = [...discussionsData];
+
+        if (currentSort === 'hot') {
+            filtered.sort((a, b) => (b.likes || 0) - (a.likes || 0));
+        } else if (currentSort === 'pinned') {
+            filtered = filtered.filter(t => t.is_pinned);
+        } else {
+            filtered.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+        }
+
+        if (filtered.length === 0) {
+            document.getElementById('topicsList').innerHTML = `
+                <div class="empty-state">
+                    <i class="fas fa-comment-slash"></i>
+                    <p>暂无讨论话题</p>
+                    <p class="form-hint">成为第一个发起讨论的人吧！</p>
+                    {% if username %}
+                    <button class="btn-primary" id="emptyNewTopicBtn" style="margin-top: 16px;">发起第一个话题</button>
+                    {% endif %}
+                </div>
+            `;
+            const emptyBtn = document.getElementById('emptyNewTopicBtn');
+            if (emptyBtn) emptyBtn.addEventListener('click', () => {
+                document.getElementById('newTopicModal').style.display = 'flex';
+            });
+            return;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        document.getElementById('topicsList').innerHTML = filtered.map(topic => `
+            <div class="topic-item ${topic.is_pinned ? 'pinned' : ''} ${topic.is_closed ? 'closed' : ''}" data-topic-id="${topic.id}">
+                <div class="topic-header">
+                    <div class="topic-title">
+                        <a href="javascript:void(0)" onclick="viewTopic(${topic.id})">${escapeHtml(topic.title)}</a>
+                    </div>
+                    <div class="topic-badges">
+                        ${topic.is_pinned ? '<span class="badge-pinned"><i class="fas fa-thumbtack"></i> 置顶</span>' : ''}
+                        ${topic.is_closed ? '<span class="badge-closed"><i class="fas fa-lock"></i> 已关闭</span>' : ''}
+                    </div>
+                </div>
+                <div class="topic-meta">
+                    <span><i class="fas fa-user"></i> ${escapeHtml(topic.author)}</span>
+                    <span><i class="fas fa-clock"></i> ${topic.created_at}</span>
+                </div>
+                <div class="topic-preview">
+                    ${escapeHtml(topic.content.substring(0, 150))}${topic.content.length > 150 ? '...' : ''}
+                </div>
+                <div class="topic-stats">
+                    <span><i class="fas fa-thumbs-up"></i> ${topic.likes || 0}</span>
+                    <span><i class="fas fa-comment"></i> ${topic.reply_count || 0} 回复</span>
+                    <span><i class="fas fa-eye"></i> ${topic.views || 0}</span>
+                </div>
+            </div>
+        `).join('');
+
+        document.querySelectorAll('.topic-item').forEach(item => {
+            item.addEventListener('click', (e) => {
+                if (!e.target.closest('.topic-title a')) {
+                    const topicId = parseInt(item.dataset.topicId);
+                    viewTopic(topicId);
+                }
+            });
+        });
+    }
+
+    // 查看话题详情
+    async function viewTopic(topicId) {
+        const topic = discussionsData.find(t => t.id === topicId);
+        if (!topic) return;
+
+        currentTopic = topic;
+        currentView = 'detail';
+        topic.views = (topic.views || 0) + 1;
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        const topicsList = document.getElementById('topicsList');
+        topicsList.innerHTML = `
+            <div class="back-btn">
+                <button class="btn-outline" onclick="backToList()">
+                    <i class="fas fa-arrow-left"></i> 返回话题列表
+                </button>
+            </div>
+            <div class="topic-detail-view">
+                <div class="topic-detail-header">
+                    <h2 class="topic-detail-title">${escapeHtml(topic.title)}</h2>
+                    <div class="topic-detail-meta">
+                        <span><i class="fas fa-user"></i> ${escapeHtml(topic.author)}</span>
+                        <span><i class="fas fa-clock"></i> ${topic.created_at}</span>
+                        <span><i class="fas fa-thumbs-up"></i> <span id="topicLikes">${topic.likes || 0}</span></span>
+                        <span><i class="fas fa-comment"></i> ${topic.reply_count || 0} 回复</span>
+                    </div>
+                </div>
+                <div class="topic-detail-content">
+                    <div class="markdown-body">${renderMarkdown(topic.content)}</div>
+                    <div style="margin-top: 20px; display: flex; gap: 12px; flex-wrap: wrap;">
+                        <button class="reply-action-btn" onclick="likeTopic(${topic.id})">
+                            <i class="fas fa-thumbs-up"></i> 点赞
+                        </button>
+                        ${!topic.is_closed ? `
+                        <button class="reply-action-btn" onclick="showReplyModal(${topic.id})">
+                            <i class="fas fa-reply"></i> 回复
+                        </button>
+                        ` : ''}
+                        ${topic.author === '{{ username }}' || '{{ session.get("role") }}' === 'admin' ? `
+                        <button class="reply-action-btn" onclick="deleteTopic(${topic.id})">
+                            <i class="fas fa-trash"></i> 删除
+                        </button>
+                        ` : ''}
+                        ${'{{ session.get("role") }}' === 'admin' ? `
+                        <button class="reply-action-btn" onclick="togglePinTopic(${topic.id})">
+                            <i class="fas fa-thumbtack"></i> ${topic.is_pinned ? '取消置顶' : '置顶'}
+                        </button>
+                        <button class="reply-action-btn" onclick="toggleCloseTopic(${topic.id})">
+                            <i class="fas fa-lock"></i> ${topic.is_closed ? '开启' : '关闭'}
+                        </button>
+                        ` : ''}
+                    </div>
+                </div>
+                <div class="replies-section">
+                    <div class="replies-title">
+                        <i class="fas fa-comments"></i> ${topic.reply_count || 0} 条回复
+                    </div>
+                    <div id="repliesList">
+                        ${topic.replies && topic.replies.length > 0 ? topic.replies.map(reply => `
+                            <div class="reply-item" id="reply-${reply.id}">
+                                <div class="reply-header">
+                                    <div class="reply-author">
+                                        <div class="reply-avatar">${reply.avatar || reply.author[0].toUpperCase()}</div>
+                                        <div>
+                                            <div class="reply-author-name">${escapeHtml(reply.author)}</div>
+                                            <div class="reply-time">${reply.created_at}</div>
+                                        </div>
+                                    </div>
+                                    <div class="reply-actions">
+                                        <button class="reply-action-btn" onclick="likeReply(${topic.id}, ${reply.id})">
+                                            <i class="fas fa-thumbs-up"></i> ${reply.likes || 0}
+                                        </button>
+                                        ${reply.author === '{{ username }}' ? `
+                                        <button class="reply-action-btn" onclick="deleteReply(${topic.id}, ${reply.id})">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                        ` : ''}
+                                    </div>
+                                </div>
+                                <div class="reply-content">${renderMarkdown(reply.content)}</div>
+                            </div>
+                        `).join('') : '<div style="text-align: center; padding: 40px; color: var(--text-muted);">暂无回复，来做第一个回复的人吧！</div>'}
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    function backToList() {
+        currentView = 'list';
+        renderTopicList();
+    }
+
+    // API 调用函数
+    async function likeTopic(topicId) {
+        try {
+            const response = await fetch(`/api/discussions/${encodeURIComponent(PAGE_NAME)}/topic/${topicId}/like`, { method: 'POST' });
+            const data = await response.json();
+            if (data.likes !== undefined) {
+                document.getElementById('topicLikes').textContent = data.likes;
+                const topic = discussionsData.find(t => t.id === topicId);
+                if (topic) topic.likes = data.likes;
+                showToast('点赞成功');
+            }
+        } catch (error) { showToast('操作失败', 'error'); }
+    }
+
+    async function likeReply(topicId, replyId) {
+        try {
+            const response = await fetch(`/api/discussions/${encodeURIComponent(PAGE_NAME)}/topic/${topicId}/reply/${replyId}/like`, { method: 'POST' });
+            const data = await response.json();
+            if (data.likes !== undefined) {
+                const likeSpan = document.querySelector(`#reply-${replyId} .reply-action-btn:first-child`);
+                if (likeSpan) likeSpan.innerHTML = `<i class="fas fa-thumbs-up"></i> ${data.likes}`;
+                showToast('点赞成功');
+            }
+        } catch (error) { showToast('操作失败', 'error'); }
+    }
+
+    async function createTopic(title, content) {
+        try {
+            const response = await fetch(`/api/discussions/${encodeURIComponent(PAGE_NAME)}/topic`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ title, content })
+            });
+            if (response.ok) {
+                closeModal('newTopicModal');
+                await loadDiscussions();
+                showToast('话题发布成功！');
+            } else {
+                const error = await response.json();
+                showToast(error.error || '发布失败', 'error');
+            }
+        } catch (error) { showToast('网络错误', 'error'); }
+    }
+
+    async function addReply(topicId, content) {
+        try {
+            const response = await fetch(`/api/discussions/${encodeURIComponent(PAGE_NAME)}/topic/${topicId}/reply`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ content })
+            });
+            if (response.ok) {
+                closeModal('replyModal');
+                await viewTopic(topicId);
+                await loadDiscussions();
+                showToast('回复成功！');
+            } else {
+                const error = await response.json();
+                showToast(error.error || '回复失败', 'error');
+            }
+        } catch (error) { showToast('网络错误', 'error'); }
+    }
+
+    async function deleteTopic(topicId) {
+        if (!confirm('确定要删除这个话题吗？所有回复也会被删除。')) return;
+        try {
+            const response = await fetch(`/api/discussions/${encodeURIComponent(PAGE_NAME)}/topic/${topicId}`, { method: 'DELETE' });
+            if (response.ok) {
+                backToList();
+                await loadDiscussions();
+                showToast('话题已删除');
+            } else { showToast('删除失败', 'error'); }
+        } catch (error) { showToast('网络错误', 'error'); }
+    }
+
+    async function deleteReply(topicId, replyId) {
+        if (!confirm('确定要删除这条回复吗？')) return;
+        try {
+            const response = await fetch(`/api/discussions/${encodeURIComponent(PAGE_NAME)}/topic/${replyId}`, { method: 'DELETE' });
+            if (response.ok) {
+                await viewTopic(topicId);
+                await loadDiscussions();
+                showToast('回复已删除');
+            } else { showToast('删除失败', 'error'); }
+        } catch (error) { showToast('网络错误', 'error'); }
+    }
+
+    async function togglePinTopic(topicId) {
+        try {
+            const response = await fetch(`/api/discussions/${encodeURIComponent(PAGE_NAME)}/topic/${topicId}/pin`, { method: 'POST' });
+            if (response.ok) {
+                await viewTopic(topicId);
+                await loadDiscussions();
+                showToast('操作成功');
+            }
+        } catch (error) { showToast('操作失败', 'error'); }
+    }
+
+    async function toggleCloseTopic(topicId) {
+        try {
+            const response = await fetch(`/api/discussions/${encodeURIComponent(PAGE_NAME)}/topic/${topicId}/close`, { method: 'POST' });
+            if (response.ok) {
+                await viewTopic(topicId);
+                await loadDiscussions();
+                showToast('操作成功');
+            }
+        } catch (error) { showToast('操作失败', 'error'); }
+    }
+
+    let currentReplyTopicId = null;
+    function showReplyModal(topicId) {
+        currentReplyTopicId = topicId;
+        const topic = discussionsData.find(t => t.id === topicId);
+        document.getElementById('replyTopicTitle').innerHTML = `<i class="fas fa-quote-left"></i> 回复：${topic.title.substring(0, 80)}${topic.title.length > 80 ? '...' : ''}`;
+        document.getElementById('replyContent').value = '';
+        document.getElementById('replyModal').style.display = 'flex';
+    }
+
+    // 事件绑定
+    document.getElementById('newTopicBtn')?.addEventListener('click', () => {
+        document.getElementById('topicTitle').value = '';
+        document.getElementById('topicContent').value = '';
+        document.getElementById('newTopicModal').style.display = 'flex';
+    });
+
+    document.getElementById('newTopicForm')?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const title = document.getElementById('topicTitle').value.trim();
+        const content = document.getElementById('topicContent').value.trim();
+        if (!title) { showToast('请输入标题', 'error'); return; }
+        if (!content) { showToast('请输入内容', 'error'); return; }
+        createTopic(title, content);
+    });
+
+    document.getElementById('replyForm')?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const content = document.getElementById('replyContent').value.trim();
+        if (!content) { showToast('请输入回复内容', 'error'); return; }
+        addReply(currentReplyTopicId, content);
+    });
+
+    // 标签切换
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentSort = btn.dataset.tab;
+            renderTopicList();
+        });
+    });
+
+    // 初始化编辑器工具栏
+    setupEditorToolbar('topic', 'topicContent');
+    setupEditorToolbar('reply', 'replyContent');
+
+    // 点击模态窗外部关闭
+    window.onclick = function(event) {
+        if (event.target.classList.contains('modal')) {
+            event.target.style.display = 'none';
+        }
+    }
+
+    // 初始化
+    loadDiscussions();
+</script>
+{% endblock %}

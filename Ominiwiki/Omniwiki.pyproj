@@ -3,13 +3,14 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>a51ba386-e8ee-4f44-9ea0-286fcd31cab9</ProjectGuid>
-    <ProjectHome>.</ProjectHome>
-    <StartupFile>Ominiwiki.py</StartupFile>
+    <ProjectHome>
+    </ProjectHome>
+    <StartupFile>Omniwiki.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
-    <Name>Ominiwiki</Name>
+    <Name>Omniwiki</Name>
     <RootNamespace>Ominiwiki</RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -21,7 +22,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Ominiwiki.py" />
+    <Compile Include="Omniwiki.py" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="uploads\" />
@@ -30,17 +31,23 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="comments_data.json" />
+    <Content Include="discussions_data.json" />
     <Content Include="static\script.js" />
     <Content Include="static\style.css" />
     <Content Include="templates\all_pages.html" />
     <Content Include="templates\base.html" />
     <Content Include="templates\comments_data.json" />
     <Content Include="templates\create.html" />
+    <Content Include="templates\discussions.html" />
     <Content Include="templates\edit.html" />
     <Content Include="templates\history.html" />
+    <Content Include="templates\hot_discussions.html" />
     <Content Include="templates\index.html" />
     <Content Include="templates\login.html" />
+    <Content Include="templates\my_discussions.html" />
+    <Content Include="templates\recent_discussions.html" />
     <Content Include="templates\register.html" />
+    <Content Include="templates\search.html" />
     <Content Include="templates\tags.html" />
     <Content Include="templates\wiki_page.html" />
   </ItemGroup>
