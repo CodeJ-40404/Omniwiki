@@ -170,7 +170,7 @@ python Omniwiki.py
 4. **初始化数据**
    ```bash
    # 运行后会自动创建数据文件
-   python app.py
+   python Omniwiki.py
    ```
 
 5. **访问系统**
@@ -211,7 +211,7 @@ python Omniwiki.py
 4. **Initialize data**
    ```bash
    # Data files will be created automatically when running
-   python app.py
+   python Omniwiki.py
    ```
 
 5. **Access the system**
@@ -304,7 +304,7 @@ omniwiki/
 #### 修改端口
 
 ```python
-# 在 app.py 中修改
+# 在 Omniwiki.py 中修改
 app.run(debug=True, host='127.0.0.1', port=8080)
 ```
 
@@ -321,7 +321,7 @@ app.run(debug=True, host='127.0.0.1', port=8080)
 #### Change Port
 
 ```python
-# Modify in app.py
+# Modify in Omniwiki.py
 app.run(debug=True, host='127.0.0.1', port=8080)
 ```
 
@@ -344,7 +344,7 @@ app.run(debug=True, host='127.0.0.1', port=8080)
 ### 中文
 
 **Q: 保存页面后没有变化？**
-A: 检查 `app.py` 中 `/edit/<page_name>` 的 POST 处理逻辑是否正确。
+A: 检查 `Omniwiki.py` 中 `/edit/<page_name>` 的 POST 处理逻辑是否正确。
 
 **Q: 图片上传失败？**
 A: 确保 `uploads/` 文件夹存在且有写入权限。
@@ -358,7 +358,7 @@ A: 备份以下文件：`wiki_data.json`、`discussions_data.json`、`comments_d
 ### English
 
 **Q: The page doesn't change after saving?**
-A: Check if the POST handling logic in `/edit/<page_name>` of `app.py` is correct.
+A: Check if the POST handling logic in `/edit/<page_name>` of `Omniwiki.py` is correct.
 
 **Q: Image upload fails?**
 A: Make sure the `uploads/` folder exists and has write permissions.
