@@ -14,6 +14,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <!-- Markdown 解析库 -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- KaTeX 数学公式支持 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -609,8 +613,7 @@
     }
 
     // 实时预览更新
-        function updatePreview() {
-
+    function updatePreview() {
         const markdown = editor.value;
         try {
             const html = marked.parse(markdown);
@@ -621,6 +624,18 @@
                 hljs.highlightElement(block);
             });
 
+            // 渲染 LaTeX 公式（修复版）
+            if (typeof renderMathInElement !== 'undefined') {
+                renderMathInElement(previewDiv, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false },
+                        { left: '\\(', right: '\\)', display: false },
+                        { left: '\\[', right: '\\]', display: true }
+                    ],
+                    throwOnError: false
+                });
+            }
         } catch (e) {
             previewDiv.innerHTML = `<div style="color: #ff6b6b;">解析错误: ${e.message}</div>`;
         }

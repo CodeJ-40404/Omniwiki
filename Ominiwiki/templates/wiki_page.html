@@ -1,311 +1,372 @@
-<!-- templates/wiki_page.html - 完整的页面浏览模板（已集成评论系统） -->
+<!-- templates/wiki_page.html - 右侧边栏改为文章目录 -->
 {% extends "base.html" %}
 
 {% block title %}{{ page.title }}{% endblock %}
 
-{% block content %}
-<div class="page-header">
-    <h1>{{ page.title }}</h1>
-    <div class="page-meta">
-        <span><i class="fas fa-user"></i> 作者：{{ page.author }}</span>
-        <span><i class="fas fa-clock"></i> 最后更新：{{ page.last_edit }}</span>
-        <span><i class="fas fa-eye"></i> {{ page.views }}次浏览</span>
-    </div>
-    {% if page.tags %}
-    <div class="page-tags">
-        {% for tag in page.tags %}
-        <span class="tag">{{ tag }}</span>
-        {% endfor %}
-    </div>
-    {% endif %}
-    <div class="page-actions">
-        {% if username %}
-        <a href="/edit/{{ page_name }}" class="btn-outline"><i class="fas fa-edit"></i> 编辑</a>
-        <a href="/delete/{{ page_name }}" class="btn-outline" onclick="return confirm('确定要删除这个页面吗？')"><i class="fas fa-trash"></i> 删除</a>
-        {% endif %}
-        <a href="/discussions/{{ page_name }}" class="btn-outline" id="discussionsBtn">
-            <i class="fas fa-comments"></i> 讨论区
-            <span id="discussionCount" class="discussion-badge">0</span>
-        </a>
-        <button id="copyPageUrl" class="btn-outline"><i class="fas fa-link"></i> 复制链接</button>
-    </div>
+{% block extra_head %}
+<!-- Highlight.js 代码高亮 -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/javascript.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/css.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/sql.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/bash.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/json.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/xml.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/yaml.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/markdown.min.js"></script>
 
-    <style>
-        .discussion-badge {
-            background: var(--accent-gold);
-            color: #0f0f12;
-            border-radius: 20px;
-            padding: 2px 8px;
-            font-size: 0.7rem;
-            margin-left: 6px;
-            font-weight: bold;
-        }
-    </style>
+<!-- KaTeX 数学公式 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
 
-    <script>
-        // 在页面加载时获取讨论区数量
-        async function loadDiscussionCount() {
-            try {
-                const response = await fetch(`/api/discussions/${encodeURIComponent(PAGE_NAME)}`);
-                const discussions = await response.json();
-                const count = discussions.length;
-                const badge = document.getElementById('discussionCount');
-                if (badge && count > 0) {
-                    badge.textContent = count;
-                    badge.style.display = 'inline';
-                } else if (badge) {
-                    badge.style.display = 'none';
-                }
-            } catch (error) {
-                console.error('加载讨论数失败:', error);
-            }
-        }
-        loadDiscussionCount();
-    </script>
+<!-- Mermaid 流程图 -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.0/dist/mermaid.min.js"></script>
 
-</div>
+<!-- Markdown 解析增强 -->
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
-<div class="page-content markdown-body">
-    {{ content_html|safe }}
-</div>
+<!-- DOMPurify 安全过滤 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
 
-<!-- ==================== 评论区域（洛谷风格） ==================== -->
-<div class="comments-section">
-    <div class="comments-header">
-        <h3><i class="fas fa-comments"></i> 评论区</h3>
-        <div class="comments-tools">
-            <button id="sortLatestBtn" class="comment-sort-btn active">最新</button>
-            <button id="sortHotBtn" class="comment-sort-btn">最热</button>
-        </div>
-    </div>
-
-    <!-- 评论输入框 -->
-    {% if username %}
-    <div class="comment-input-wrapper">
-        <div class="comment-avatar">
-            <div class="comment-avatar-icon">{{ user_avatar if user_avatar else username[0].upper() }}</div>
-        </div>
-        <div class="comment-input-area">
-            <textarea id="commentContent" class="comment-textarea" placeholder="写下你的评论... (支持Markdown)" rows="3"></textarea>
-            <div class="comment-input-tools">
-                <div class="comment-markdown-hint">
-                    <i class="fab fa-markdown"></i> 支持 Markdown 语法
-                </div>
-                <button id="submitCommentBtn" class="comment-submit-btn">
-                    <i class="fas fa-paper-plane"></i> 发布评论
-                </button>
-            </div>
-        </div>
-    </div>
-    {% else %}
-    <div class="comment-login-prompt">
-        <i class="fas fa-sign-in-alt"></i>
-        <a href="/login">登录</a> 后发表评论
-    </div>
-    {% endif %}
-
-    <!-- 评论列表 -->
-    <div id="commentsList" class="comments-list">
-        <div class="comments-loading">
-            <i class="fas fa-spinner fa-pulse"></i> 加载评论中...
-        </div>
-    </div>
-
-</div>
-{% endblock %}
-
-{% block right_rail %}
-<aside class="right-rail">
-    <div class="module">
-        <h3><i class="fas fa-list-ul"></i> 所有页面</h3>
-        <ul class="trending-list" style="max-height: 300px; overflow-y: auto;">
-            {% for p in all_pages[:20] %}
-            <li><a href="/page/{{ p }}">{{ p }}</a></li>
-            {% endfor %}
-            {% if all_pages|length > 20 %}
-            <li><a href="/all-pages">... 查看全部 {{ all_pages|length }} 个页面</a></li>
-            {% endif %}
-        </ul>
-    </div>
-    {% if related_pages %}
-    <div class="module">
-        <h3><i class="fas fa-link"></i> 相关页面</h3>
-        <ul class="trending-list">
-            {% for p in related_pages %}
-            <li><a href="/page/{{ p }}">{{ p }}</a></li>
-            {% endfor %}
-        </ul>
-    </div>
-    {% endif %}
-
-    <div class="module">
-        <h3><i class="fas fa-comments"></i> 页面讨论</h3>
-        <p style="font-size: 0.8rem; margin-bottom: 12px;">参与关于本页面的讨论，分享你的观点和问题。</p>
-        <a href="/discussions/{{ page_name }}" class="btn-primary" style="display: block; text-align: center; width: 100%;">
-            <i class="fas fa-plus-circle"></i> 前往讨论区
-        </a>
-    </div>
-
-    <!-- 热门讨论模块 -->
-    <div class="module">
-        <h3><i class="fas fa-fire"></i> 热门讨论</h3>
-        <ul class="trending-list" id="hotDiscussionsList">
-            <li><i class="fas fa-spinner fa-pulse"></i> 加载中...</li>
-        </ul>
-    </div>
-
-</aside>
-{% endblock %}
-
-<script>
-    // 加载热门讨论
-    async function loadHotDiscussions() {
-        try {
-            const response = await fetch('/api/hot-discussions');
-            const topics = await response.json();
-            const list = document.getElementById('hotDiscussionsList');
-            if (list && topics.length > 0) {
-                list.innerHTML = topics.slice(0, 5).map(topic => `
-                    <li>
-                        <a href="/discussions/${topic.page_name}#topic-${topic.id}">
-                            ${escapeHtml(topic.title.length > 30 ? topic.title.substring(0, 30) + '...' : topic.title)}
-                        </a>
-                        <span style="font-size: 0.65rem; color: var(--text-muted);">${topic.reply_count || 0}回复</span>
-                    </li>
-                `).join('');
-            } else if (list) {
-                list.innerHTML = '<li>暂无热门讨论</li>';
-            }
-        } catch (error) {
-            console.error('加载热门讨论失败:', error);
-        }
-    }
-    loadHotDiscussions();
-</script>
-
-
-{% block extra_scripts %}
 <style>
-    /* ==================== 评论区域样式 - 洛谷风格 ==================== */
-    .comments-section {
-        margin-top: 48px;
-        padding-top: 32px;
-        border-top: 1px solid var(--border-light);
+    /* ========== 自定义滚动条 ========== */
+    ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
     }
 
-    .comments-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 24px;
-        flex-wrap: wrap;
-        gap: 16px;
+    ::-webkit-scrollbar-track {
+        background: var(--bg-dark);
+        border-radius: 4px;
     }
 
-        .comments-header h3 {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: var(--text-primary);
+    ::-webkit-scrollbar-thumb {
+        background: var(--border-light);
+        border-radius: 4px;
+        transition: background 0.2s;
+    }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-gold);
         }
 
-            .comments-header h3 i {
-                color: var(--accent-gold);
-                margin-right: 8px;
+    /* ========== Markdown 内容样式 ========== */
+    .markdown-body {
+        font-size: 16px;
+        line-height: 1.75;
+        color: var(--text-secondary);
+        word-wrap: break-word;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+        .markdown-body h1 {
+            font-size: 2.2em;
+            margin: 1.5em 0 0.6em;
+            border-bottom: 3px solid var(--accent-gold);
+            padding-bottom: 0.4em;
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+
+        .markdown-body h2 {
+            font-size: 1.8em;
+            margin: 1.3em 0 0.5em;
+            border-bottom: 2px solid var(--border-light);
+            padding-bottom: 0.3em;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .markdown-body h3 {
+            font-size: 1.5em;
+            margin: 1.2em 0 0.5em;
+            color: var(--accent-gold);
+            font-weight: 600;
+        }
+
+        .markdown-body h4 {
+            font-size: 1.3em;
+            margin: 1em 0 0.4em;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .markdown-body p {
+            margin: 1.2em 0;
+            line-height: 1.8;
+        }
+
+        .markdown-body a {
+            color: var(--accent-blue);
+            text-decoration: none;
+            border-bottom: 1px dashed transparent;
+            transition: all 0.2s;
+        }
+
+            .markdown-body a:hover {
+                border-bottom-color: var(--accent-blue);
+                color: #5c8aff;
             }
 
-    .comments-tools {
-        display: flex;
-        gap: 8px;
-    }
-
-    .comment-sort-btn {
-        background: transparent;
-        border: 1px solid var(--border-light);
-        padding: 6px 16px;
-        border-radius: 20px;
-        color: var(--text-muted);
-        cursor: pointer;
-        font-size: 0.8rem;
-        transition: all 0.2s;
-    }
-
-        .comment-sort-btn:hover {
-            border-color: var(--accent-gold);
+        .markdown-body code:not(pre code) {
+            background: var(--bg-dark);
+            padding: 0.2em 0.5em;
+            border-radius: 6px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9em;
             color: var(--accent-gold);
         }
 
-        .comment-sort-btn.active {
-            background: var(--accent-gold);
-            border-color: var(--accent-gold);
-            color: #0f0f12;
+        /* 代码块样式 */
+        .markdown-body pre {
+            background: #0a0c10;
+            border-radius: 16px;
+            margin: 1.5em 0;
+            border: 1px solid var(--border-light);
+            overflow: hidden;
         }
 
-    /* 评论输入框 */
-    .comment-input-wrapper {
-        display: flex;
-        gap: 16px;
-        margin-bottom: 32px;
-        background: var(--surface-card);
-        border-radius: 24px;
-        padding: 20px;
-        border: 1px solid var(--border-light);
-    }
-
-    .comment-avatar {
-        flex-shrink: 0;
-    }
-
-    .comment-avatar-icon {
-        width: 48px;
-        height: 48px;
-        background: linear-gradient(135deg, var(--accent-gold), #ffa500);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: bold;
-        font-size: 1.2rem;
-    }
-
-    .comment-input-area {
-        flex: 1;
-    }
-
-    .comment-textarea {
-        width: 100%;
-        background: var(--bg-dark);
-        border: 1px solid var(--border-light);
-        border-radius: 16px;
-        padding: 14px 16px;
-        color: var(--text-primary);
-        font-family: inherit;
-        font-size: 0.9rem;
-        resize: vertical;
-        transition: all 0.2s;
-    }
-
-        .comment-textarea:focus {
-            outline: none;
-            border-color: var(--accent-gold);
-        }
-
-    .comment-input-tools {
+    .code-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-top: 12px;
+        padding: 8px 16px;
+        background: #0f111a;
+        border-bottom: 1px solid var(--border-light);
+        font-size: 0.75rem;
+        font-family: monospace;
     }
 
-    .comment-markdown-hint {
-        font-size: 0.7rem;
+    .code-lang {
+        color: var(--accent-gold);
+        font-weight: 600;
+    }
+
+    .copy-btn {
+        background: transparent;
+        border: none;
         color: var(--text-muted);
+        cursor: pointer;
+        padding: 4px 8px;
+        border-radius: 6px;
+        transition: all 0.2s;
     }
 
-        .comment-markdown-hint i {
-            margin-right: 4px;
+        .copy-btn:hover {
+            background: var(--surface-hover);
+            color: var(--accent-gold);
         }
 
-    .comment-submit-btn {
+    .code-container {
+        display: flex;
+        overflow-x: auto;
+    }
+
+    .line-numbers {
+        padding: 12px 12px 12px 16px;
+        text-align: right;
+        background: #0a0c10;
+        color: var(--text-muted);
+        font-size: 13px;
+        font-family: monospace;
+        line-height: 1.6;
+        user-select: none;
+        border-right: 1px solid var(--border-light);
+        opacity: 0.6;
+    }
+
+        .line-numbers span {
+            display: block;
+        }
+
+    .code-content {
+        flex: 1;
+        overflow-x: auto;
+        padding: 12px 16px;
+    }
+
+        .code-content pre {
+            margin: 0;
+            padding: 0;
+            background: transparent;
+        }
+
+        .code-content code {
+            font-family: 'Consolas', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            color: #eef2ff;
+            white-space: pre;
+        }
+
+    .markdown-body blockquote {
+        border-left: 4px solid var(--accent-gold);
+        padding: 0.5em 1.5em;
+        margin: 1.5em 0;
+        background: rgba(255, 194, 68, 0.05);
+        border-radius: 0 12px 12px 0;
+        color: var(--text-muted);
+        font-style: italic;
+    }
+
+    .markdown-body ul, .markdown-body ol {
+        margin: 1em 0;
+        padding-left: 2em;
+    }
+
+    .markdown-body li {
+        margin: 0.5em 0;
+    }
+
+    .markdown-body input[type="checkbox"] {
+        margin-right: 10px;
+        accent-color: var(--accent-gold);
+    }
+
+    .markdown-body table {
+        border-collapse: collapse;
+        width: 100%;
+        margin: 1.5em 0;
+        overflow-x: auto;
+        display: block;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .markdown-body th, .markdown-body td {
+        border: 1px solid var(--border-light);
+        padding: 10px 14px;
+    }
+
+    .markdown-body th {
+        background: var(--surface-card);
+        font-weight: 600;
+        color: var(--accent-gold);
+    }
+
+    .markdown-body tr:nth-child(even) {
+        background: rgba(30, 31, 41, 0.3);
+    }
+
+    .markdown-body img {
+        max-width: 100%;
+        border-radius: 16px;
+        margin: 1em 0;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        cursor: pointer;
+        transition: transform 0.2s;
+    }
+
+        .markdown-body img:hover {
+            transform: scale(1.02);
+        }
+
+    .markdown-body hr {
+        border: none;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+        margin: 2.5em 0;
+    }
+
+    .markdown-body .katex {
+        font-size: 1.1em;
+    }
+
+    .markdown-body .katex-display {
+        margin: 1.5em 0;
+        overflow-x: auto;
+    }
+
+    /* 页面头部 */
+    .page-header {
+        margin-bottom: 28px;
+    }
+
+    .page-title {
+        font-size: 2.2rem;
+        margin-bottom: 16px;
+        background: linear-gradient(135deg, #fff, var(--accent-gold));
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+        display: inline-block;
+        position: relative;
+    }
+
+        .page-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--accent-gold);
+            border-radius: 3px;
+        }
+
+    .page-meta {
+        display: flex;
+        gap: 24px;
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        margin-bottom: 16px;
+        flex-wrap: wrap;
+    }
+
+    .page-tags {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+    }
+
+    .tag {
+        background: rgba(60, 122, 255, 0.15);
+        color: var(--accent-blue);
+        padding: 5px 14px;
+        border-radius: 25px;
+        font-size: 0.75rem;
+        text-decoration: none;
+        transition: all 0.2s;
+    }
+
+        .tag:hover {
+            background: var(--accent-blue);
+            color: #0f0f12;
+        }
+
+    .page-actions {
+        display: flex;
+        gap: 12px;
+        margin-top: 16px;
+        flex-wrap: wrap;
+    }
+
+    .btn-outline {
+        background: transparent;
+        border: 1px solid var(--border-light);
+        padding: 8px 20px;
+        border-radius: 40px;
+        color: var(--text-primary);
+        cursor: pointer;
+        transition: all 0.2s;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.85rem;
+    }
+
+        .btn-outline:hover {
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+            transform: translateY(-2px);
+        }
+
+    .btn-primary {
         background: var(--accent-gold);
         border: none;
         padding: 8px 20px;
@@ -314,281 +375,448 @@
         color: #0f0f12;
         cursor: pointer;
         transition: all 0.2s;
-        font-size: 0.85rem;
-    }
-
-        .comment-submit-btn:hover {
-            background: #ffda77;
-            transform: translateY(-1px);
-        }
-
-        .comment-submit-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-    /* 登录提示 */
-    .comment-login-prompt {
-        background: var(--surface-card);
-        border-radius: 24px;
-        padding: 32px;
-        text-align: center;
-        color: var(--text-muted);
-        border: 1px solid var(--border-light);
-    }
-
-        .comment-login-prompt a {
-            color: var(--accent-gold);
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-    /* 评论列表 */
-    .comments-list {
-        margin-top: 16px;
-    }
-
-    .comments-loading {
-        text-align: center;
-        padding: 40px;
-        color: var(--text-muted);
-    }
-
-    .comment-item {
-        background: var(--surface-card);
-        border-radius: 20px;
-        padding: 20px;
-        margin-bottom: 16px;
-        border: 1px solid var(--border-light);
-        transition: all 0.2s;
-    }
-
-        .comment-item:hover {
-            border-color: rgba(255, 194, 68, 0.3);
-        }
-
-    .comment-header {
-        display: flex;
-        justify-content: space-between;
+        text-decoration: none;
+        display: inline-flex;
         align-items: center;
-        margin-bottom: 12px;
-        flex-wrap: wrap;
         gap: 8px;
     }
 
-    .comment-author-info {
-        display: flex;
-        align-items: center;
-        gap: 12px;
+        .btn-primary:hover {
+            background: #ffda77;
+            transform: translateY(-2px);
+        }
+
+    .discussion-badge {
+        background: var(--accent-gold);
+        color: #0f0f12;
+        border-radius: 20px;
+        padding: 2px 8px;
+        font-size: 0.7rem;
+        margin-left: 6px;
+        font-weight: bold;
     }
 
-    .comment-author-avatar {
-        width: 36px;
-        height: 36px;
-        background: linear-gradient(135deg, var(--accent-gold), #ffa500);
+    /* ========== 右侧目录样式（新） ========== */
+    .toc-sidebar {
+        position: sticky;
+        top: 20px;
+        max-height: calc(100vh - 100px);
+        overflow-y: auto;
+        background: var(--surface-card);
+        border-radius: 20px;
+        padding: 20px;
+        border: 1px solid var(--border-light);
+    }
+
+    .toc-sidebar-title {
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin-bottom: 16px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid var(--accent-gold);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--accent-gold);
+    }
+
+    .toc-sidebar-nav {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+        .toc-sidebar-nav ul {
+            list-style: none;
+            margin: 0;
+            padding-left: 16px;
+        }
+
+        .toc-sidebar-nav li {
+            margin: 8px 0;
+        }
+
+        .toc-sidebar-nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            display: block;
+            padding: 4px 8px;
+            border-radius: 8px;
+            transition: all 0.2s;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+            .toc-sidebar-nav a:hover {
+                color: var(--accent-gold);
+                background: rgba(255, 194, 68, 0.1);
+                transform: translateX(4px);
+            }
+
+            .toc-sidebar-nav a.active {
+                color: var(--accent-gold);
+                background: rgba(255, 194, 68, 0.15);
+                border-left: 3px solid var(--accent-gold);
+                padding-left: 5px;
+            }
+
+        .toc-sidebar-nav .level-2 {
+            padding-left: 20px;
+        }
+
+        .toc-sidebar-nav .level-3 {
+            padding-left: 36px;
+        }
+
+    /* 返回顶部 */
+    .back-to-top {
+        position: fixed;
+        bottom: 80px;
+        right: 20px;
+        width: 44px;
+        height: 44px;
+        background: var(--surface-card);
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-weight: bold;
-        font-size: 0.9rem;
-    }
-
-    .comment-author-name {
-        font-weight: 600;
-        color: var(--text-primary);
-    }
-
-    .comment-time {
-        font-size: 0.7rem;
-        color: var(--text-muted);
-    }
-
-    .comment-actions {
-        display: flex;
-        gap: 16px;
-    }
-
-    .comment-action-btn {
-        background: transparent;
-        border: none;
-        color: var(--text-muted);
         cursor: pointer;
-        font-size: 0.8rem;
+        border: 1px solid var(--border-light);
         transition: all 0.2s;
-        display: inline-flex;
-        align-items: center;
-        gap: 4px;
+        opacity: 0;
+        visibility: hidden;
+        z-index: 100;
     }
 
-        .comment-action-btn:hover {
-            color: var(--accent-gold);
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
         }
 
-        .comment-action-btn.liked {
-            color: var(--accent-gold);
-        }
-
-    .comment-content {
-        margin-left: 48px;
-        margin-bottom: 12px;
-        color: var(--text-secondary);
-        line-height: 1.6;
-        font-size: 0.9rem;
-    }
-
-        .comment-content p {
-            margin: 0 0 8px 0;
-        }
-
-        .comment-content code {
-            background: var(--bg-dark);
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 0.85rem;
-        }
-
-    /* 回复区域 */
-    .reply-btn {
-        margin-left: 0;
-    }
-
-    .reply-form {
-        margin-left: 48px;
-        margin-top: 16px;
-        display: none;
-    }
-
-        .reply-form.active {
-            display: block;
-        }
-
-    .reply-textarea {
-        width: 100%;
-        background: var(--bg-dark);
-        border: 1px solid var(--border-light);
-        border-radius: 12px;
-        padding: 10px 14px;
-        color: var(--text-primary);
-        font-family: inherit;
-        font-size: 0.85rem;
-        resize: vertical;
-    }
-
-        .reply-textarea:focus {
-            outline: none;
+        .back-to-top:hover {
             border-color: var(--accent-gold);
+            color: var(--accent-gold);
+            transform: translateY(-4px);
         }
 
-    .reply-actions {
-        display: flex;
-        gap: 12px;
-        margin-top: 8px;
-        justify-content: flex-end;
+    /* 阅读进度条 */
+    .reading-progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 0%;
+        height: 3px;
+        background: linear-gradient(90deg, var(--accent-gold), #ff8844);
+        z-index: 1000;
+        transition: width 0.1s ease;
     }
 
-    .reply-submit-btn {
-        background: var(--accent-gold);
-        border: none;
-        padding: 6px 16px;
-        border-radius: 20px;
-        font-size: 0.75rem;
-        font-weight: 600;
+    /* 图片查看器 */
+    .image-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.95);
+        z-index: 2000;
+        justify-content: center;
+        align-items: center;
         cursor: pointer;
     }
 
-    .reply-cancel-btn {
-        background: transparent;
-        border: 1px solid var(--border-light);
-        padding: 6px 16px;
-        border-radius: 20px;
-        font-size: 0.75rem;
+        .image-modal.active {
+            display: flex;
+        }
+
+        .image-modal img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 16px;
+        }
+
+    .image-modal-close {
+        position: absolute;
+        top: 20px;
+        right: 30px;
+        font-size: 40px;
+        color: white;
         cursor: pointer;
-        color: var(--text-muted);
     }
-
-    /* 回复列表 */
-    .replies-list {
-        margin-left: 48px;
-        margin-top: 16px;
-        padding-left: 16px;
-        border-left: 2px solid var(--border-light);
-    }
-
-    .reply-item {
-        padding: 12px 0;
-        border-bottom: 1px solid var(--border-light);
-    }
-
-        .reply-item:last-child {
-            border-bottom: none;
-        }
-
-    .reply-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 8px;
-        flex-wrap: wrap;
-    }
-
-    .reply-author {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
-
-    .reply-author-name {
-        font-weight: 600;
-        font-size: 0.85rem;
-    }
-
-    .reply-time {
-        font-size: 0.65rem;
-        color: var(--text-muted);
-    }
-
-    .reply-content {
-        margin-left: 32px;
-        font-size: 0.85rem;
-        color: var(--text-secondary);
-    }
-
-    /* 空状态 */
-    .comments-empty {
-        text-align: center;
-        padding: 48px;
-        color: var(--text-muted);
-    }
-
-        .comments-empty i {
-            font-size: 3rem;
-            margin-bottom: 12px;
-            opacity: 0.5;
-        }
 </style>
+{% endblock %}
+
+{% block content %}
+<div id="readingProgress" class="reading-progress"></div>
+
+<div class="page-header">
+    <h1 class="page-title">{{ page.title }}</h1>
+    <div class="page-meta">
+        <span><i class="fas fa-user"></i> 作者：{{ page.author }}</span>
+        <span><i class="fas fa-clock"></i> 最后更新：{{ page.last_edit }}</span>
+        <span><i class="fas fa-eye"></i> {{ page.views }} 次浏览</span>
+        <span><i class="fas fa-font"></i> 约 {{ content_html|striptags|length }} 字</span>
+    </div>
+    {% if page.tags %}
+    <div class="page-tags">
+        {% for tag in page.tags %}
+        <a href="/tag/{{ tag }}" class="tag"><i class="fas fa-tag"></i> {{ tag }}</a>
+        {% endfor %}
+    </div>
+    {% endif %}
+    <div class="page-actions">
+        {% if username %}
+        <a href="/edit/{{ page_name }}" class="btn-outline"><i class="fas fa-edit"></i> 编辑</a>
+        <a href="/delete/{{ page_name }}" class="btn-outline" onclick="return confirm('确定要删除吗？')"><i class="fas fa-trash"></i> 删除</a>
+        {% endif %}
+        <a href="/discussions/{{ page_name }}" class="btn-outline" id="discussionsBtn">
+            <i class="fas fa-comments"></i> 讨论区
+            <span id="discussionCount" class="discussion-badge">0</span>
+        </a>
+        <button id="copyUrlBtn" class="btn-outline"><i class="fas fa-link"></i> 复制链接</button>
+        <button id="printBtn" class="btn-outline"><i class="fas fa-print"></i> 打印</button>
+    </div>
+</div>
+
+<div id="markdownContent" class="markdown-body">
+    {{ content_html|safe }}
+</div>
+
+<div id="backToTop" class="back-to-top">
+    <i class="fas fa-arrow-up"></i>
+</div>
+
+<!-- 图片查看器 -->
+<div id="imageModal" class="image-modal">
+    <span class="image-modal-close">&times;</span>
+    <img id="modalImage" src="" alt="">
+</div>
 
 <script>
-    // ==================== 评论系统 JavaScript ====================
-    const PAGE_NAME = '{{ page_name }}';
-    let currentSort = 'latest';
-    let commentsData = [];
+    // ========== 代码块增强 ==========
+    function enhanceCodeBlocks() {
+        const content = document.getElementById('markdownContent');
+        const preElements = content.querySelectorAll('pre');
 
-    // 简单的 Markdown 渲染
-    function renderMarkdown(text) {
-        if (!text) return '';
-        let html = escapeHtml(text);
-        // 粗体
-        html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-        // 斜体
-        html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
-        // 代码块
-        html = html.replace(/```(.*?)```/gs, '<pre><code>$1</code></pre>');
-        // 行内代码
-        html = html.replace(/`(.*?)`/g, '<code>$1</code>');
-        // 换行
-        html = html.replace(/\n/g, '<br>');
-        return html;
+        preElements.forEach(pre => {
+            const code = pre.querySelector('code');
+            if (!code) return;
+            if (pre.parentElement?.classList?.contains('code-content')) return;
+
+            const langClass = code.className.match(/language-(\w+)/);
+            const lang = langClass ? langClass[1] : 'text';
+            const codeText = code.textContent;
+            const lines = codeText.split('\n');
+            if (lines[lines.length - 1] === '') lines.pop();
+
+            const lineNumbersHtml = lines.map((_, i) => `<span>${i + 1}</span>`).join('');
+
+            const wrapper = document.createElement('div');
+            wrapper.className = 'code-block-wrapper';
+            wrapper.innerHTML = `
+                <div class="code-header">
+                    <span class="code-lang">${lang.toUpperCase()}</span>
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> 复制</button>
+                </div>
+                <div class="code-container">
+                    <div class="line-numbers">${lineNumbersHtml}</div>
+                    <div class="code-content">
+                        <pre><code class="language-${lang}">${escapeHtmlForCode(codeText)}</code></pre>
+                    </div>
+                </div>
+            `;
+            pre.parentNode.replaceChild(wrapper, pre);
+        });
+    }
+
+    function escapeHtmlForCode(text) {
+        return text.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    window.copyCode = function(btn) {
+        const wrapper = btn.closest('.code-block-wrapper');
+        const codeContent = wrapper.querySelector('.code-content code');
+        const text = codeContent.textContent;
+        navigator.clipboard.writeText(text).then(() => {
+            btn.innerHTML = '<i class="fas fa-check"></i> 已复制';
+            setTimeout(() => btn.innerHTML = '<i class="fas fa-copy"></i> 复制', 2000);
+        });
+    };
+
+    // ========== LaTeX 渲染 ==========
+    function renderLatex() {
+        const content = document.getElementById('markdownContent');
+        if (!content || typeof renderMathInElement === 'undefined') return;
+        renderMathInElement(content, {
+            delimiters: [
+                { left: '$$', right: '$$', display: true },
+                { left: '$', right: '$', display: false },
+                { left: '\\(', right: '\\)', display: false },
+                { left: '\\[', right: '\\]', display: true }
+            ],
+            throwOnError: false
+        });
+    }
+
+    // ========== Mermaid 渲染 ==========
+    async function renderMermaid() {
+        if (typeof mermaid === 'undefined') return;
+        mermaid.initialize({
+            startOnLoad: false,
+            theme: 'dark',
+            themeVariables: {
+                'background': '#0a0c10',
+                'primaryColor': '#ffc244',
+                'primaryBorderColor': '#ffc244',
+                'primaryTextColor': '#eef2ff',
+                'lineColor': '#ffc244'
+            }
+        });
+
+        const elements = document.querySelectorAll('.language-mermaid');
+        for (let i = 0; i < elements.length; i++) {
+            const el = elements[i];
+            const code = el.textContent;
+            const pre = el.parentElement;
+            const container = document.createElement('div');
+            container.className = 'mermaid-container';
+            const div = document.createElement('div');
+            div.className = 'mermaid';
+            div.id = `mermaid-${Date.now()}-${i}`;
+            container.appendChild(div);
+            if (pre?.parentNode) pre.parentNode.replaceChild(container, pre);
+            try {
+                const { svg } = await mermaid.render(div.id, code);
+                div.innerHTML = svg;
+            } catch (e) {
+                div.innerHTML = `<pre style="color: #ff6b6b;">Mermaid 错误: ${e.message}</pre>`;
+            }
+        }
+    }
+
+    // ========== 高亮代码 ==========
+    function highlightCode() {
+        document.querySelectorAll('.code-content pre code').forEach(block => {
+            hljs.highlightElement(block);
+        });
+    }
+
+    // ========== 图片查看器 ==========
+    function setupImageViewer() {
+        const images = document.querySelectorAll('.markdown-body img');
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImage');
+        const closeBtn = document.querySelector('.image-modal-close');
+
+        images.forEach(img => {
+            img.addEventListener('click', () => {
+                modalImg.src = img.src;
+                modal.classList.add('active');
+            });
+        });
+        closeBtn?.addEventListener('click', () => modal.classList.remove('active'));
+        modal?.addEventListener('click', (e) => {
+            if (e.target === modal) modal.classList.remove('active');
+        });
+    }
+
+    // ========== 阅读进度 ==========
+    function setupReadingProgress() {
+        window.addEventListener('scroll', () => {
+            const winScroll = document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            const progressBar = document.getElementById('readingProgress');
+            if (progressBar) progressBar.style.width = scrolled + '%';
+
+            const backToTop = document.getElementById('backToTop');
+            if (backToTop) {
+                if (winScroll > 300) backToTop.classList.add('show');
+                else backToTop.classList.remove('show');
+            }
+
+            // 目录高亮
+            highlightActiveTocItem();
+        });
+    }
+
+    // ========== 右侧目录生成与高亮 ==========
+    let tocItems = [];
+
+    function generateSidebarTOC() {
+        const content = document.getElementById('markdownContent');
+        const headings = content.querySelectorAll('h1, h2, h3');
+        if (headings.length < 2) return;
+
+        const tocContainer = document.getElementById('sidebarToc');
+        if (!tocContainer) return;
+
+        let html = '<ul class="toc-sidebar-nav">';
+        let lastLevel = 1;
+        tocItems = [];
+
+        headings.forEach((heading, index) => {
+            const level = parseInt(heading.tagName[1]);
+            const text = heading.textContent;
+            const id = `heading-${Date.now()}-${index}`;
+            heading.id = id;
+            tocItems.push({ id, level, text });
+
+            if (level > lastLevel) {
+                for (let i = 0; i < level - lastLevel; i++) html += '<ul>';
+            } else if (level < lastLevel) {
+                for (let i = 0; i < lastLevel - level; i++) html += '</ul>';
+            }
+            html += `<li><a href="#${id}" class="toc-link level-${level}">${escapeHtml(text)}</a></li>`;
+            lastLevel = level;
+        });
+        for (let i = 1; i < lastLevel; i++) html += '</ul>';
+        html += '</ul>';
+
+        tocContainer.innerHTML = html;
+
+        // 绑定点击事件
+        document.querySelectorAll('.toc-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href').substring(1);
+                const target = document.getElementById(targetId);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    }
+
+    function highlightActiveTocItem() {
+        if (!tocItems.length) return;
+
+        const scrollPosition = window.scrollY + 100;
+        let activeId = null;
+
+        for (let i = tocItems.length - 1; i >= 0; i--) {
+            const item = tocItems[i];
+            const element = document.getElementById(item.id);
+            if (element && element.offsetTop <= scrollPosition) {
+                activeId = item.id;
+                break;
+            }
+        }
+
+        document.querySelectorAll('.toc-link').forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === `#${activeId}`) {
+                link.classList.add('active');
+            }
+        });
     }
 
     function escapeHtml(text) {
@@ -597,302 +825,142 @@
         return div.innerHTML;
     }
 
-    // 加载评论
-    async function loadComments() {
-        const commentsList = document.getElementById('commentsList');
-        if (!commentsList) return;
-        commentsList.innerHTML = '<div class="comments-loading"><i class="fas fa-spinner fa-pulse"></i> 加载评论中...</div>';
+    // ========== 其他功能 ==========
+    document.getElementById('backToTop')?.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
 
+    document.getElementById('copyUrlBtn')?.addEventListener('click', () => {
+        navigator.clipboard.writeText(window.location.href);
+        alert('链接已复制');
+    });
+
+    document.getElementById('printBtn')?.addEventListener('click', () => window.print());
+
+    async function loadDiscussionCount() {
         try {
-            const response = await fetch(`/api/comments/${encodeURIComponent(PAGE_NAME)}`);
-            if (!response.ok) throw new Error('加载失败');
-            commentsData = await response.json();
-            renderComments();
-        } catch (error) {
-            console.error('加载评论失败:', error);
-            commentsList.innerHTML = '<div class="comments-empty"><i class="fas fa-exclamation-circle"></i><p>加载评论失败</p></div>';
-        }
+            const res = await fetch(`/api/discussions/${encodeURIComponent('{{ page_name }}')}`);
+            const data = await res.json();
+            const badge = document.getElementById('discussionCount');
+            if (badge && data.length) {
+                badge.textContent = data.length;
+                badge.style.display = 'inline';
+            } else if (badge) {
+                badge.style.display = 'none';
+            }
+        } catch(e) {}
     }
 
-    // 渲染评论
-    function renderComments() {
-        const commentsList = document.getElementById('commentsList');
-        if (!commentsList) return;
+    // 初始化
+    function init() {
+        highlightCode();
+        enhanceCodeBlocks();
+        renderLatex();
+        renderMermaid();
+        setupImageViewer();
+        setupReadingProgress();
+        generateSidebarTOC();
+        loadDiscussionCount();
+    }
 
-        if (!commentsData || commentsData.length === 0) {
-            commentsList.innerHTML = `
-                <div class="comments-empty">
-                    <i class="fas fa-comment-dots"></i>
-                    <p>暂无评论，来做第一个发言的人吧！</p>
-                </div>
-            `;
+    if (document.getElementById('markdownContent')) init();
+</script>
+{% endblock %}
+
+{% block right_rail %}
+<aside class="right-rail">
+    <div class="toc-sidebar">
+        <div class="toc-sidebar-title">
+            <i class="fas fa-list-ul"></i> 目录
+        </div>
+        <div id="sidebarToc">
+            <!-- 目录会由 JavaScript 动态生成 -->
+            <!-- 如果 JS 未加载或没有标题，显示提示 -->
+            <div class="toc-placeholder" style="color: var(--text-muted); font-size: 0.8rem; text-align: center; padding: 20px;">
+                <i class="fas fa-spinner fa-pulse"></i> 正在生成目录...
+            </div>
+        </div>
+    </div>
+</aside>
+
+<script>
+    // 确保目录生成函数存在且被调用
+    function generateSidebarTOC() {
+        const content = document.getElementById('markdownContent');
+        if (!content) return;
+
+        const headings = content.querySelectorAll('h1, h2, h3');
+        const tocContainer = document.getElementById('sidebarToc');
+
+        if (!tocContainer) return;
+
+        if (headings.length < 2) {
+            tocContainer.innerHTML = '<div style="color: var(--text-muted); font-size: 0.8rem; text-align: center; padding: 20px;"><i class="fas fa-info-circle"></i> 暂无目录</div>';
             return;
         }
 
-        let sortedComments = [...commentsData];
-        if (currentSort === 'hot') {
-            sortedComments.sort((a, b) => (b.likes || 0) - (a.likes || 0));
-        } else {
-            sortedComments.sort((a, b) => new Date(b.time) - new Date(a.time));
-        }
+        let html = '<ul class="toc-sidebar-nav">';
+        let lastLevel = 1;
 
-        commentsList.innerHTML = sortedComments.map(comment => renderCommentItem(comment)).join('');
-        bindCommentEvents();
-    }
+        headings.forEach((heading, index) => {
+            const level = parseInt(heading.tagName[1]);
+            let text = heading.textContent;
+            // 限制长度
+            if (text.length > 30) text = text.substring(0, 27) + '...';
 
-    function renderCommentItem(comment, isReply = false) {
-        const likes = comment.likes || 0;
-        const currentUser = '{{ username }}';
-        const isAuthor = currentUser === comment.author;
-
-        const repliesHtml = comment.replies && comment.replies.length > 0
-            ? `<div class="replies-list">
-                ${comment.replies.map(reply => renderReplyItem(reply)).join('')}
-               </div>`
-            : '';
-
-        return `
-            <div class="comment-item" data-comment-id="${comment.id}">
-                <div class="comment-header">
-                    <div class="comment-author-info">
-                        <div class="comment-author-avatar">${escapeHtml(comment.avatar || comment.author[0].toUpperCase())}</div>
-                        <div>
-                            <span class="comment-author-name">${escapeHtml(comment.author)}</span>
-                            <div class="comment-time">${comment.time}</div>
-                        </div>
-                    </div>
-                    <div class="comment-actions">
-                        <button class="comment-action-btn like-btn" data-id="${comment.id}">
-                            <i class="fas fa-thumbs-up"></i> <span class="like-count">${likes}</span>
-                        </button>
-                        <button class="comment-action-btn reply-btn" data-id="${comment.id}">
-                            <i class="fas fa-reply"></i> 回复
-                        </button>
-                        ${isAuthor ? `
-                        <button class="comment-action-btn delete-btn" data-id="${comment.id}">
-                            <i class="fas fa-trash-alt"></i> 删除
-                        </button>
-                        ` : ''}
-                    </div>
-                </div>
-                <div class="comment-content">
-                    ${renderMarkdown(comment.content)}
-                </div>
-                <div class="reply-form" id="reply-form-${comment.id}">
-                    <textarea class="reply-textarea" id="reply-content-${comment.id}" rows="2" placeholder="回复 ${escapeHtml(comment.author)}..."></textarea>
-                    <div class="reply-actions">
-                        <button class="reply-cancel-btn" data-id="${comment.id}">取消</button>
-                        <button class="reply-submit-btn" data-id="${comment.id}">发布回复</button>
-                    </div>
-                </div>
-                ${repliesHtml}
-            </div>
-        `;
-    }
-
-    function renderReplyItem(reply) {
-        const currentUser = '{{ username }}';
-        const isAuthor = currentUser === reply.author;
-
-        return `
-            <div class="reply-item" data-comment-id="${reply.id}">
-                <div class="reply-header">
-                    <div class="reply-author">
-                        <span class="reply-author-name">${escapeHtml(reply.author)}</span>
-                        <span class="reply-time">${reply.time}</span>
-                    </div>
-                    <div class="comment-actions">
-                        <button class="comment-action-btn like-btn" data-id="${reply.id}">
-                            <i class="fas fa-thumbs-up"></i> <span class="like-count">${reply.likes || 0}</span>
-                        </button>
-                        ${isAuthor ? `
-                        <button class="comment-action-btn delete-reply-btn" data-id="${reply.id}" data-parent="${reply.parent_id}">
-                            <i class="fas fa-trash-alt"></i>
-                        </button>
-                        ` : ''}
-                    </div>
-                </div>
-                <div class="reply-content">
-                    ${renderMarkdown(reply.content)}
-                </div>
-            </div>
-        `;
-    }
-
-    function bindCommentEvents() {
-        document.querySelectorAll('.like-btn').forEach(btn => {
-            btn.removeEventListener('click', handleLike);
-            btn.addEventListener('click', handleLike);
-        });
-        document.querySelectorAll('.reply-btn').forEach(btn => {
-            btn.removeEventListener('click', handleReplyClick);
-            btn.addEventListener('click', handleReplyClick);
-        });
-        document.querySelectorAll('.delete-btn').forEach(btn => {
-            btn.removeEventListener('click', handleDelete);
-            btn.addEventListener('click', handleDelete);
-        });
-        document.querySelectorAll('.delete-reply-btn').forEach(btn => {
-            btn.removeEventListener('click', handleDeleteReply);
-            btn.addEventListener('click', handleDeleteReply);
-        });
-        document.querySelectorAll('.reply-submit-btn').forEach(btn => {
-            btn.removeEventListener('click', handleReplySubmit);
-            btn.addEventListener('click', handleReplySubmit);
-        });
-        document.querySelectorAll('.reply-cancel-btn').forEach(btn => {
-            btn.removeEventListener('click', handleReplyCancel);
-            btn.addEventListener('click', handleReplyCancel);
-        });
-    }
-
-    async function handleLike(e) {
-        const btn = e.currentTarget;
-        const commentId = btn.dataset.id;
-        try {
-            const response = await fetch(`/api/comments/${encodeURIComponent(PAGE_NAME)}/${commentId}/like`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' }
-            });
-            if (response.ok) await loadComments();
-        } catch (error) {
-            console.error('点赞失败:', error);
-        }
-    }
-
-    function handleReplyClick(e) {
-        const commentId = e.currentTarget.dataset.id;
-        const replyForm = document.getElementById(`reply-form-${commentId}`);
-        if (replyForm) replyForm.classList.toggle('active');
-    }
-
-    function handleReplyCancel(e) {
-        const commentId = e.currentTarget.dataset.id;
-        const replyForm = document.getElementById(`reply-form-${commentId}`);
-        if (replyForm) {
-            replyForm.classList.remove('active');
-            const textarea = replyForm.querySelector('.reply-textarea');
-            if (textarea) textarea.value = '';
-        }
-    }
-
-    async function handleReplySubmit(e) {
-        const commentId = e.currentTarget.dataset.id;
-        const textarea = document.getElementById(`reply-content-${commentId}`);
-        const content = textarea.value.trim();
-
-        if (!content) { alert('请输入回复内容'); return; }
-        if (content.length > 1000) { alert('回复内容不能超过1000字'); return; }
-
-        const submitBtn = e.currentTarget;
-        submitBtn.disabled = true;
-        submitBtn.textContent = '发布中...';
-
-        try {
-            const response = await fetch(`/api/comments/${encodeURIComponent(PAGE_NAME)}`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ content: content, parent_id: parseInt(commentId) })
-            });
-            if (response.ok) {
-                textarea.value = '';
-                const replyForm = document.getElementById(`reply-form-${commentId}`);
-                if (replyForm) replyForm.classList.remove('active');
-                await loadComments();
-            } else {
-                const error = await response.json();
-                alert(error.error || '发布回复失败');
+            // 确保标题有 id
+            if (!heading.id) {
+                heading.id = `toc-heading-${index}-${Date.now()}`;
             }
-        } catch (error) {
-            alert('网络错误，请重试');
-        } finally {
-            submitBtn.disabled = false;
-            submitBtn.textContent = '发布回复';
-        }
-    }
 
-    async function handleDelete(e) {
-        const commentId = e.currentTarget.dataset.id;
-        if (!confirm('确定要删除这条评论吗？')) return;
-        try {
-            const response = await fetch(`/api/comments/${encodeURIComponent(PAGE_NAME)}/${commentId}`, {
-                method: 'DELETE'
-            });
-            if (response.ok) await loadComments();
-            else alert('删除失败');
-        } catch (error) {
-            alert('网络错误');
-        }
-    }
-
-    async function handleDeleteReply(e) {
-        const replyId = e.currentTarget.dataset.id;
-        if (!confirm('确定要删除这条回复吗？')) return;
-        try {
-            const response = await fetch(`/api/comments/${encodeURIComponent(PAGE_NAME)}/${replyId}`, {
-                method: 'DELETE'
-            });
-            if (response.ok) await loadComments();
-            else alert('删除失败');
-        } catch (error) {
-            alert('网络错误');
-        }
-    }
-
-    async function submitComment() {
-        const textarea = document.getElementById('commentContent');
-        const content = textarea.value.trim();
-        if (!content) { alert('请输入评论内容'); return; }
-        if (content.length > 5000) { alert('评论内容不能超过5000字'); return; }
-
-        const submitBtn = document.getElementById('submitCommentBtn');
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> 发布中...';
-
-        try {
-            const response = await fetch(`/api/comments/${encodeURIComponent(PAGE_NAME)}`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ content: content })
-            });
-            if (response.ok) {
-                textarea.value = '';
-                await loadComments();
-            } else {
-                const error = await response.json();
-                alert(error.error || '发布评论失败');
+            // 处理嵌套层级
+            if (level > lastLevel) {
+                for (let i = 0; i < level - lastLevel; i++) html += '<ul>';
+            } else if (level < lastLevel) {
+                for (let i = 0; i < lastLevel - level; i++) html += '</ul>';
             }
-        } catch (error) {
-            alert('网络错误，请重试');
-        } finally {
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> 发布评论';
-        }
+
+            html += `<li><a href="#${heading.id}" class="toc-link level-${level}">${escapeHtml(text)}</a></li>`;
+            lastLevel = level;
+        });
+
+        // 闭合所有未关闭的 ul
+        for (let i = 1; i < lastLevel; i++) html += '</ul>';
+        html += '</ul>';
+
+        tocContainer.innerHTML = html;
+
+        // 绑定点击滚动事件
+        document.querySelectorAll('.toc-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href').substring(1);
+                const target = document.getElementById(targetId);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
     }
 
-    // 复制链接
-    document.getElementById('copyPageUrl')?.addEventListener('click', () => {
-        navigator.clipboard.writeText(window.location.href);
-        alert('链接已复制到剪贴板');
-    });
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
 
-    // 排序
-    document.getElementById('sortLatestBtn')?.addEventListener('click', () => {
-        currentSort = 'latest';
-        document.getElementById('sortLatestBtn').classList.add('active');
-        document.getElementById('sortHotBtn').classList.remove('active');
-        renderComments();
-    });
-    document.getElementById('sortHotBtn')?.addEventListener('click', () => {
-        currentSort = 'hot';
-        document.getElementById('sortHotBtn').classList.add('active');
-        document.getElementById('sortLatestBtn').classList.remove('active');
-        renderComments();
-    });
+    // 页面加载完成后生成目录
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', generateSidebarTOC);
+    } else {
+        generateSidebarTOC();
+    }
 
-    document.getElementById('submitCommentBtn')?.addEventListener('click', submitComment);
-
-    // 初始化
-    loadComments();
+    // 监听内容变化（如果是动态加载的）
+    const observer = new MutationObserver(() => generateSidebarTOC());
+    const targetNode = document.getElementById('markdownContent');
+    if (targetNode) {
+        observer.observe(targetNode, { childList: true, subtree: true });
+    }
 </script>
 {% endblock %}
