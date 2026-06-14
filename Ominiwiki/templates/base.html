@@ -8,8 +8,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    {% block extra_head %}{% endblock %}
-    
+    {% block extra_head %}
+    <!-- 代码高亮 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <!-- Markdown 解析库 -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- 在 base.html 的 head 中添加（可选） -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    {% endblock %}
+
 </head>
 <!-- 添加到 templates/base.html 的 </body> 标签之前 -->
 <!-- 彩色方块烟花特效 - 博客园风格 -->
@@ -502,601 +512,10 @@
 
     console.log('🎨 点击特效已加载！当前模式：' + effectNames[currentEffect]);
     console.log('💡 提示：连续点击3次可切换特效模式！');
+    
 </script>
 
-<!-- 跟随鼠标的3D几何图形特效 - 博客园风格 -->
-<!--
-<style>
-    /* 几何图形画布容器 */
-    .geometry-canvas-container {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        z-index: 9998;
-        overflow: hidden;
-    }
 
-    canvas#geometryCanvas {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        display: block;
-        pointer-events: none;
-    }
-
-    /* 特效控制按钮组 */
-    .geometry-controls {
-        position: fixed;
-        bottom: 80px;
-        right: 20px;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        z-index: 10000;
-    }
-
-    .geometry-btn {
-        background: var(--surface-card);
-        border: 1px solid var(--border-light);
-        border-radius: 40px;
-        padding: 8px 16px;
-        cursor: pointer;
-        font-size: 0.75rem;
-        color: var(--text-muted);
-        transition: all 0.2s;
-        backdrop-filter: blur(8px);
-        display: flex;
-        align-items: center;
-        gap: 6px;
-    }
-
-        .geometry-btn:hover {
-            border-color: var(--accent-gold);
-            color: var(--accent-gold);
-        }
-
-    /* 提示框 */
-    .geometry-toast {
-        position: fixed;
-        bottom: 140px;
-        right: 20px;
-        background: var(--surface-card);
-        border-left: 4px solid var(--accent-gold);
-        padding: 8px 16px;
-        border-radius: 12px;
-        font-size: 0.75rem;
-        color: var(--text-primary);
-        z-index: 10001;
-        animation: slideInRight 0.3s ease;
-        pointer-events: none;
-        backdrop-filter: blur(8px);
-    }
-
-    @keyframes slideInRight {
-        from {
-            transform: translateX(100%);
-            opacity: 0;
-        }
-
-        to {
-            transform: translateX(0);
-            opacity: 1;
-        }
-    }
-</style>
-
-<div class="geometry-canvas-container">
-    <canvas id="geometryCanvas"></canvas>
-</div>
-
-<div class="geometry-controls">
-    <button id="toggleGeometryBtn" class="geometry-btn">
-        <i class="fas fa-cube"></i> <span id="geometryStatus">几何特效已开启</span>
-    </button>
-    <button id="switchGeometryStyleBtn" class="geometry-btn">
-        <i class="fas fa-shapes"></i> 切换形状
-    </button>
-</div> -->
-
-<!--
-<script>
-    // ==================== 跟随鼠标的3D几何图形特效 ====================
-
-    (function () {
-        // 特效配置
-        let geometryEnabled = localStorage.getItem('geometryEffect') !== 'false';
-        let currentStyle = localStorage.getItem('geometryStyle') || 'polyhedron'; // polyhedron, wireframe, particles, neon, cubecluster
-
-        const canvas = document.getElementById('geometryCanvas');
-        const ctx = canvas.getContext('2d');
-
-        let width, height;
-        let mouseX = 0, mouseY = 0;
-        let targetX = 0, targetY = 0;
-        let particles = [];
-        let animationId = null;
-        let time = 0;
-
-        // 颜色配置
-        const colors = {
-            polyhedron: ['#ffc244', '#ff8844', '#ff4466', '#ff44aa', '#aa44ff', '#44aaff'],
-            wireframe: ['#44ffaa', '#88ff44', '#aaff44', '#44ff88'],
-            neon: ['#ff3366', '#33ff66', '#3366ff', '#ffcc33', '#ff33cc'],
-            cubecluster: ['#ffc244', '#ff8844', '#ff4466', '#44ffaa', '#44aaff']
-        };
-
-        // 当前活动的粒子/图形
-        let geometryObjects = [];
-
-        // 监听鼠标位置（带平滑跟随）
-        document.addEventListener('mousemove', (e) => {
-            targetX = e.clientX;
-            targetY = e.clientY;
-        });
-
-        // 窗口大小调整
-        function resizeCanvas() {
-            width = window.innerWidth;
-            height = window.innerHeight;
-            canvas.width = width;
-            canvas.height = height;
-        }
-
-        window.addEventListener('resize', resizeCanvas);
-
-        // ==================== 多面体棱线特效 ====================
-        class PolyhedronTrail {
-            constructor(x, y) {
-                this.x = x;
-                this.y = y;
-                this.points = [];
-                this.maxPoints = 12;
-                this.angles = [];
-                this.radius = 25;
-                this.rotation = Math.random() * Math.PI * 2;
-                this.color = colors.polyhedron[Math.floor(Math.random() * colors.polyhedron.length)];
-                this.life = 1;
-                this.decay = 0.02;
-
-                // 生成多面体的顶点（3D投影到2D）
-                this.vertices = [];
-                const vertexCount = 8 + Math.floor(Math.random() * 4);
-                for (let i = 0; i < vertexCount; i++) {
-                    const angle = (Math.PI * 2 * i) / vertexCount;
-                    const radius = this.radius * (0.6 + Math.random() * 0.4);
-                    this.vertices.push({
-                        angle: angle,
-                        radius: radius,
-                        offsetX: (Math.random() - 0.5) * 10,
-                        offsetY: (Math.random() - 0.5) * 10
-                    });
-                }
-            }
-
-            update() {
-                this.life -= this.decay;
-                this.rotation += 0.05;
-                this.radius = Math.max(5, this.radius - 0.5);
-                return this.life > 0;
-            }
-
-            draw(ctx, currentX, currentY) {
-                ctx.save();
-                ctx.globalAlpha = this.life * 0.6;
-                ctx.beginPath();
-
-                // 绘制多面体棱线
-                for (let i = 0; i < this.vertices.length; i++) {
-                    const v1 = this.vertices[i];
-                    const x1 = currentX + Math.cos(v1.angle + this.rotation) * v1.radius + v1.offsetX;
-                    const y1 = currentY + Math.sin(v1.angle + this.rotation) * v1.radius + v1.offsetY;
-
-                    for (let j = i + 1; j < this.vertices.length; j++) {
-                        const v2 = this.vertices[j];
-                        const x2 = currentX + Math.cos(v2.angle + this.rotation) * v2.radius + v2.offsetX;
-                        const y2 = currentY + Math.sin(v2.angle + this.rotation) * v2.radius + v2.offsetY;
-
-                        // 只连接距离较近的顶点（形成多面体网格）
-                        const dist = Math.hypot(x2 - x1, y2 - y1);
-                        if (dist < this.radius * 1.5) {
-                            ctx.beginPath();
-                            ctx.moveTo(x1, y1);
-                            ctx.lineTo(x2, y2);
-                            ctx.strokeStyle = this.color;
-                            ctx.lineWidth = 1.5 * this.life;
-                            ctx.stroke();
-                        }
-                    }
-                }
-
-                // 绘制顶点光晕
-                for (const v of this.vertices) {
-                    const x = currentX + Math.cos(v.angle + this.rotation) * v.radius + v.offsetX;
-                    const y = currentY + Math.sin(v.angle + this.rotation) * v.radius + v.offsetY;
-                    ctx.beginPath();
-                    ctx.arc(x, y, 2 * this.life, 0, Math.PI * 2);
-                    ctx.fillStyle = this.color;
-                    ctx.fill();
-                }
-
-                ctx.restore();
-            }
-        }
-
-        // ==================== 线框球体特效 ====================
-        class WireframeSphere {
-            constructor(x, y) {
-                this.x = x;
-                this.y = y;
-                this.radius = 20;
-                this.rings = 5;
-                this.segments = 12;
-                this.rotation = 0;
-                this.color = colors.wireframe[Math.floor(Math.random() * colors.wireframe.length)];
-                this.life = 1;
-                this.decay = 0.025;
-            }
-
-            update() {
-                this.life -= this.decay;
-                this.rotation += 0.08;
-                this.radius = Math.max(3, this.radius - 0.8);
-                return this.life > 0;
-            }
-
-            draw(ctx, currentX, currentY) {
-                ctx.save();
-                ctx.globalAlpha = this.life * 0.7;
-                ctx.strokeStyle = this.color;
-                ctx.lineWidth = 1.2 * this.life;
-
-                // 绘制水平环
-                for (let i = 0; i <= this.rings; i++) {
-                    const r = this.radius * Math.sin(Math.PI * i / this.rings);
-                    const yOffset = this.radius * Math.cos(Math.PI * i / this.rings);
-                    ctx.beginPath();
-                    for (let j = 0; j <= this.segments; j++) {
-                        const angle = (Math.PI * 2 * j / this.segments) + this.rotation;
-                        const x = currentX + Math.cos(angle) * r;
-                        const y = currentY + yOffset;
-                        if (j === 0) ctx.moveTo(x, y);
-                        else ctx.lineTo(x, y);
-                    }
-                    ctx.stroke();
-                }
-
-                // 绘制垂直环
-                for (let i = 0; i < this.segments; i++) {
-                    const angle = (Math.PI * 2 * i / this.segments) + this.rotation;
-                    ctx.beginPath();
-                    for (let j = 0; j <= this.rings * 2; j++) {
-                        const theta = Math.PI * j / this.rings;
-                        const x = currentX + Math.cos(angle) * this.radius * Math.sin(theta);
-                        const y = currentY + this.radius * Math.cos(theta);
-                        if (j === 0) ctx.moveTo(x, y);
-                        else ctx.lineTo(x, y);
-                    }
-                    ctx.stroke();
-                }
-
-                ctx.restore();
-            }
-        }
-
-        // ==================== 粒子星云特效 ====================
-        class ParticleNebula {
-            constructor(x, y) {
-                this.x = x;
-                this.y = y;
-                this.particles = [];
-                this.color = colors.neon[Math.floor(Math.random() * colors.neon.length)];
-                this.life = 1;
-
-                for (let i = 0; i < 30; i++) {
-                    this.particles.push({
-                        angle: Math.random() * Math.PI * 2,
-                        speed: 2 + Math.random() * 4,
-                        radius: 5 + Math.random() * 15,
-                        size: 2 + Math.random() * 4,
-                        alpha: 0.8
-                    });
-                }
-            }
-
-            update() {
-                this.life -= 0.02;
-                for (const p of this.particles) {
-                    p.radius += p.speed * 0.3;
-                    p.alpha -= 0.02;
-                }
-                return this.life > 0 && this.particles[0]?.alpha > 0;
-            }
-
-            draw(ctx, currentX, currentY) {
-                ctx.save();
-                for (const p of this.particles) {
-                    ctx.globalAlpha = p.alpha * this.life * 0.6;
-                    const x = currentX + Math.cos(p.angle) * p.radius;
-                    const y = currentY + Math.sin(p.angle) * p.radius;
-                    ctx.beginPath();
-                    ctx.arc(x, y, p.size * this.life, 0, Math.PI * 2);
-                    ctx.fillStyle = this.color;
-                    ctx.fill();
-                }
-                ctx.restore();
-            }
-        }
-
-        // ==================== 立方体集群特效 ====================
-        class CubeCluster {
-            constructor(x, y) {
-                this.x = x;
-                this.y = y;
-                this.cubes = [];
-                this.life = 1;
-
-                for (let i = 0; i < 12; i++) {
-                    this.cubes.push({
-                        angle: Math.random() * Math.PI * 2,
-                        distance: 15 + Math.random() * 30,
-                        size: 6 + Math.random() * 8,
-                        rotation: Math.random() * Math.PI * 2,
-                        rotSpeed: 0.05 + Math.random() * 0.1,
-                        color: colors.cubecluster[Math.floor(Math.random() * colors.cubecluster.length)]
-                    });
-                }
-            }
-
-            update() {
-                this.life -= 0.02;
-                for (const c of this.cubes) {
-                    c.rotation += c.rotSpeed;
-                }
-                return this.life > 0;
-            }
-
-            drawCube(ctx, x, y, size, rotation, color, alpha) {
-                ctx.save();
-                ctx.translate(x, y);
-                ctx.rotate(rotation);
-                ctx.globalAlpha = alpha * this.life * 0.7;
-                ctx.strokeStyle = color;
-                ctx.lineWidth = 1.5;
-
-                // 绘制正方形（2D投影）
-                const half = size / 2;
-                ctx.strokeRect(-half, -half, size, size);
-
-                // 绘制对角线
-                ctx.beginPath();
-                ctx.moveTo(-half, -half);
-                ctx.lineTo(half, half);
-                ctx.moveTo(-half, half);
-                ctx.lineTo(half, -half);
-                ctx.stroke();
-
-                ctx.restore();
-            }
-
-            draw(ctx, currentX, currentY) {
-                for (const c of this.cubes) {
-                    const x = currentX + Math.cos(c.angle) * c.distance;
-                    const y = currentY + Math.sin(c.angle) * c.distance;
-                    this.drawCube(ctx, x, y, c.size * this.life, c.rotation, c.color, 0.8);
-                }
-            }
-        }
-
-        // ==================== 炫光粒子特效 ====================
-        class GlowParticle {
-            constructor(x, y) {
-                this.x = x;
-                this.y = y;
-                this.vx = (Math.random() - 0.5) * 4;
-                this.vy = (Math.random() - 0.5) * 4;
-                this.size = 2 + Math.random() * 4;
-                this.life = 1;
-                this.decay = 0.02;
-                this.color = `hsl(${Math.random() * 360}, 80%, 60%)`;
-            }
-
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
-                this.life -= this.decay;
-                return this.life > 0;
-            }
-
-            draw(ctx) {
-                ctx.save();
-                ctx.globalAlpha = this.life * 0.8;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size * this.life, 0, Math.PI * 2);
-                ctx.fillStyle = this.color;
-                ctx.fill();
-                ctx.restore();
-            }
-        }
-
-        // ==================== 特效管理器 ====================
-        let activeObjects = [];
-        let lastX = 0, lastY = 0;
-        let frameCount = 0;
-
-        function createEffectAt(x, y, style) {
-            switch (style) {
-                case 'polyhedron':
-                    activeObjects.push(new PolyhedronTrail(x, y));
-                    break;
-                case 'wireframe':
-                    activeObjects.push(new WireframeSphere(x, y));
-                    break;
-                case 'particles':
-                    activeObjects.push(new ParticleNebula(x, y));
-                    break;
-                case 'cubecluster':
-                    activeObjects.push(new CubeCluster(x, y));
-                    break;
-                default:
-                    activeObjects.push(new PolyhedronTrail(x, y));
-            }
-        }
-
-        // 鼠标平滑跟随
-        let smoothedX = 0, smoothedY = 0;
-
-        function animate() {
-            if (!geometryEnabled) {
-                if (ctx) ctx.clearRect(0, 0, width, height);
-                requestAnimationFrame(animate);
-                return;
-            }
-
-            // 平滑鼠标位置
-            smoothedX += (targetX - smoothedX) * 0.15;
-            smoothedY += (targetY - smoothedY) * 0.15;
-
-            // 更新所有特效
-            for (let i = activeObjects.length - 1; i >= 0; i--) {
-                if (!activeObjects[i].update()) {
-                    activeObjects.splice(i, 1);
-                }
-            }
-
-            // 根据移动速度决定是否生成新特效
-            const dx = Math.abs(smoothedX - lastX);
-            const dy = Math.abs(smoothedY - lastY);
-            const distance = Math.hypot(dx, dy);
-
-            if (distance > 8 && geometryEnabled) {
-                // 根据移动速度生成不同数量的特效
-                const count = Math.min(3, Math.floor(distance / 15) + 1);
-                for (let i = 0; i < count; i++) {
-                    createEffectAt(smoothedX + (Math.random() - 0.5) * 10,
-                        smoothedY + (Math.random() - 0.5) * 10,
-                        currentStyle);
-                }
-                lastX = smoothedX;
-                lastY = smoothedY;
-            }
-
-            // 清理画布并绘制
-            ctx.clearRect(0, 0, width, height);
-
-            // 绘制所有特效
-            for (const obj of activeObjects) {
-                obj.draw(ctx, obj.x, obj.y);
-            }
-
-            // 绘制中心光晕（跟随鼠标）
-            if (smoothedX > 0 && smoothedY > 0 && smoothedX < width && smoothedY < height) {
-                ctx.save();
-                ctx.globalAlpha = 0.3;
-                const gradient = ctx.createRadialGradient(smoothedX, smoothedY, 0, smoothedX, smoothedY, 40);
-                gradient.addColorStop(0, 'rgba(255, 194, 68, 0.4)');
-                gradient.addColorStop(1, 'rgba(255, 194, 68, 0)');
-                ctx.fillStyle = gradient;
-                ctx.beginPath();
-                ctx.arc(smoothedX, smoothedY, 40, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.restore();
-            }
-
-            time++;
-            requestAnimationFrame(animate);
-        }
-
-        // 切换特效开关
-        function toggleGeometry() {
-            geometryEnabled = !geometryEnabled;
-            localStorage.setItem('geometryEffect', geometryEnabled);
-            updateGeometryUI();
-
-            if (!geometryEnabled) {
-                activeObjects = [];
-                ctx.clearRect(0, 0, width, height);
-            }
-
-            showGeometryToast(geometryEnabled ? '✨ 几何特效已开启' : '💤 几何特效已关闭');
-        }
-
-        // 切换特效样式
-        function switchStyle() {
-            const styles = ['polyhedron', 'wireframe', 'particles', 'cubecluster'];
-            const styleNames = {
-                polyhedron: '🔷 多面体棱线',
-                wireframe: '🌐 线框球体',
-                particles: '✨ 粒子星云',
-                cubecluster: '🧊 立方体集群'
-            };
-            const currentIndex = styles.indexOf(currentStyle);
-            const nextIndex = (currentIndex + 1) % styles.length;
-            currentStyle = styles[nextIndex];
-            localStorage.setItem('geometryStyle', currentStyle);
-            showGeometryToast(`🎨 切换为：${styleNames[currentStyle]}`);
-
-            // 清理现有特效以显示新样式
-            activeObjects = [];
-        }
-
-        function updateGeometryUI() {
-            const statusSpan = document.getElementById('geometryStatus');
-            const toggleBtn = document.getElementById('toggleGeometryBtn');
-            if (statusSpan) {
-                statusSpan.textContent = geometryEnabled ? '几何特效已开启' : '几何特效已关闭';
-            }
-            if (toggleBtn) {
-                toggleBtn.style.opacity = geometryEnabled ? '1' : '0.5';
-            }
-        }
-
-        function showGeometryToast(message) {
-            const toast = document.createElement('div');
-            toast.className = 'geometry-toast';
-            toast.innerHTML = `<i class="fas fa-cube"></i> ${message}`;
-            document.body.appendChild(toast);
-            setTimeout(() => toast.remove(), 2000);
-        }
-
-        // 初始化
-        function init() {
-            resizeCanvas();
-            animate();
-
-            // 绑定按钮事件
-            const toggleBtn = document.getElementById('toggleGeometryBtn');
-            const switchBtn = document.getElementById('switchGeometryStyleBtn');
-
-            if (toggleBtn) toggleBtn.addEventListener('click', toggleGeometry);
-            if (switchBtn) switchBtn.addEventListener('click', switchStyle);
-
-            updateGeometryUI();
-
-            // 显示启动提示
-            setTimeout(() => {
-                if (geometryEnabled) {
-                    showGeometryToast('🎨 几何特效已启动！移动鼠标查看效果');
-                }
-            }, 1000);
-        }
-
-        // 页面可见性变化时停止/继续动画
-        document.addEventListener('visibilitychange', () => {
-            if (document.hidden) {
-                // 页面不可见时清空特效以节省资源
-                activeObjects = [];
-            }
-        });
-
-        init();
-    })();
-</script>
- -->
 
 
 <body>
@@ -1107,31 +526,33 @@
                 <h1><i class="fas fa-globe-americas"></i> 寰宇维基</h1>
                 <span>OmniWiki · 万物互联的知识圣殿</span>
             </div>
+            <button id="themeToggle" class="theme-toggle" title="切换主题">
+                <i class="fas fa-moon moon-icon"></i>
+                <i class="fas fa-sun sun-icon" style="display:none;"></i>
+            </button>
             <div class="search-bar">
                 <input type="text" id="globalSearchInput" placeholder="搜索词条..." autocomplete="off">
                 <button id="searchButton"><i class="fas fa-search"></i></button>
                 <div id="searchSuggestions" class="search-suggestions"></div>
             </div>
-            <div class="user-zone">
-                {% if username %}
-                <div class="avatar-placeholder" id="userMenuBtn">
-                    <div class="avatar-icon">{{ user_avatar if user_avatar else username[0].upper() }}</div>
-                    <span>{{ username }}</span>
+            <div class="user-zone" style="position: relative;">
+                <div class="avatar-placeholder" id="userMenuBtn" style="cursor: pointer;">
+                    <div class="avatar-icon">{{ user_avatar if user_avatar else (username and username[0].upper()) or '👤' }}</div>
+                    <span id="username">{{ username }}</span>
                     <i class="fas fa-chevron-down"></i>
                 </div>
                 <div id="userDropdown" class="user-dropdown">
                     <a href="/profile"><i class="fas fa-user"></i> 个人主页</a>
                     <a href="/create"><i class="fas fa-plus-circle"></i> 创建页面</a>
+                    {% if session.get('role') == 'admin' %}
+                    <a href="/admin/review"><i class="fas fa-clipboard-list"></i> 审核管理</a>
+                    {% endif %}
                     <hr>
                     <a href="/logout"><i class="fas fa-sign-out-alt"></i> 登出</a>
                 </div>
-                {% else %}
-                <button class="btn-outline" onclick="location.href='/login'"><i class="fas fa-sign-in-alt"></i> 登录</button>
-                <button class="btn-primary" onclick="location.href='/register'"><i class="fas fa-user-plus"></i> 注册</button>
-                {% endif %}
             </div>
         </div>
-        
+
 
         <!-- 主体三栏布局 -->
         <div class="wiki-grid">
@@ -1198,7 +619,356 @@
         </footer>
     </div>
 
+
+    <style>
+        [data-theme="light"] .katex .mathnormal {
+            color: #1a1a2e;
+        }
+
+        [data-theme="light"] .katex .mord {
+            color: #1a1a2e;
+        }
+
+        [data-theme="light"] .katex .mbin,
+        [data-theme="light"] .katex .mrel {
+            color: #4a4a6a;
+        }
+        /* 名牌样式 */
+        .honor-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 8px;
+        }
+
+        .honor-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            backdrop-filter: blur(4px);
+            transition: all 0.2s;
+            cursor: default;
+        }
+
+            .honor-badge:hover {
+                transform: translateY(-2px);
+                filter: brightness(1.1);
+            }
+
+            .honor-badge i {
+                font-size: 0.7rem;
+            }
+
+        /* 荣誉面板 - 用户详情弹窗 */
+        .user-detail-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .user-detail-card {
+            background: var(--surface-card);
+            border-radius: 32px;
+            max-width: 500px;
+            width: 90%;
+            border: 1px solid var(--border-light);
+            overflow: hidden;
+            animation: modalFadeIn 0.3s ease;
+        }
+
+        .user-detail-header {
+            padding: 24px;
+            background: linear-gradient(135deg, #1a1c2a, #0f111a);
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .user-detail-avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--accent-gold), #ffa500);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+
+        .user-detail-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 4px;
+        }
+
+        .user-detail-role {
+            color: var(--accent-gold);
+            font-size: 0.8rem;
+        }
+
+        .user-detail-body {
+            padding: 24px;
+        }
+
+        .user-detail-section {
+            margin-bottom: 24px;
+        }
+
+            .user-detail-section h4 {
+                font-size: 0.9rem;
+                margin-bottom: 12px;
+                color: var(--accent-gold);
+                border-left: 3px solid var(--accent-gold);
+                padding-left: 12px;
+            }
+
+        .user-detail-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .user-stat-item {
+            background: var(--bg-dark);
+            border-radius: 16px;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .user-stat-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent-gold);
+        }
+
+        .user-stat-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        .close-modal-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+    </style>
+
+    <!-- 用户名牌显示区 -->
+    <div id="userHonorBadges" class="honor-badges" style="display: none;">
+        <!-- 动态显示名牌 -->
+    </div>
+
+    <!-- 用户详情模态窗 -->
+    <div id="userDetailModal" class="user-detail-modal">
+        <div class="user-detail-card">
+            <div class="user-detail-header">
+                <div class="user-detail-avatar" id="modalAvatar">👤</div>
+                <div class="user-detail-info">
+                    <h3 id="modalUsername">用户名</h3>
+                    <div class="user-detail-role" id="modalRole"></div>
+                    <div class="honor-badges" id="modalHonors"></div>
+                </div>
+            </div>
+            <div class="user-detail-body">
+                <div class="user-detail-section">
+                    <h4><i class="fas fa-chart-line"></i> 贡献统计</h4>
+                    <div class="user-detail-stats" id="modalStats"></div>
+                </div>
+                <div class="user-detail-section">
+                    <h4><i class="fas fa-calendar-alt"></i> 个人信息</h4>
+                    <div id="modalInfo"></div>
+                </div>
+            </div>
+            <button class="close-modal-btn" onclick="closeUserModal()">&times;</button>
+        </div>
+    </div>
+
+    <script>
+    // 加载用户荣誉
+    async function loadUserHonors(username) {
+        try {
+            const response = await fetch(`/api/user-honors/${encodeURIComponent(username)}`);
+            const honors = await response.json();
+            const container = document.getElementById('userHonorBadges');
+            if (container && honors.length > 0) {
+                container.style.display = 'flex';
+                container.innerHTML = honors.map(h => `
+                    <div class="honor-badge" style="background: ${h.bg}; color: ${h.color};" title="${h.name}">
+                        <i class="fas ${h.icon}"></i>
+                        <span>${h.name}</span>
+                    </div>
+                `).join('');
+            } else if (container) {
+                container.style.display = 'none';
+            }
+            return honors;
+        } catch (error) {
+            console.error('加载荣誉失败:', error);
+            return [];
+        }
+    }
+
+    // 加载用户排名
+    async function loadUserRank() {
+        try {
+            const response = await fetch('/api/user-rank');
+            const data = await response.json();
+
+            // 获取当前用户的排名徽章
+            if (data.user_rank && data.user_rank <= 3) {
+                const rankNames = {1: '热度冠军', 2: '热度亚军', 3: '热度季军'};
+                const rankColors = {1: '#ffd700', 2: '#c0c0c0', 3: '#cd7f32'};
+                const container = document.getElementById('userHonorBadges');
+                if (container) {
+                    const rankBadge = document.createElement('div');
+                    rankBadge.className = 'honor-badge';
+                    rankBadge.style.background = `rgba(${parseInt(rankColors[data.user_rank].slice(1,3), 16)}, ${parseInt(rankColors[data.user_rank].slice(3,5), 16)}, ${parseInt(rankColors[data.user_rank].slice(5,7), 16)}, 0.15)`;
+                    rankBadge.style.color = rankColors[data.user_rank];
+                    rankBadge.innerHTML = `<i class="fas fa-trophy"></i> <span>${rankNames[data.user_rank]}</span>`;
+                    container.appendChild(rankBadge);
+                }
+            }
+            return data;
+        } catch (error) {
+            console.error('加载排名失败:', error);
+        }
+    }
+
+    // 显示用户详情模态窗
+    async function showUserDetail(username) {
+        try {
+            const response = await fetch(`/api/user-honors/${encodeURIComponent(username)}`);
+            const honors = await response.json();
+            const rankResponse = await fetch('/api/user-rank');
+            const rankData = await rankResponse.json();
+
+            const rankInfo = rankData.rankings.find(r => r.username === username);
+            const rank = rankData.rankings.findIndex(r => r.username === username) + 1;
+
+            document.getElementById('modalUsername').textContent = username;
+            document.getElementById('modalAvatar').textContent = username[0].toUpperCase();
+            document.getElementById('modalRole').innerHTML = honors.some(h => h.name === '管理员') ? '<i class="fas fa-crown"></i> 网站管理员' : '注册用户';
+
+            // 显示荣誉
+            const modalHonors = document.getElementById('modalHonors');
+            if (honors.length > 0) {
+                modalHonors.innerHTML = honors.map(h => `
+                    <div class="honor-badge" style="background: ${h.bg}; color: ${h.color};">
+                        <i class="fas ${h.icon}"></i>
+                        <span>${h.name}</span>
+                    </div>
+                `).join('');
+            } else {
+                modalHonors.innerHTML = '<span style="color: var(--text-muted); font-size: 0.7rem;">暂无荣誉</span>';
+            }
+
+            // 显示统计
+            const modalStats = document.getElementById('modalStats');
+            if (rankInfo) {
+                modalStats.innerHTML = `
+                    <div class="user-stat-item">
+                        <div class="user-stat-number">${rankInfo.pages}</div>
+                        <div class="user-stat-label">创建的页面</div>
+                    </div>
+                    <div class="user-stat-item">
+                        <div class="user-stat-number">${rankInfo.topics}</div>
+                        <div class="user-stat-label">发起的话题</div>
+                    </div>
+                    <div class="user-stat-item">
+                        <div class="user-stat-number">${rankInfo.replies}</div>
+                        <div class="user-stat-label">回复的数量</div>
+                    </div>
+                    <div class="user-stat-item">
+                        <div class="user-stat-number">${rankInfo.likes}</div>
+                        <div class="user-stat-label">获得点赞</div>
+                    </div>
+                `;
+            } else {
+                modalStats.innerHTML = '<div style="grid-column: span 2; text-align: center; color: var(--text-muted);">暂无统计数据</div>';
+            }
+
+            // 显示排名
+            const modalInfo = document.getElementById('modalInfo');
+            if (rank && rank <= 10) {
+                modalInfo.innerHTML = `
+                    <div class="user-stat-item" style="grid-column: span 2; background: rgba(255, 194, 68, 0.1);">
+                        <div class="user-stat-number">#${rank}</div>
+                        <div class="user-stat-label">全站贡献排名</div>
+                    </div>
+                `;
+            } else {
+                modalInfo.innerHTML = '<div style="color: var(--text-muted);">暂无更多信息</div>';
+            }
+
+            document.getElementById('userDetailModal').style.display = 'flex';
+        } catch (error) {
+            console.error('加载用户详情失败:', error);
+        }
+    }
+
+    function closeUserModal() {
+        document.getElementById('userDetailModal').style.display = 'none';
+    }
+
+    // 初始化 - 将用户名区域设置为可点击
+    function initUserBadge() {
+        const usernameSpan = document.getElementById('username');
+        const avatarDiv = document.querySelector('.avatar');
+        const currentUser = '{{ username }}';
+
+        if (usernameSpan && currentUser && currentUser !== '访客') {
+            usernameSpan.style.cursor = 'pointer';
+            usernameSpan.title = '点击查看个人荣誉';
+            usernameSpan.onclick = () => showUserDetail(currentUser);
+
+            if (avatarDiv) {
+                avatarDiv.style.cursor = 'pointer';
+                avatarDiv.onclick = () => showUserDetail(currentUser);
+            }
+
+            // 加载荣誉
+            loadUserHonors(currentUser);
+            loadUserRank();
+        }
+    }
+
+    // 页面加载完成后初始化
+    document.addEventListener('DOMContentLoaded', initUserBadge);
+    </script>
+
+
     <script src="{{ url_for('static', filename='script.js') }}"></script>
     {% block extra_scripts %}{% endblock %}
+    
+
 </body>
 </html>

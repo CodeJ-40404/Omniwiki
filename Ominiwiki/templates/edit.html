@@ -14,6 +14,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <!-- Markdown 解析库 -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- KaTeX 数学公式支持 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -479,6 +483,9 @@
                 <div class="avatar" id="userAvatar">{{ user_avatar if user_avatar else '👤' }}</div>
                 <span id="username">{{ username if username else '访客' }}</span>
             </div>
+            {% if username %}
+            {% include "components/honor_badges.html" %}
+            {% endif %}
         </div>
     </nav>
 
@@ -609,8 +616,7 @@
     }
 
     // 实时预览更新
-        function updatePreview() {
-
+    function updatePreview() {
         const markdown = editor.value;
         try {
             const html = marked.parse(markdown);
@@ -621,6 +627,18 @@
                 hljs.highlightElement(block);
             });
 
+            // 渲染 LaTeX 公式（修复版）
+            if (typeof renderMathInElement !== 'undefined') {
+                renderMathInElement(previewDiv, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false },
+                        { left: '\\(', right: '\\)', display: false },
+                        { left: '\\[', right: '\\]', display: true }
+                    ],
+                    throwOnError: false
+                });
+            }
         } catch (e) {
             previewDiv.innerHTML = `<div style="color: #ff6b6b;">解析错误: ${e.message}</div>`;
         }
@@ -788,54 +806,75 @@
     });
 
     // ========== 🔥 核心：保存功能 - 真正提交到后端 ==========
-    saveBtn.addEventListener('click', async () => {
-    const title = pageTitleInput.value.trim();
-    const content = editor.value;
+        // ========== 保存功能 - 根据用户角色决定直接保存还是提交审核 ==========
+        saveBtn.addEventListener('click', async () => {
+            const title = pageTitleInput.value.trim();
+            const content = editor.value;
+            // 从模板中获取用户角色
+            const isAdmin = '{{ session.get("role") }}' === 'admin';
+            const PAGE_NAME = '{{ page_name }}';
 
-    if (!title) {
-    showToast('请填写页面标题', 'error');
-    return;
-    }
+            if (!title) {
+                showToast('请填写页面标题', 'error');
+                return;
+            }
 
-    // 保存按钮状态
-    const originalText = saveBtn.innerHTML;
-    saveBtn.disabled = true;
-    saveBtn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> 保存中...';
+            // 保存按钮状态
+            const originalText = saveBtn.innerHTML;
+            saveBtn.disabled = true;
+            saveBtn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> 处理中...';
 
-    // 构建 FormData
-    const formData = new FormData();
-    formData.append('title', title);
-    formData.append('content', content);
-    formData.append('tags', tags.join(','));
+            // 构建 FormData
+            const formData = new FormData();
+            formData.append('title', title);
+            formData.append('content', content);
+            formData.append('tags', tags.join(','));
 
-    try {
-    // 发送 POST 请求到编辑路由
-    const response = await fetch(window.location.href, {
-    method: 'POST',
-    body: formData
-    });
+            try {
+                let url;
+                let method = 'POST';
 
-    if (response.ok) {
-    showToast('✅ 保存成功！正在跳转...', 'success');
-    saveBtn.innerHTML = '<i class="fas fa-check"></i> 已保存';
-    // 延迟跳转到页面查看
-    setTimeout(() => {
-    window.location.href = `/page/${PAGE_NAME}`;
-    }, 800);
-    } else {
-    const errorText = await response.text();
-    console.error('保存失败:', errorText);
-    showToast('❌ 保存失败，请重试', 'error');
-    saveBtn.innerHTML = originalText;
-    saveBtn.disabled = false;
-    }
-    } catch (error) {
-    console.error('网络错误:', error);
-    showToast('❌ 网络错误，保存失败', 'error');
-    saveBtn.innerHTML = originalText;
-    saveBtn.disabled = false;
-    }
-    });
+                if (isAdmin) {
+                    // 管理员直接保存
+                    url = window.location.href;
+                } else {
+                    // 普通用户提交审核
+                    url = `/submit-review/${encodeURIComponent(PAGE_NAME)}`;
+                }
+
+                const response = await fetch(url, {
+                    method: method,
+                    body: formData
+                });
+
+                if (response.ok) {
+                    if (isAdmin) {
+                        showToast('✅ 保存成功！正在跳转...', 'success');
+                        saveBtn.innerHTML = '<i class="fas fa-check"></i> 已保存';
+                        setTimeout(() => {
+                            window.location.href = `/page/${PAGE_NAME}`;
+                        }, 800);
+                    } else {
+                        showToast('📝 已提交审核，请等待管理员批准', 'success');
+                        saveBtn.innerHTML = '<i class="fas fa-clock"></i> 已提交';
+                        setTimeout(() => {
+                            window.location.href = `/pending-status/${PAGE_NAME}`;
+                        }, 1500);
+                    }
+                } else {
+                    const errorText = await response.text();
+                    console.error('操作失败:', errorText);
+                    showToast('❌ 操作失败：' + errorText, 'error');
+                    saveBtn.innerHTML = originalText;
+                    saveBtn.disabled = false;
+                }
+            } catch (error) {
+                console.error('网络错误:', error);
+                showToast('❌ 网络错误，请重试', 'error');
+                saveBtn.innerHTML = originalText;
+                saveBtn.disabled = false;
+            }
+        });
 
     // 自动保存草稿（每30秒）
     setInterval(() => {

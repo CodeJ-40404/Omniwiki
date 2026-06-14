@@ -1,5 +1,5 @@
-# app.py - 寰宇维基本地服务器主程序
-# 运行方式: python app.py 或 在VS中按F5
+# Omniwiki.py - 寰宇维基本地服务器主程序
+# 运行方式: python Omniwiki.py 或 在VS中按F5
 # 访问地址: http://localhost:5000
 
 import json
@@ -1607,6 +1607,464 @@ def page_not_found(e):
                          suggestions=suggestions[:5],
                          username=session.get('username'),
                          user_avatar=session.get('avatar')), 404
+
+
+# ==================== 用户荣誉系统 ====================
+
+def calculate_user_honors(username):
+    """计算用户的荣誉徽章"""
+    data = load_data()
+    discussions_data = load_discussions()
+    
+    honors = []
+    
+    # 获取用户数据
+    user_data = data['users'].get(username, {})
+    
+    # 1. 管理员徽章
+    if user_data.get('role') == 'admin':
+        honors.append({
+            'name': '管理员',
+            'icon': 'fa-crown',
+            'color': '#ffd700',
+            'bg': 'rgba(255, 215, 0, 0.15)',
+            'level': 1
+        })
+    
+    # 2. OP 专属（管理员可赋予）
+    if user_data.get('is_op', False):
+        honors.append({
+            'name': 'OP',
+            'icon': 'fa-star',
+            'color': '#ff6b6b',
+            'bg': 'rgba(255, 107, 107, 0.15)',
+            'level': 1
+        })
+    
+    # 3. 自定义称号（管理员专属）
+    if user_data.get('custom_title'):
+        honors.append({
+            'name': user_data['custom_title'],
+            'icon': 'fa-tag',
+            'color': '#c44fff',
+            'bg': 'rgba(196, 79, 255, 0.15)',
+            'level': 1,
+            'is_custom': True
+        })
+    
+    # 4. 统计用户的贡献
+    user_pages = [p for p in data['pages'].values() if p.get('author') == username]
+    user_topics = 0
+    user_replies = 0
+    total_likes = 0
+    
+    for page_name, topics in discussions_data.items():
+        for topic in topics:
+            if topic.get('author') == username:
+                user_topics += 1
+                total_likes += topic.get('likes', 0)
+            for reply in topic.get('replies', []):
+                if reply.get('author') == username:
+                    user_replies += 1
+                    total_likes += reply.get('likes', 0)
+    
+    total_contributions = len(user_pages) + user_topics + user_replies
+    
+    # 5. 生产者徽章（创建页面数 >= 5）
+    if len(user_pages) >= 5:
+        honors.append({
+            'name': '生产者',
+            'icon': 'fa-industry',
+            'color': '#44ffaa',
+            'bg': 'rgba(68, 255, 170, 0.15)',
+            'level': 2
+        })
+    elif len(user_pages) >= 1:
+        honors.append({
+            'name': '贡献者',
+            'icon': 'fa-leaf',
+            'color': '#88ff44',
+            'bg': 'rgba(136, 255, 68, 0.15)',
+            'level': 3
+        })
+    
+    # 6. 元老徽章（加入时间超过一定天数）
+    join_date = user_data.get('join_date', '')
+    if join_date:
+        try:
+            join = datetime.strptime(join_date, "%Y-%m-%d")
+            days = (datetime.now() - join).days
+            if days >= 365:
+                honors.append({
+                    'name': '元老',
+                    'icon': 'fa-landmark',
+                    'color': '#ffaa44',
+                    'bg': 'rgba(255, 170, 68, 0.15)',
+                    'level': 1
+                })
+            elif days >= 180:
+                honors.append({
+                    'name': '资深成员',
+                    'icon': 'fa-star-of-life',
+                    'color': '#44aaff',
+                    'bg': 'rgba(68, 170, 255, 0.15)',
+                    'level': 2
+                })
+        except:
+            pass
+    
+    # 7. 活跃用户（回复数 + 话题数 >= 10）
+    if user_topics + user_replies >= 10:
+        honors.append({
+            'name': '活跃用户',
+            'icon': 'fa-fire',
+            'color': '#ff8844',
+            'bg': 'rgba(255, 136, 68, 0.15)',
+            'level': 2
+        })
+    
+    # 8. 点赞收割机（获得点赞数 >= 20）
+    if total_likes >= 20:
+        honors.append({
+            'name': '人气王',
+            'icon': 'fa-heart',
+            'color': '#ff66aa',
+            'bg': 'rgba(255, 102, 170, 0.15)',
+            'level': 2
+        })
+    
+    # 按等级排序（level 越小越高级）
+    honors.sort(key=lambda x: x.get('level', 99))
+    
+    return honors
+
+def calculate_hot_rankings():
+    """计算用户热度排名"""
+    data = load_data()
+    discussions_data = load_discussions()
+    
+    # 统计每个用户的贡献
+    user_scores = {}
+    
+    # 页面贡献
+    for page in data['pages'].values():
+        author = page.get('author')
+        if author:
+            if author not in user_scores:
+                user_scores[author] = {'pages': 0, 'topics': 0, 'replies': 0, 'likes': 0, 'score': 0}
+            user_scores[author]['pages'] += 1
+            user_scores[author]['score'] += 5  # 页面权重
+    
+    # 讨论贡献
+    for page_name, topics in discussions_data.items():
+        for topic in topics:
+            author = topic.get('author')
+            if author:
+                if author not in user_scores:
+                    user_scores[author] = {'pages': 0, 'topics': 0, 'replies': 0, 'likes': 0, 'score': 0}
+                user_scores[author]['topics'] += 1
+                user_scores[author]['score'] += 3  # 话题权重
+                user_scores[author]['likes'] += topic.get('likes', 0)
+                user_scores[author]['score'] += topic.get('likes', 0)  # 点赞权重
+            
+            for reply in topic.get('replies', []):
+                author = reply.get('author')
+                if author:
+                    if author not in user_scores:
+                        user_scores[author] = {'pages': 0, 'topics': 0, 'replies': 0, 'likes': 0, 'score': 0}
+                    user_scores[author]['replies'] += 1
+                    user_scores[author]['score'] += 1  # 回复权重
+                    user_scores[author]['likes'] += reply.get('likes', 0)
+                    user_scores[author]['score'] += reply.get('likes', 0)
+    
+    # 计算总分并排序
+    rankings = []
+    for username, stats in user_scores.items():
+        rankings.append({
+            'username': username,
+            'score': stats['score'],
+            'pages': stats['pages'],
+            'topics': stats['topics'],
+            'replies': stats['replies'],
+            'likes': stats['likes']
+        })
+    
+    rankings.sort(key=lambda x: x['score'], reverse=True)
+    return rankings[:10]  # 返回前10名
+
+@app.route('/api/user-honors/<username>')
+def api_user_honors(username):
+    """获取用户荣誉"""
+    honors = calculate_user_honors(username)
+    return jsonify(honors)
+
+@app.route('/api/user-rank')
+def api_user_rank():
+    """获取用户排名"""
+    rankings = calculate_hot_rankings()
+    username = session.get('username')
+    if username:
+        user_rank = next((i+1 for i, r in enumerate(rankings) if r['username'] == username), None)
+        return jsonify({'rankings': rankings, 'user_rank': user_rank})
+    return jsonify({'rankings': rankings, 'user_rank': None})
+
+@app.route('/profile/update-title', methods=['POST'])
+@login_required
+def update_custom_title():
+    """更新自定义称号（仅管理员）"""
+    if session.get('role') != 'admin':
+        return jsonify({'error': '权限不足'}), 403
+    
+    data = load_data()
+    target_user = request.json.get('username')
+    custom_title = request.json.get('custom_title', '').strip()
+    
+    if not target_user:
+        return jsonify({'error': '用户名不能为空'}), 400
+    
+    if target_user not in data['users']:
+        return jsonify({'error': '用户不存在'}), 404
+    
+    if len(custom_title) > 20:
+        return jsonify({'error': '称号不能超过20个字符'}), 400
+    
+    if 'users' not in data:
+        data['users'] = {}
+    if target_user not in data['users']:
+        data['users'][target_user] = {}
+    
+    data['users'][target_user]['custom_title'] = custom_title if custom_title else None
+    save_data(data)
+    
+    return jsonify({'success': True, 'custom_title': custom_title})
+
+# ==================== 审核系统（完整版） ====================
+
+PENDING_FILE = 'pending_pages.json'
+
+def init_pending_file():
+    """初始化待审核文件"""
+    if not os.path.exists(PENDING_FILE):
+        with open(PENDING_FILE, 'w', encoding='utf-8') as f:
+            json.dump({}, f, ensure_ascii=False, indent=2)
+
+def load_pending():
+    """加载待审核页面"""
+    with open(PENDING_FILE, 'r', encoding='utf-8') as f:
+        return json.load(f)
+
+def save_pending(pending):
+    """保存待审核页面"""
+    with open(PENDING_FILE, 'w', encoding='utf-8') as f:
+        json.dump(pending, f, ensure_ascii=False, indent=2)
+
+@app.route('/submit-review/<page_name>', methods=['POST'])
+@login_required
+def submit_review(page_name):
+    """提交页面审核（非管理员用）"""
+    title = request.form.get('title', '')
+    content = request.form.get('content', '')
+    tags = request.form.get('tags', '').split(',')
+    tags = [t.strip() for t in tags if t.strip()]
+    
+    # 检查页面是否被冻结
+    data = load_data()
+    if page_name in data['pages'] and data['pages'][page_name].get('is_frozen', False):
+        return "该页面已被冻结，无法编辑", 403
+    
+    pending = load_pending()
+    
+    version_id = int(datetime.now().timestamp() * 1000)
+    version_data = {
+        'id': version_id,
+        'title': title,
+        'content': content,
+        'tags': tags,
+        'author': session['username'],
+        'submitted_at': datetime.now().strftime("%Y-%m-%d %H:%M"),
+        'status': 'pending',
+        'page_name': page_name,
+        'is_new': page_name not in data['pages']
+    }
+    
+    if page_name not in pending:
+        pending[page_name] = []
+    pending[page_name].append(version_data)
+    save_pending(pending)
+    
+    add_activity(f"提交了页面「{page_name}」的审核", session['username'], page_name)
+    
+    return "已提交审核，请等待管理员批准", 200
+
+@app.route('/admin/review')
+@login_required
+def review_panel():
+    """审核管理面板"""
+    if session.get('role') != 'admin':
+        return redirect(url_for('index'))
+    
+    pending = load_pending()
+    data = load_data()
+    
+    pending_list = []
+    for page_name, versions in pending.items():
+        for version in versions:
+            if version.get('status') == 'pending':
+                pending_list.append({
+                    'page_name': page_name,
+                    'version_id': version['id'],
+                    'title': version['title'],
+                    'author': version['author'],
+                    'submitted_at': version['submitted_at'],
+                    'is_new': version.get('is_new', False),
+                    'preview': version['content'][:200] + ('...' if len(version['content']) > 200 else '')
+                })
+    
+    pending_list.sort(key=lambda x: x['submitted_at'], reverse=True)
+    frozen_pages = [name for name, page in data['pages'].items() if page.get('is_frozen', False)]
+    
+    return render_template('admin_review.html',
+                         pending_list=pending_list,
+                         frozen_pages=frozen_pages,
+                         username=session.get('username'),
+                         user_avatar=session.get('avatar'))
+
+@app.route('/admin/approve/<page_name>/<int:version_id>')
+@login_required
+def approve_page(page_name, version_id):
+    """批准页面"""
+    if session.get('role') != 'admin':
+        return "权限不足", 403
+    
+    pending = load_pending()
+    data = load_data()
+    
+    if page_name in pending:
+        for i, version in enumerate(pending[page_name]):
+            if version['id'] == version_id and version.get('status') == 'pending':
+                # 准备页面数据
+                page_data = {
+                    'title': version['title'],
+                    'content': version['content'],
+                    'author': version['author'],
+                    'last_edit': datetime.now().strftime("%Y-%m-%d %H:%M"),
+                    'views': data['pages'].get(page_name, {}).get('views', 0),
+                    'tags': version.get('tags', [])
+                }
+                
+                if page_name not in data['pages']:
+                    # 新页面
+                    data['pages'][page_name] = page_data
+                else:
+                    # 更新现有页面（保留浏览量）
+                    page_data['views'] = data['pages'][page_name].get('views', 0)
+                    # 如果页面被冻结，不覆盖冻结状态
+                    if data['pages'][page_name].get('is_frozen'):
+                        page_data['is_frozen'] = True
+                    data['pages'][page_name] = page_data
+                
+                save_data(data)
+                
+                # 标记为已批准
+                pending[page_name][i]['status'] = 'approved'
+                save_pending(pending)
+                
+                add_activity(f"批准了页面「{page_name}」的审核", session['username'], page_name)
+                return "批准成功", 200
+    
+    return "批准失败", 400
+
+@app.route('/admin/reject/<page_name>/<int:version_id>')
+@login_required
+def reject_page(page_name, version_id):
+    """拒绝页面"""
+    if session.get('role') != 'admin':
+        return "权限不足", 403
+    
+    pending = load_pending()
+    
+    if page_name in pending:
+        for i, version in enumerate(pending[page_name]):
+            if version['id'] == version_id and version.get('status') == 'pending':
+                pending[page_name][i]['status'] = 'rejected'
+                save_pending(pending)
+                add_activity(f"拒绝了页面「{page_name}」的审核", session['username'], page_name)
+                return "已拒绝", 200
+    
+    return "拒绝失败", 400
+
+@app.route('/admin/freeze/<page_name>')
+@login_required
+def freeze_page(page_name):
+    """冻结页面"""
+    if session.get('role') != 'admin':
+        return "权限不足", 403
+    
+    data = load_data()
+    if page_name in data['pages']:
+        data['pages'][page_name]['is_frozen'] = True
+        save_data(data)
+        add_activity(f"冻结了页面「{page_name}」", session['username'], page_name)
+        return "已冻结", 200
+    return "页面不存在", 404
+
+@app.route('/admin/unfreeze/<page_name>')
+@login_required
+def unfreeze_page(page_name):
+    """解冻页面"""
+    if session.get('role') != 'admin':
+        return "权限不足", 403
+    
+    data = load_data()
+    if page_name in data['pages']:
+        data['pages'][page_name]['is_frozen'] = False
+        save_data(data)
+        add_activity(f"解冻了页面「{page_name}」", session['username'], page_name)
+        return "已解冻", 200
+    return "页面不存在", 404
+
+@app.route('/pending-status/<page_name>')
+@login_required
+def pending_status(page_name):
+    """查看页面审核状态"""
+    pending = load_pending()
+    data = load_data()
+    
+    user_pending = []
+    if page_name in pending:
+        for version in pending[page_name]:
+            if version['author'] == session['username'] and version.get('status') == 'pending':
+                user_pending.append(version)
+    
+    is_frozen = data['pages'].get(page_name, {}).get('is_frozen', False)
+    
+    return render_template('pending_status.html',
+                         page_name=page_name,
+                         pending_versions=user_pending,
+                         is_frozen=is_frozen,
+                         username=session.get('username'),
+                         user_avatar=session.get('avatar'))
+
+@app.route('/api/pending-preview/<page_name>/<int:version_id>')
+@login_required
+def pending_preview(page_name, version_id):
+    """预览待审核内容"""
+    if session.get('role') != 'admin':
+        return jsonify({'error': '权限不足'}), 403
+    
+    pending = load_pending()
+    
+    if page_name in pending:
+        for version in pending[page_name]:
+            if version['id'] == version_id:
+                html = markdown.markdown(version['content'], extensions=['extra', 'codehilite', 'tables'])
+                return jsonify({
+                    'html': html,
+                    'author': version['author'],
+                    'submitted_at': version['submitted_at']
+                })
+    
+    return jsonify({'error': '版本不存在'}), 404
 
 # ==================== 启动服务器 ====================
 

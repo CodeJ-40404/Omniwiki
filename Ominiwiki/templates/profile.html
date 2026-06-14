@@ -632,6 +632,7 @@
 <div class="profile-container">
     <!-- 个人资料头部 -->
     <div class="profile-header-card">
+
         <div class="profile-cover">
             <div class="profile-avatar-large" style="position: relative;">
                 <div class="avatar">{{ user_avatar if user_avatar else username[0].upper() }}</div>
@@ -641,6 +642,9 @@
                 <div class="profile-name">
                     {{ profile_data.real_name if profile_data.real_name else username }}
                     <span class="profile-username">@{{ username }}</span>
+                </div>
+                <div id="profileHonors" class="honor-badges" style="margin: 12px 0;">
+                    <!-- 动态加载 -->
                 </div>
                 <div class="profile-bio">{{ profile_data.bio if profile_data.bio else '这个人很懒，还没有填写简介...' }}</div>
                 <div class="profile-meta">
@@ -653,9 +657,32 @@
                     <button id="editProfileBtn" class="btn-outline"><i class="fas fa-edit"></i> 编辑资料</button>
                 </div>
                 {% endif %}
+
             </div>
         </div>
     </div>
+
+    <script>
+    // 在 profile.html 中加载荣誉
+    async function loadProfileHonors() {
+        try {
+            const response = await fetch(`/api/user-honors/${encodeURIComponent('{{ username }}')}`);
+            const honors = await response.json();
+            const container = document.getElementById('profileHonors');
+            if (container && honors.length > 0) {
+                container.innerHTML = honors.map(h => `
+                    <div class="honor-badge" style="background: ${h.bg}; color: ${h.color};">
+                        <i class="fas ${h.icon}"></i>
+                        <span>${h.name}</span>
+                    </div>
+                `).join('');
+            }
+        } catch (error) {
+            console.error('加载荣誉失败:', error);
+        }
+    }
+    loadProfileHonors();
+    </script>
 
     <!-- 统计卡片 -->
     <div class="stats-grid">
@@ -1006,3 +1033,46 @@
     }
 </script>
 {% endblock %}
+
+{% if session.get('role') == 'admin' %}
+<div class="info-card">
+    <h3><i class="fas fa-tag"></i> 管理员工具</h3>
+    <div class="info-list">
+        <div class="info-item">
+            <i class="fas fa-crown"></i>
+            <input type="text" id="customTitleInput" placeholder="为用户设置自定义称号" style="flex: 1;">
+            <input type="text" id="targetUsername" placeholder="目标用户名" style="width: 120px;">
+            <button id="setCustomTitleBtn" class="btn-outline" style="padding: 4px 12px;">设置</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('setCustomTitleBtn')?.addEventListener('click', async () => {
+        const username = document.getElementById('targetUsername').value.trim();
+        const title = document.getElementById('customTitleInput').value.trim();
+
+        if (!username) {
+            alert('请输入用户名');
+            return;
+        }
+
+        try {
+            const response = await fetch('/profile/update-title', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username: username, custom_title: title })
+            });
+            const data = await response.json();
+            if (data.success) {
+                alert('设置成功！');
+                location.reload();
+            } else {
+                alert(data.error || '设置失败');
+            }
+        } catch (error) {
+            alert('网络错误');
+        }
+    });
+</script>
+{% endif %}

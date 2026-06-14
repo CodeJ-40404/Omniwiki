@@ -1,0 +1,261 @@
+<!-- templates/pending_status.html - 完整重构版 -->
+{% extends "base.html" %}
+
+{% block title %}审核状态 - {{ page_name }}{% endblock %}
+
+{% block extra_head %}
+<style>
+    .pending-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    .pending-header {
+        margin-bottom: 32px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid var(--border-light);
+    }
+
+        .pending-header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #fff, var(--accent-gold));
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .pending-header .subtitle {
+            color: var(--text-muted);
+        }
+
+    .status-card {
+        background: var(--surface-card);
+        border-radius: 24px;
+        padding: 32px;
+        border: 1px solid var(--border-light);
+        text-align: center;
+    }
+
+    .status-icon {
+        font-size: 4rem;
+        margin-bottom: 16px;
+    }
+
+        .status-icon.pending {
+            color: var(--accent-gold);
+        }
+
+        .status-icon.approved {
+            color: #4cd964;
+        }
+
+        .status-icon.rejected {
+            color: #ff4444;
+        }
+
+        .status-icon.frozen {
+            color: #3a6ea5;
+        }
+
+    .pending-info {
+        background: rgba(255, 194, 68, 0.1);
+        padding: 16px;
+        border-radius: 16px;
+        margin: 20px 0;
+    }
+
+    .version-list {
+        text-align: left;
+        margin: 20px 0;
+    }
+
+    .version-item {
+        background: var(--bg-dark);
+        padding: 12px 16px;
+        border-radius: 12px;
+        margin-bottom: 8px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
+        border-left: 3px solid var(--accent-gold);
+    }
+
+    .badge-pending {
+        background: var(--accent-gold);
+        color: #0f0f12;
+        padding: 2px 10px;
+        border-radius: 20px;
+        font-size: 0.7rem;
+        font-weight: 600;
+    }
+
+    .badge-approved {
+        background: #4cd964;
+        color: #0f0f12;
+        padding: 2px 10px;
+        border-radius: 20px;
+        font-size: 0.7rem;
+        font-weight: 600;
+    }
+
+    .badge-rejected {
+        background: #ff4444;
+        color: #fff;
+        padding: 2px 10px;
+        border-radius: 20px;
+        font-size: 0.7rem;
+        font-weight: 600;
+    }
+
+    .help-text {
+        margin-top: 20px;
+        color: var(--text-muted);
+        font-size: 0.85rem;
+        padding: 16px;
+        background: var(--bg-dark);
+        border-radius: 12px;
+    }
+
+        .help-text i {
+            color: var(--accent-gold);
+            margin-right: 8px;
+        }
+
+    .no-pending {
+        padding: 40px 0;
+    }
+
+        .no-pending i {
+            font-size: 3rem;
+            color: #4cd964;
+            margin-bottom: 16px;
+        }
+
+        .no-pending p {
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+
+    .alert-warning {
+        background: rgba(255, 194, 68, 0.1);
+        border: 1px solid var(--accent-gold);
+        border-radius: 12px;
+        padding: 12px 20px;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+        .alert-warning i {
+            color: var(--accent-gold);
+        }
+
+    .btn-primary {
+        background: var(--accent-gold);
+        border: none;
+        padding: 10px 28px;
+        border-radius: 40px;
+        font-weight: 600;
+        color: #0f0f12;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        transition: all 0.2s;
+    }
+
+        .btn-primary:hover {
+            background: #ffda77;
+            transform: translateY(-2px);
+        }
+
+    .btn-outline {
+        background: transparent;
+        border: 1px solid var(--border-light);
+        padding: 10px 28px;
+        border-radius: 40px;
+        color: var(--text-primary);
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        transition: all 0.2s;
+    }
+
+        .btn-outline:hover {
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+        }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="pending-container">
+    <div class="pending-header">
+        <h1><i class="fas fa-hourglass-half"></i> 审核状态</h1>
+        <p class="subtitle">查看页面「{{ page_name }}」的审核进度</p>
+    </div>
+
+    {% if is_frozen %}
+    <div class="alert-warning">
+        <i class="fas fa-ice-cream fa-2x"></i>
+        <div>
+            <strong>此页面已被管理员冻结</strong><br>
+            暂时无法编辑或提交审核，请联系管理员解冻。
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="status-card">
+        <div class="status-icon pending">
+            <i class="fas fa-clock"></i>
+        </div>
+        <h2>{{ page_name }}</h2>
+
+        {% if pending_versions %}
+        <div class="pending-info">
+            <i class="fas fa-clock"></i> 您有 <strong>{{ pending_versions|length }}</strong> 个版本正在等待审核
+        </div>
+        <div class="version-list">
+            {% for version in pending_versions %}
+            <div class="version-item">
+                <div>
+                    <strong>{{ version.title }}</strong>
+                    <br>
+                    <span style="font-size:0.7rem;color:var(--text-muted);">提交于 {{ version.submitted_at }}</span>
+                </div>
+                <span class="badge-pending">审核中</span>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="help-text">
+            <i class="fas fa-info-circle"></i>
+            <strong>提示：</strong>页面审核通过后会自动发布。如有疑问，请联系管理员。
+            <br><br>
+            <a href="/page/{{ page_name }}" class="btn-outline" style="margin-top:12px;">
+                <i class="fas fa-eye"></i> 查看当前版本
+            </a>
+            <a href="/edit/{{ page_name }}" class="btn-outline" style="margin-top:12px;margin-left:12px;">
+                <i class="fas fa-edit"></i> 继续编辑
+            </a>
+        </div>
+        {% else %}
+        <div class="no-pending">
+            <i class="fas fa-check-circle"></i>
+            <p>没有待审核的版本</p>
+            <a href="/page/{{ page_name }}" class="btn-primary">
+                <i class="fas fa-eye"></i> 查看页面
+            </a>
+            {% if not is_frozen %}
+            <a href="/edit/{{ page_name }}" class="btn-outline" style="margin-left:12px;">
+                <i class="fas fa-edit"></i> 编辑页面
+            </a>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

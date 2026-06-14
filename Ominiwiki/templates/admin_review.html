@@ -1,0 +1,757 @@
+<!-- templates/admin_review.html - 完整重构版 -->
+{% extends "base.html" %}
+
+{% block title %}审核管理 - 寰宇维基{% endblock %}
+
+{% block extra_head %}
+<style>
+    .admin-container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .admin-header {
+        margin-bottom: 32px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid var(--border-light);
+    }
+
+        .admin-header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #fff, var(--accent-gold));
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .admin-header .subtitle {
+            color: var(--text-muted);
+        }
+
+    .stats-row {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        margin-bottom: 32px;
+    }
+
+    .stat-card {
+        background: var(--surface-card);
+        border-radius: 20px;
+        padding: 20px;
+        border: 1px solid var(--border-light);
+        transition: all 0.2s;
+    }
+
+        .stat-card:hover {
+            border-color: var(--accent-gold);
+            transform: translateY(-2px);
+        }
+
+    .stat-icon {
+        font-size: 2rem;
+        margin-bottom: 8px;
+    }
+
+    .stat-number {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: var(--accent-gold);
+    }
+
+    .stat-label {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+    }
+
+    .admin-tabs {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 24px;
+        border-bottom: 1px solid var(--border-light);
+        padding-bottom: 12px;
+    }
+
+    .tab-btn {
+        background: transparent;
+        border: none;
+        padding: 10px 24px;
+        border-radius: 40px;
+        color: var(--text-muted);
+        cursor: pointer;
+        transition: all 0.2s;
+        font-size: 0.9rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+        .tab-btn:hover {
+            background: var(--surface-hover);
+            color: var(--accent-gold);
+        }
+
+        .tab-btn.active {
+            background: var(--accent-gold);
+            color: #0f0f12;
+        }
+
+    .tab-badge {
+        background: var(--accent-gold);
+        color: #0f0f12;
+        border-radius: 20px;
+        padding: 0 8px;
+        font-size: 0.7rem;
+        margin-left: 4px;
+    }
+
+    .tab-btn.active .tab-badge {
+        background: rgba(0,0,0,0.2);
+    }
+
+    .pending-list {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .pending-card {
+        background: var(--surface-card);
+        border-radius: 24px;
+        border: 1px solid var(--border-light);
+        overflow: hidden;
+        transition: all 0.2s;
+    }
+
+        .pending-card:hover {
+            border-color: var(--accent-gold);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+        }
+
+    .pending-header {
+        padding: 20px 24px;
+        background: var(--bg-sidebar);
+        border-bottom: 1px solid var(--border-light);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .pending-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+    }
+
+        .pending-title a {
+            color: var(--text-primary);
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+            .pending-title a:hover {
+                color: var(--accent-gold);
+            }
+
+    .badge-new, .badge-edit {
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 0.7rem;
+        font-weight: 600;
+        margin-left: 10px;
+    }
+
+    .badge-new {
+        background: #4cd964;
+        color: #0f0f12;
+    }
+
+    .badge-edit {
+        background: #3c7aff;
+        color: #fff;
+    }
+
+    .pending-meta {
+        display: flex;
+        gap: 20px;
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        flex-wrap: wrap;
+    }
+
+        .pending-meta i {
+            margin-right: 4px;
+        }
+
+    .pending-content {
+        padding: 20px 24px;
+        border-bottom: 1px solid var(--border-light);
+    }
+
+    .content-preview {
+        background: var(--bg-dark);
+        border-radius: 16px;
+        padding: 16px;
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+        line-height: 1.6;
+        max-height: 200px;
+        overflow-y: auto;
+    }
+
+    .pending-actions {
+        padding: 16px 24px;
+        display: flex;
+        gap: 12px;
+        background: var(--bg-sidebar);
+        flex-wrap: wrap;
+    }
+
+    .btn-approve {
+        background: #4cd964;
+        color: #0f0f12;
+        border: none;
+        padding: 8px 20px;
+        border-radius: 40px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.2s;
+    }
+
+        .btn-approve:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.05);
+        }
+
+    .btn-reject {
+        background: #ff4444;
+        color: white;
+        border: none;
+        padding: 8px 20px;
+        border-radius: 40px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.2s;
+    }
+
+        .btn-reject:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.05);
+        }
+
+    .btn-preview {
+        background: transparent;
+        border: 1px solid var(--border-light);
+        color: var(--text-primary);
+        padding: 8px 20px;
+        border-radius: 40px;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-decoration: none;
+    }
+
+        .btn-preview:hover {
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+        }
+
+    .btn-sm {
+        padding: 4px 12px;
+        font-size: 0.7rem;
+        border-radius: 20px;
+        cursor: pointer;
+        border: none;
+        transition: all 0.2s;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 60px;
+        background: var(--surface-card);
+        border-radius: 24px;
+        border: 1px solid var(--border-light);
+    }
+
+        .empty-state i {
+            font-size: 3rem;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+
+    .freeze-section {
+        margin-top: 32px;
+        background: var(--surface-card);
+        border-radius: 24px;
+        padding: 24px;
+        border: 1px solid var(--border-light);
+    }
+
+        .freeze-section h3 {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+    .freeze-form {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 24px;
+        flex-wrap: wrap;
+    }
+
+        .freeze-form input {
+            flex: 1;
+            background: var(--bg-dark);
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            padding: 10px 16px;
+            color: var(--text-primary);
+            font-family: monospace;
+        }
+
+            .freeze-form input:focus {
+                outline: none;
+                border-color: var(--accent-gold);
+            }
+
+    .btn-freeze {
+        background: #3a6ea5;
+        color: white;
+        border: none;
+        padding: 10px 24px;
+        border-radius: 40px;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+        .btn-freeze:hover {
+            background: #2d5a8a;
+        }
+
+    .btn-unfreeze {
+        background: var(--surface-card);
+        border: 1px solid var(--border-light);
+        color: var(--text-primary);
+        padding: 10px 24px;
+        border-radius: 40px;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+        .btn-unfreeze:hover {
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+        }
+
+    .frozen-list {
+        list-style: none;
+        margin-top: 16px;
+    }
+
+        .frozen-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+            .frozen-list li:last-child {
+                border-bottom: none;
+            }
+
+        .frozen-list a {
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+            .frozen-list a:hover {
+                color: var(--accent-gold);
+            }
+
+    .toast {
+        position: fixed;
+        bottom: 80px;
+        right: 24px;
+        background: var(--surface-card);
+        border-left: 4px solid var(--accent-gold);
+        padding: 12px 20px;
+        border-radius: 12px;
+        color: var(--text-primary);
+        z-index: 1000;
+        animation: slideIn 0.3s ease;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+
+        .toast.error {
+            border-left-color: #ff4444;
+        }
+
+    @keyframes slideIn {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+
+    .preview-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.9);
+        z-index: 2000;
+        justify-content: center;
+        align-items: center;
+    }
+
+        .preview-modal.active {
+            display: flex;
+        }
+
+    .preview-content {
+        background: var(--surface-card);
+        width: 90%;
+        max-width: 900px;
+        max-height: 85vh;
+        overflow-y: auto;
+        border-radius: 24px;
+        padding: 32px;
+        position: relative;
+    }
+
+    .preview-close {
+        position: absolute;
+        top: 16px;
+        right: 20px;
+        font-size: 28px;
+        cursor: pointer;
+        color: var(--text-muted);
+    }
+
+        .preview-close:hover {
+            color: var(--accent-gold);
+        }
+
+    .preview-content .markdown-body {
+        line-height: 1.7;
+        color: var(--text-secondary);
+    }
+
+        .preview-content .markdown-body h1 {
+            font-size: 2rem;
+            margin: 1.5em 0 0.5em;
+            border-bottom: 3px solid var(--accent-gold);
+            padding-bottom: 0.3em;
+            color: var(--text-primary);
+        }
+
+        .preview-content .markdown-body h2 {
+            font-size: 1.5rem;
+            margin: 1.2em 0 0.5em;
+            border-bottom: 2px solid var(--border-light);
+            padding-bottom: 0.3em;
+            color: var(--text-primary);
+        }
+
+        .preview-content .markdown-body h3 {
+            font-size: 1.25rem;
+            margin: 1em 0 0.5em;
+            color: var(--accent-gold);
+        }
+
+        .preview-content .markdown-body code {
+            background: var(--bg-dark);
+            padding: 2px 6px;
+            border-radius: 6px;
+        }
+
+        .preview-content .markdown-body pre {
+            background: var(--bg-dark);
+            padding: 16px;
+            border-radius: 12px;
+            overflow-x: auto;
+        }
+
+        .preview-content .markdown-body blockquote {
+            border-left: 4px solid var(--accent-gold);
+            padding-left: 20px;
+            color: var(--text-muted);
+        }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="admin-container">
+    <div class="admin-header">
+        <h1><i class="fas fa-clipboard-list"></i> 审核管理</h1>
+        <p class="subtitle">管理用户提交的内容审核，批准或拒绝待审核页面</p>
+    </div>
+
+    <div class="stats-row" id="statsRow">
+        <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-clock"></i></div>
+            <div class="stat-number" id="pendingCount">{{ pending_list|length }}</div>
+            <div class="stat-label">待审核</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+            <div class="stat-number">{{ approved_count|default(0) }}</div>
+            <div class="stat-label">已批准</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-times-circle"></i></div>
+            <div class="stat-number">{{ rejected_count|default(0) }}</div>
+            <div class="stat-label">已拒绝</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-ice-cream"></i></div>
+            <div class="stat-number" id="frozenCount">{{ frozen_pages|length }}</div>
+            <div class="stat-label">已冻结</div>
+        </div>
+    </div>
+
+    <div class="admin-tabs">
+        <button class="tab-btn active" data-tab="pending">
+            <i class="fas fa-clock"></i> 待审核
+            <span class="tab-badge" id="pendingBadge">{{ pending_list|length }}</span>
+        </button>
+        <button class="tab-btn" data-tab="frozen">
+            <i class="fas fa-ice-cream"></i> 冻结管理
+            <span class="tab-badge" id="frozenBadge">{{ frozen_pages|length }}</span>
+        </button>
+    </div>
+
+    <div id="pendingTab" class="tab-content">
+        {% if pending_list %}
+        <div class="pending-list" id="pendingList">
+            {% for item in pending_list %}
+            <div class="pending-card" data-version-id="{{ item.version_id }}" data-page-name="{{ item.page_name }}">
+                <div class="pending-header">
+                    <div class="pending-title">
+                        <a onclick="showPreview('{{ item.page_name }}', {{ item.version_id }}, '{{ item.title|replace("'", "\\'") }}')">
+                            {{ item.title }}
+                        </a>
+                        {% if item.is_new %}
+                        <span class="badge-new"><i class="fas fa-plus"></i> 新建</span>
+                        {% else %}
+                        <span class="badge-edit"><i class="fas fa-edit"></i> 编辑</span>
+                        {% endif %}
+                    </div>
+                    <div class="pending-meta">
+                        <span><i class="fas fa-user"></i> {{ item.author }}</span>
+                        <span><i class="fas fa-clock"></i> {{ item.submitted_at }}</span>
+                        <span><i class="fas fa-file-alt"></i> {{ item.page_name }}</span>
+                    </div>
+                </div>
+                <div class="pending-content">
+                    <div class="content-preview">{{ item.preview|safe }}</div>
+                </div>
+                <div class="pending-actions">
+                    <button class="btn-approve" onclick="handleApprove('{{ item.page_name }}', {{ item.version_id }})">
+                        <i class="fas fa-check"></i> 批准
+                    </button>
+                    <button class="btn-reject" onclick="handleReject('{{ item.page_name }}', {{ item.version_id }})">
+                        <i class="fas fa-times"></i> 拒绝
+                    </button>
+                    <button class="btn-preview" onclick="showPreview('{{ item.page_name }}', {{ item.version_id }}, '{{ item.title|replace("'", "\\'") }}')">
+                        <i class="fas fa-eye"></i> 预览
+                    </button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <i class="fas fa-check-circle"></i>
+            <p>暂无待审核内容</p>
+            <p class="subtitle">所有用户提交的内容都已处理</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <div id="frozenTab" class="tab-content" style="display: none;">
+        <div class="freeze-section">
+            <h3><i class="fas fa-plus-circle"></i> 冻结/解冻页面</h3>
+            <div class="freeze-form">
+                <input type="text" id="freezePageName" placeholder="输入页面名称 (例如: 香蕉, Python编程)">
+                <button id="freezeBtn" class="btn-freeze"><i class="fas fa-snowflake"></i> 冻结</button>
+                <button id="unfreezeBtn" class="btn-unfreeze"><i class="fas fa-undo"></i> 解冻</button>
+            </div>
+
+            <h3><i class="fas fa-ice-cream"></i> 已冻结页面</h3>
+            {% if frozen_pages %}
+            <ul class="frozen-list" id="frozenList">
+                {% for page in frozen_pages %}
+                <li>
+                    <a href="/page/{{ page }}">{{ page }}</a>
+                    <button class="btn-sm" style="background: var(--accent-gold); color: #0f0f12;" onclick="handleUnfreeze('{{ page }}')">
+                        <i class="fas fa-undo"></i> 解冻
+                    </button>
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p class="subtitle" style="padding: 20px 0; text-align: center;">暂无冻结页面</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div id="previewModal" class="preview-modal">
+    <div class="preview-content">
+        <span class="preview-close" onclick="closePreview()">&times;</span>
+        <div id="previewBody"></div>
+    </div>
+</div>
+
+<script>
+    function showToast(message, type) {
+        type = type || 'success';
+        const toast = document.createElement('div');
+        toast.className = 'toast' + (type === 'error' ? ' error' : '');
+        toast.innerHTML = '<i class="fas ' + (type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle') + '"></i> ' + message;
+        document.body.appendChild(toast);
+        setTimeout(function () { toast.remove(); }, 3000);
+    }
+
+    function handleApprove(pageName, versionId) {
+        if (!confirm('确定要批准这个版本吗？批准后将立即发布。')) return;
+
+        fetch('/admin/approve/' + encodeURIComponent(pageName) + '/' + versionId)
+            .then(function (res) {
+                if (res.ok) {
+                    showToast('✅ 已批准并发布');
+                    setTimeout(function () { location.reload(); }, 1000);
+                } else {
+                    showToast('❌ 批准失败', 'error');
+                }
+            })
+            .catch(function () { showToast('❌ 网络错误', 'error'); });
+    }
+
+    function handleReject(pageName, versionId) {
+        if (!confirm('确定要拒绝这个版本吗？')) return;
+
+        fetch('/admin/reject/' + encodeURIComponent(pageName) + '/' + versionId)
+            .then(function (res) {
+                if (res.ok) {
+                    showToast('已拒绝');
+                    setTimeout(function () { location.reload(); }, 1000);
+                } else {
+                    showToast('拒绝失败', 'error');
+                }
+            })
+            .catch(function () { showToast('网络错误', 'error'); });
+    }
+
+    function handleUnfreeze(pageName) {
+        if (!confirm('确定要解冻页面「' + pageName + '」吗？')) return;
+
+        fetch('/admin/unfreeze/' + encodeURIComponent(pageName))
+            .then(function (res) {
+                if (res.ok) {
+                    showToast('已解冻');
+                    setTimeout(function () { location.reload(); }, 1000);
+                } else {
+                    showToast('操作失败', 'error');
+                }
+            })
+            .catch(function () { showToast('网络错误', 'error'); });
+    }
+
+    document.getElementById('freezeBtn')?.addEventListener('click', function () {
+        var pageName = document.getElementById('freezePageName').value.trim();
+        if (!pageName) { showToast('请输入页面名称', 'error'); return; }
+        if (!confirm('确定要冻结页面「' + pageName + '」吗？冻结后用户无法编辑。')) return;
+
+        fetch('/admin/freeze/' + encodeURIComponent(pageName))
+            .then(function (res) {
+                if (res.ok) {
+                    showToast('已冻结');
+                    document.getElementById('freezePageName').value = '';
+                    setTimeout(function () { location.reload(); }, 1000);
+                } else {
+                    showToast('操作失败', 'error');
+                }
+            })
+            .catch(function () { showToast('网络错误', 'error'); });
+    });
+
+    document.getElementById('unfreezeBtn')?.addEventListener('click', function () {
+        var pageName = document.getElementById('freezePageName').value.trim();
+        if (!pageName) { showToast('请输入页面名称', 'error'); return; }
+        if (!confirm('确定要解冻页面「' + pageName + '」吗？')) return;
+
+        fetch('/admin/unfreeze/' + encodeURIComponent(pageName))
+            .then(function (res) {
+                if (res.ok) {
+                    showToast('已解冻');
+                    document.getElementById('freezePageName').value = '';
+                    setTimeout(function () { location.reload(); }, 1000);
+                } else {
+                    showToast('操作失败', 'error');
+                }
+            })
+            .catch(function () { showToast('网络错误', 'error'); });
+    });
+
+    function showPreview(pageName, versionId, title) {
+        var modal = document.getElementById('previewModal');
+        var body = document.getElementById('previewBody');
+        body.innerHTML = '<div style="text-align:center;padding:40px;color:var(--text-muted);"><i class="fas fa-spinner fa-pulse"></i> 加载中...</div>';
+        modal.classList.add('active');
+
+        fetch('/api/pending-preview/' + encodeURIComponent(pageName) + '/' + versionId)
+            .then(function (res) { return res.json(); })
+            .then(function (data) {
+                body.innerHTML = '<h2>' + escapeHtml(title) + '</h2>' +
+                    '<div style="color:var(--text-muted);font-size:0.8rem;margin-bottom:20px;padding-bottom:10px;border-bottom:1px solid var(--border-light);">' +
+                    '<span><i class="fas fa-user"></i> 作者: ' + escapeHtml(data.author) + '</span> &nbsp;|&nbsp; ' +
+                    '<span><i class="fas fa-clock"></i> 提交时间: ' + escapeHtml(data.submitted_at) + '</span> &nbsp;|&nbsp; ' +
+                    '<span><i class="fas fa-file-alt"></i> 页面: ' + escapeHtml(pageName) + '</span>' +
+                    '</div>' +
+                    '<div class="markdown-body">' + data.html + '</div>';
+            })
+            .catch(function () {
+                body.innerHTML = '<div style="color:#ff4444;text-align:center;padding:40px;">加载预览失败</div>';
+            });
+    }
+
+    function closePreview() {
+        document.getElementById('previewModal').classList.remove('active');
+    }
+
+    function escapeHtml(text) {
+        if (!text) return '';
+        var div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    document.querySelectorAll('.tab-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            document.querySelectorAll('.tab-btn').forEach(function (b) { b.classList.remove('active'); });
+            btn.classList.add('active');
+            var tabId = btn.dataset.tab;
+            document.getElementById('pendingTab').style.display = tabId === 'pending' ? 'block' : 'none';
+            document.getElementById('frozenTab').style.display = tabId === 'frozen' ? 'block' : 'none';
+        });
+    });
+
+    window.onclick = function (event) {
+        if (event.target === document.getElementById('previewModal')) closePreview();
+    }
+</script>
+{% endblock %}

@@ -25,6 +25,7 @@
     <Compile Include="Omniwiki.py" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="templates\components\" />
     <Folder Include="uploads\" />
     <Folder Include="static\" />
     <Folder Include="templates\" />
@@ -32,12 +33,15 @@
   <ItemGroup>
     <Content Include="comments_data.json" />
     <Content Include="discussions_data.json" />
+    <Content Include="pending_pages.json" />
     <Content Include="static\script.js" />
     <Content Include="static\style.css" />
     <Content Include="templates\404.html" />
+    <Content Include="templates\admin_review.html" />
     <Content Include="templates\all_pages.html" />
     <Content Include="templates\base.html" />
     <Content Include="templates\comments_data.json" />
+    <Content Include="templates\components\honor_badges.html" />
     <Content Include="templates\create.html" />
     <Content Include="templates\discussions.html" />
     <Content Include="templates\edit.html" />
@@ -46,6 +50,7 @@
     <Content Include="templates\index.html" />
     <Content Include="templates\login.html" />
     <Content Include="templates\my_discussions.html" />
+    <Content Include="templates\pending_status.html" />
     <Content Include="templates\profile.html" />
     <Content Include="templates\recent_discussions.html" />
     <Content Include="templates\register.html" />

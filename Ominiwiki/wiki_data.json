@@ -2,7 +2,11 @@
   "users": {
     "admin": {
       "password": "admin123",
-      "role": "admin"
+      "role": "admin",
+      "real_name": "",
+      "bio": "HI,i'm admin",
+      "location": "",
+      "website": ""
     },
     "visitor": {
       "password": "123456",
@@ -10,40 +14,55 @@
     },
     "codej-40404": {
       "password": "123",
-      "role": "contributor",
+      "role": "admin",
       "avatar": "C",
       "join_date": "2026-06-07",
       "email": "",
       "bio": "hello guys",
       "theme": "dark",
-      "real_name": "codej",
+      "real_name": "",
       "location": "china",
-      "website": ""
+      "website": "https://symbolics.com"
+    },
+    "寰宇行者": {
+      "password": "wiki2026",
+      "role": "contributor",
+      "avatar": "寰",
+      "join_date": "2026-06-14",
+      "email": ""
+    },
+    "蕉学家": {
+      "password": "banana",
+      "role": "contributor",
+      "avatar": "蕉",
+      "join_date": "2026-06-19",
+      "email": ""
     }
   },
   "pages": {
     "首页": {
       "title": "首页",
-      "content": "# 欢迎来到寰宇维基！\r\n\r\n这是一个本地的Wiki系统。\r\n\r\n## 快速开始\r\n- 点击右上角登录\r\n- 创建和编辑页面\r\n- 探索知识  \r\n- ***享受乐趣***\r\n*wiki*\r\n",
+      "content": "# 🌍 寰宇维基 · 知识圣殿\r\n\r\n欢迎来到**寰宇维基（OmniWiki）**——一个运行在你本地、完全属于你自己的知识宇宙。\r\n\r\n这不是一个普通的Wiki。它是你用键盘铸造的知识圣殿，是思想的游乐园，是信息爆炸时代里属于你的一方净土。  \r\n\r\n---\r\n\r\n## 📖 什么是寰宇维基？\r\n\r\n> **Omni**（拉丁语：一切、全部）+ **Wiki**（夏威夷语：快速） = 包容万象的知识库\r\n\r\n寰宇维基是一个**完全离线、本地运行**的Wiki系统。所有数据都存储在你的电脑上，不依赖任何云服务，没有广告，没有追踪，只有纯粹的知识整理与探索。\r\n\r\n### 核心理念\r\n\r\n$$\r\n\\text{知识} = \\sum_{i=1}^{n} (\\text{输入}_i \\times \\text{思考}_i)\r\n$$\r\n\r\n我们相信，真正的知识不是被动接收的信息堆砌，而是主动思考后的内化与重构。寰宇维基提供的是**工具**，而**内容**的价值由你来定义。\r\n\r\n---\r\n\r\n## ✨ 核心功能一览\r\n\r\n### 📝 完整的Wiki系统\r\n\r\n你可以自由创建、编辑、浏览任意词条。每个页面都支持完整的 **Markdown** 语法，让内容排版既简单又优雅。\r\n\r\n```markdown\r\n# 这是一个标题\r\n\r\n- 列表项1\r\n- 列表项2\r\n\r\n**粗体**、*斜体*、~~删除线~~、[链接](https://example.com)\r\n\r\n| 表格 | 很 | 方便 |\r\n|------|----|------|\r\n| 数据 | 数据 | 数据 |\r\n```\r\n\r\n### 🔍 全文搜索\r\n\r\n快速找到你需要的内容。搜索算法会综合匹配：\r\n- 页面标题（权重最高）\r\n- 页面名称（次高）\r\n- 标签（中等）\r\n- 正文内容（基础匹配）\r\n\r\n搜索结果会高亮显示关键词，并展示相关上下文。\r\n\r\n### 👥 用户系统\r\n\r\n- **注册账号**：成为寰宇行者的一员\r\n- **登录/登出**：安全便捷的会话管理\r\n- **角色权限**：\r\n  - `contributor`：基础贡献者，可创建和编辑页面\r\n  - `editor`：高级编辑，可管理更多内容\r\n  - `admin`：管理员，拥有全部权限\r\n\r\n### 🏷️ 标签系统\r\n\r\n标签是连接知识的纽带。每个页面可以添加多个标签，形成知识网络：\r\n\r\n$\\text{知识网络}$ $= \\bigcup_{i=1}^{n}$ $\\text{页面}$ $i$ $\\rightarrow{\\text{标签}}$ $\\bigcup_{j=1}^{m} \\text{页面}_j$\r\n\r\n标签云会按使用频率调整显示大小，热门标签一目了然。\r\n\r\n### 💬 讨论区\r\n\r\n每个页面都配有独立的讨论区，支持：\r\n- **发起话题**：针对特定主题展开深入讨论\r\n- **回复互动**：层级式回复，清晰易读\r\n- **点赞系统**：表达认同与支持\r\n- **置顶/关闭**：管理员可管理话题状态\r\n\r\n### 📊 版本历史\r\n\r\n每一次编辑都会被记录。你可以：\r\n- 查看完整的版本时间线\r\n- 对比不同版本的差异\r\n- 一键恢复到任意历史版本\r\n\r\n### 🎖️ 荣誉系统\r\n\r\n用户的贡献会被看见并得到认可：\r\n\r\n| 徽章 | 名称 | 获取条件 |\r\n|------|------|----------|\r\n| 👑 | 管理员 | 系统管理员 |\r\n| ⭐ | OP | 管理员授予 |\r\n| 🏭 | 生产者 | 创建 ≥5 个页面 |\r\n| 🌿 | 贡献者 | 创建 ≥1 个页面 |\r\n| 🏛️ | 元老 | 加入时间 ≥365 天 |\r\n| 🔥 | 活跃用户 | 参与讨论 ≥10 次 |\r\n| ❤️ | 人气王 | 获得点赞 ≥20 次 |\r\n\r\n### 📈 个人中心\r\n\r\n每个用户都有自己的个人主页，包含：\r\n- **贡献热力图**：可视化展示全年的编辑活跃度\r\n- **统计面板**：页面数、话题数、回复数、点赞数\r\n- **最近活动**：实时更新的动态时间线\r\n- **常用标签**：个人知识领域的可视化\r\n\r\n---\r\n\r\n## 🎨 技术特色\r\n\r\n### 富文本支持\r\n\r\n寰宇维基的Markdown渲染引擎支持：\r\n\r\n#### 1. 代码高亮\r\n支持数十种编程语言的语法高亮，并带有行号显示和复制功能。\r\n\r\n```python\r\ndef fibonacci(n):\r\n    \"\"\"递归计算斐波那契数列\"\"\"\r\n    if n <= 1:\r\n        return n\r\n    return fibonacci(n-1) + fibonacci(n-2)\r\n\r\n# 计算第10个斐波那契数\r\nresult = fibonacci(10)\r\nprint(f\"F(10) = {result}\")\r\n```\r\n\r\n#### 2. LaTeX 数学公式\r\n\r\n支持行内公式和独立公式块：\r\n\r\n**行内公式**：质能方程 $E = mc^2$ 揭示了质量与能量的等价关系。\r\n\r\n**独立公式块**：\r\n\r\n$$\r\n\\nabla \\cdot \\mathbf{E} = \\frac{\\rho}{\\varepsilon_0}\r\n$$\r\n\r\n$$\r\n\\nabla \\cdot \\mathbf{B} = 0\r\n$$\r\n\r\n$$\r\n\\nabla \\times \\mathbf{E} = -\\frac{\\partial \\mathbf{B}}{\\partial t}\r\n$$\r\n\r\n$$\r\n\\nabla \\times \\mathbf{B} = \\mu_0\\mathbf{J} + \\mu_0\\varepsilon_0\\frac{\\partial \\mathbf{E}}{\\partial t}\r\n$$\r\n\r\n> 麦克斯韦方程组——电磁学的基石，统一了电、磁、光。\r\n\r\n#### 3. Mermaid 流程图\r\n此功能仍在设计，暂时不可用\r\n```mermaid\r\ngraph TD\r\n    A[用户登录] --> B{是否有权限?}\r\n    B -->|是| C[进入编辑模式]\r\n    B -->|否| D[显示只读模式]\r\n    C --> E[编辑内容]\r\n    E --> F[保存/预览]\r\n    F --> G[发布页面]\r\n```\r\n\r\n#### 4. 表格支持\r\n\r\n| 特性 | Markdown | 渲染效果 |\r\n|------|----------|----------|\r\n| 粗体 | `**粗体**` | **粗体** |\r\n| 斜体 | `*斜体*` | *斜体* |\r\n| 代码 | `` `code` `` | `code` |\r\n| 链接 | `[text](url)` | [text](url) |\r\n| 图片 | `![alt](url)` | ![alt](url) |\r\n\r\n### 实时预览\r\n\r\n编辑页面时，右侧会实时渲染预览效果。支持：\r\n- 同步滚动\r\n- 所见即所得的编辑体验\r\n- 快捷键支持（`Ctrl+B`、`Ctrl+I`、`Ctrl+K`、`Ctrl+S`）\r\n\r\n---\r\n\r\n## 🧭 知识导航指南\r\n\r\n### 首页布局\r\n\r\n寰宇维基采用经典的三栏布局：\r\n\r\n| 区域 | 内容 |\r\n|------|------|\r\n| **左侧导航** | 知识导航、热门分类、社区入口 |\r\n| **中间主内容** | 页面正文、编辑界面、讨论区 |\r\n| **右侧边栏** | 热门页面、统计数据、页面目录 |\r\n\r\n### 快速开始\r\n\r\n1. **浏览**：点击左侧导航或搜索框，探索已有知识\r\n2. **编辑**：登录后点击页面右上角的\"编辑\"按钮\r\n3. **创建**：点击\"创建页面\"，输入页面标识符和标题\r\n4. **讨论**：在页面底部参与或发起讨论\r\n\r\n### 键盘快捷键\r\n\r\n| 快捷键 | 功能 |\r\n|--------|------|\r\n| `Ctrl+S` | 保存当前编辑 |\r\n| `Ctrl+K` | 聚焦搜索框 |\r\n| `Ctrl+E` | 编辑当前页面 |\r\n| `Ctrl+B` | 粗体（编辑器中） |\r\n| `Ctrl+I` | 斜体（编辑器中） |\r\n| `Ctrl+K` | 插入链接（编辑器中） |\r\n\r\n---\r\n\r\n## 🎯 使用场景\r\n\r\n### 个人知识库\r\n整理读书笔记、学习心得、技术文档。让知识不再是零散的碎片，而是有机连接的体系。\r\n\r\n### 创意写作\r\n小说构思、世界观设定、角色档案。Markdown 的简洁让你专注于内容本身。\r\n\r\n### 项目管理\r\n需求文档、会议记录、进度追踪。Wiki 的版本历史让每一次变更都可追溯。\r\n\r\n### 学习笔记\r\n课堂笔记、公式推导、代码示例。LaTeX 和代码高亮让理工科笔记也能完美呈现。\r\n\r\n### 家庭记录\r\n旅行日志、菜谱收藏、重要信息备忘。本地存储确保隐私安全。\r\n\r\n---\r\n\r\n## 📊 数据统计（实时）\r\n\r\n寰宇维基运行在你的本地，所有数据都在你的掌控之中。当前的统计信息会实时显示在首页。\r\n\r\n### 数据的价值\r\n\r\n$$\r\n\\text{数据价值} = \\text{数量} \\times \\text{质量} \\times \\text{连接度}\r\n$$\r\n\r\n每一条新增的知识，都是对知识网络的一次扩展。每一次编辑，都是对内容质量的一次提升。\r\n\r\n---\r\n\r\n## 🔮 未来展望\r\n\r\n寰宇维基是一个不断进化的项目。以下是一些可能的扩展方向：\r\n\r\n1. **双向链接**：类似Roam Research的页面反向链接功能\r\n2. **全文向量搜索**：基于语义的智能搜索\r\n3. **知识图谱可视化**：页面与标签的图形化展示\r\n4. **数据导入/导出**：支持Markdown、JSON、HTML等多种格式\r\n5. **插件系统**：允许用户扩展自定义功能\r\n6. **多语言支持**：界面国际化\r\n7. **夜间模式增强**：更多主题选项\r\n\r\n---\r\n\r\n## 🤝 贡献与参与\r\n\r\n寰宇维基是开源的，欢迎任何形式的贡献：\r\n\r\n1. **内容贡献**：创建和编辑页面，丰富知识库\r\n2. **代码贡献**：提交Issue或Pull Request\r\n3. **反馈建议**：在讨论区提出你的想法\r\n\r\n> 💡 **提示**：在页面底部的讨论区，你可以：\r\n> - 报告Bug\r\n> - 提出新功能建议\r\n> - 讨论内容组织方式\r\n> - 与其他用户交流\r\n\r\n---\r\n\r\n## 📚 推荐阅读\r\n\r\n如果你是第一次使用Wiki系统，建议先浏览以下页面：\r\n\r\n- 🍌 [香蕉](/page/香蕉) —— 了解Wiki页面的典型结构\r\n- 🐍 [Python编程](/page/Python编程) —— 查看代码高亮效果\r\n- 🎮 [赛博朋克](/page/赛博朋克) —— 体验富文本排版\r\n\r\n---\r\n\r\n## 🙏 致谢\r\n\r\n寰宇维基的诞生离不开以下技术的支持：\r\n\r\n| 技术 | 用途 |\r\n|------|------|\r\n| [Flask](https://flask.palletsprojects.com/) | Web框架 |\r\n| [Python](https://python.org/) | 后端语言 |\r\n| [Markdown](https://daringfireball.net/projects/markdown/) | 内容标记语言 |\r\n| [$\\KaTeX$](https://katex.org/) | $\\LaTeX$公式渲染 |\r\n| [Mermaid](https://mermaid.js.org/) | 流程图渲染 |\r\n| [Highlight.js](https://highlightjs.org/) | 代码高亮 |\r\n| [Font Awesome](https://fontawesome.com/) | 图标库 |\r\n\r\n---\r\n\r\n## 📜 许可证\r\n\r\n本项目为个人学习与知识管理用途设计，所有代码和内容均可自由使用和修改。\r\n\r\n---\r\n\r\n*寰宇维基 · 万物互联的知识圣殿*\r\n\r\n*最后更新：2026年6月*\r\n\r\n---\r\n\r\n> ✨ **愿你在这里，找到知识的乐趣，收获思考的果实。**\r\n\r\n---\r\n\r\n*📝 本文档本身就是一个Wiki页面。你可以点击右上角的\"编辑\"按钮，修改和完善这个页面。寰宇维基的每一页，都由你共同书写。*",
       "author": "codej-40404",
-      "last_edit": "2026-06-12 22:35",
-      "views": 17,
+      "last_edit": "2026-06-19 10:58",
+      "views": 47,
       "tags": []
     },
     "香蕉": {
       "title": "香蕉",
-      "content": "# 🍌 香蕉大百科\r\n\r\n*Musa · 智慧之果 · 快乐源泉*\r\n\r\n---\r\n\r\n## 📜 什么是香蕉？\r\n\r\n**香蕉**（学名：*Musa* 属，主要是*Musa acuminata* 和 *Musa balbisiana* 杂交种）是一种巨型草本植物结出的浆果——严格来说，香蕉是**浆果**而不是树上的水果！世界上很少有人知道：你剥开吃掉的那一根根香甜软糯的“水果”，其实来自一种草本植物。\r\n\r\n> 💡 **趣味事实**：野生香蕉充满硬籽，几乎无法食用！我们今天吃到的无籽香蕉是几千年来人类选择和培育的结果。\r\n\r\n---\r\n\r\n## 📊 香蕉档案\r\n\r\n| 项目 | 内容 |\r\n|------|------|\r\n| **界** | 植物界 Plantae |\r\n| **科** | 芭蕉科 Musaceae |\r\n| **属** | 芭蕉属 Musa |\r\n| **常见品种** | 香芽蕉（Cavendish）、大麦克（Gros Michel，几乎绝迹）、红香蕉、苹果蕉、千层蕉 |\r\n| **原产地** | 东南亚（马来西亚、印度尼西亚、菲律宾等地） |\r\n| **高度** | 最高可达7~9米（虽然是草本！） |\r\n| **绰号** | “智慧之果”、“快乐水果”、“运动员能量棒” |\r\n\r\n---\r\n\r\n## 🗺️ 香蕉的奇幻旅程\r\n\r\n考古学家发现，香蕉在巴布亚新几内亚地区被驯化的历史可以追溯到**7000年前**甚至更久！后来香蕉搭乘阿拉伯商人的船只传播到非洲，再后来跟随哥伦布的航船跨越太平洋来到美洲。\r\n\r\n> 🎤 一个有趣的插曲：现在的全球主流品种香芽蕉（Cavendish）之所以能取代过去的大麦克香蕉，是因为大麦克在1950年代惨遭香蕉枯萎病（巴拿马病）几乎灭绝。如今我们吃的香蕉，基因高度单一，非常容易受到新型病害的威胁。\r\n\r\n在世界各地文化中，香蕉代表富足、生育和幽默。在某些国家，香蕉叶也是神圣的餐盘，用来盛装食物。\r\n\r\n---\r\n\r\n## 🥗 营养成分 · 运动健将的秘密\r\n\r\n香蕉富含**钾、维生素B6、维生素C、膳食纤维和天然糖分**。一根中等大小的香蕉约提供105卡路里能量。\r\n\r\n| 营养素 (每100g) | 含量 | 趣评 |\r\n|----------------|------|------|\r\n| 热量 | 89 kcal | 天然快乐能量包 |\r\n| 钾 | 358 mg | 帮助肌肉放松，对抗抽筋💪 |\r\n| 维生素B6 | 0.4 mg | 提升情绪，合成血清素 |\r\n| 膳食纤维 | 2.6 g | 肠道小刷子 |\r\n| 镁 | 27 mg | 助眠&神经稳定 |\r\n\r\n> 🧠 香蕉含有少量色氨酸——身体用来制造血清素的成分，所以吃香蕉真的会让心情变好，这可不是心理作用！\r\n\r\n---\r\n\r\n## 🤯 你没听过的香蕉冷知识\r\n\r\n- 🍌 **香蕉的“树”不是树**：香蕉植株其实是巨型草本，它的“茎”由叶鞘层层包裹形成假茎，最高可以达到9米！\r\n- 🎨 **紫外线下的香蕉**：成熟的香蕉在紫外光下会呈现亮蓝色荧光，这是由于叶绿素降解产物的神奇反应。\r\n- 🔊 **香蕉皮滑倒**：这是全球共识的幽默梗，虽然实际摩擦系数并不低。\r\n- 📞 **香蕉电话？** 安迪·沃霍尔为地下丝绒乐队设计的经典“香蕉”封面，成为流行文化标志。\r\n- 👕 **香蕉纤维可以做衣服**：香蕉茎秆纤维非常坚韧，可用于制作背包、纸和织物。\r\n- ⚡ **放射性？** 香蕉富含钾-40（天然放射性同位素），但微量到可以忽略——吃一根香蕉所受辐射约等于自然本底辐射的0.01%。\r\n\r\n---\r\n\r\n## 🍌 世界香蕉奇妙品种\r\n\r\n| 品种 | 特点 |\r\n|------|------|\r\n| 香芽蕉 | 最常见，超市里的标准香蕉 |\r\n| 苹果蕉 | 酸甜似苹果，小巧迷人 |\r\n| 红香蕉 | 外皮红紫，果肉奶油香 |\r\n| 千层蕉 | 花开多层，观赏性极佳 |\r\n| 大麦克香蕉 | 绝迹传说，据传更香甜 |\r\n| 煮食蕉(大蕉) | 烹饪用，淀粉含量高 |\r\n\r\n世界各地还有几百种野生和栽培香蕉，颜色从绿、黄到红、紫。\r\n\r\n---\r\n\r\n## 👩‍🍳 香蕉创意吃法\r\n\r\n**经典甜品区**：香蕉船、香蕉松饼、香蕉面包、炸香蕉、烤香蕉片、拔丝香蕉、冷冻香蕉蘸巧克力\r\n\r\n**咸口大冒险**：泰国香蕉花沙拉、非洲香蕉炖肉、哥斯达黎加甜煮大蕉、加勒比炸大蕉片\r\n\r\n**饮品界明星**：香蕉奶昔、香蕉燕麦能量饮、香蕉咖啡拿铁，甚至香蕉发酵酿造的啤酒\r\n\r\n> 🥄 烹饪小诀窍：香蕉皮内侧可以用来擦亮银器、滋润皮革，甚至能堆肥！\r\n\r\n---\r\n\r\n## 📈 香蕉经济\r\n\r\n香蕉是全球贸易量最大的水果之一，每年出口量超过2000万吨。**印度**是世界上最大的香蕉生产国（年产超过3000万吨），其次是巴西和中国。欧洲人和美国人平均每人每年吃掉约12公斤香蕉！\r\n\r\n> 🏅 你知道吗？美国每年消耗的香蕉比苹果和橙子加起来还多！\r\n\r\n---\r\n\r\n## 🎤 香蕉在流行文化中\r\n\r\n- 地下丝绒乐队那张黄色香蕉专辑封面，由安迪·沃霍尔设计\r\n- 《神偷奶爸》里小黄人对香蕉的疯狂热爱\r\n- 互联网模因“香蕉皮滑倒”\r\n- 艺术作品“胶带香蕉”以12万美元成交\r\n\r\n> 🎶 “Hollaback Girl”歌词中唱道 “This shit is bananas, B-A-N-A-N-A-S”\r\n\r\n---\r\n\r\n## 🌍 香蕉的未来\r\n\r\n当前全球商业化香蕉的品种过于单一（卡文迪什占国际贸易的99%），极易受到新出现的香蕉枯萎病TR4的打击。科学家正在努力寻找和培育抗病品种，保护野生香蕉基因库。\r\n\r\n✅ **行动起来**：支持多样化水果、购买有机或公平贸易香蕉、进行香蕉皮堆肥。\r\n\r\n---\r\n\r\n## 🤔 香蕉小测验\r\n\r\n**问1**：香蕉在植物学意义上属于哪一类水果？\r\n- A. 核果  B. 仁果  C. 浆果  D. 柑橘类\r\n> 答案：**C**（浆果！香蕉是多室浆果）\r\n\r\n**问2**：香蕉植株最高可以长到多少米？\r\n- A. 2米  B. 4米  C. 9米  D. 12米\r\n> 答案：**C**（某些野生品种可高达9米！）\r\n\r\n**问3**：哪个国家香蕉人均消费最高？\r\n- A. 美国  B. 乌干达  C. 菲律宾  D. 德国\r\n> 答案：**B**（乌干达当地香蕉是主食之一，每人每年吃掉约200公斤）\r\n\r\n---\r\n\r\n*最后更新：2026年 · 保持好奇，保持有趣，每天一根香蕉，让生活更美妙*\r\n\r\n🍌❤️ **祝你今天也像香蕉一样金灿灿、笑眯眯！**",
+      "content": "---\r\n# 🍌 香蕉大百科\r\n\r\n*Musa · 智慧之果 · 快乐源泉*\r\n\r\n---\r\n\r\n## 📜 什么是香蕉?\r\n\r\n**香蕉**（学名：*Musa* 属，主要是*Musa acuminata* 和 *Musa balbisiana* 杂交种）是一种巨型草本植物结出的浆果——严格来说，香蕉是**浆果**而不是树上的水果！世界上很少有人知道：你剥开吃掉的那一根根香甜软糯的“水果”，其实来自一种草本植物。\r\n\r\n> 💡 **趣味事实**：野生香蕉充满硬籽，几乎无法食用！我们今天吃到的无籽香蕉是几千年来人类选择和培育的结果。\r\n\r\n---\r\n\r\n## 📊 香蕉档案\r\n\r\n| 项目 | 内容 |\r\n|------|------|\r\n| **界** | 植物界 Plantae |\r\n| **科** | 芭蕉科 Musaceae |\r\n| **属** | 芭蕉属 Musa |\r\n| **常见品种** | 香芽蕉（Cavendish）、大麦克（Gros Michel，几乎绝迹）、红香蕉、苹果蕉、千层蕉 |\r\n| **原产地** | 东南亚（马来西亚、印度尼西亚、菲律宾等地） |\r\n| **高度** | 最高可达7~9米（虽然是草本！） |\r\n| **绰号** | “智慧之果”、“快乐水果”、“运动员能量棒” |\r\n\r\n---\r\n\r\n## 🗺️ 香蕉的奇幻旅程\r\n\r\n考古学家发现，香蕉在巴布亚新几内亚地区被驯化的历史可以追溯到**7000年前**甚至更久！后来香蕉搭乘阿拉伯商人的船只传播到非洲，再后来跟随哥伦布的航船跨越太平洋来到美洲。\r\n\r\n> 🎤 一个有趣的插曲：现在的全球主流品种香芽蕉（Cavendish）之所以能取代过去的大麦克香蕉，是因为大麦克在1950年代惨遭香蕉枯萎病（巴拿马病）几乎灭绝。如今我们吃的香蕉，基因高度单一，非常容易受到新型病害的威胁。\r\n\r\n在世界各地文化中，香蕉代表富足、生育和幽默。在某些国家，香蕉叶也是神圣的餐盘，用来盛装食物。\r\n\r\n---\r\n\r\n## 🥗 营养成分 · 运动健将的秘密\r\n\r\n香蕉富含**钾、维生素B6、维生素C、膳食纤维和天然糖分**。一根中等大小的香蕉约提供105卡路里能量。\r\n\r\n| 营养素 (每100g) | 含量 | 趣评 |\r\n|----------------|------|------|\r\n| 热量 | 89 kcal | 天然快乐能量包 |\r\n| 钾 | 358 mg | 帮助肌肉放松，对抗抽筋💪 |\r\n| 维生素B6 | 0.4 mg | 提升情绪，合成血清素 |\r\n| 膳食纤维 | 2.6 g | 肠道小刷子 |\r\n| 镁 | 27 mg | 助眠&神经稳定 |\r\n\r\n> 🧠 香蕉含有少量色氨酸——身体用来制造血清素的成分，所以吃香蕉真的会让心情变好，这可不是心理作用！\r\n\r\n---\r\n\r\n## 🤯 你没听过的香蕉冷知识\r\n\r\n- 🍌 **香蕉的“树”不是树**：香蕉植株其实是巨型草本，它的“茎”由叶鞘层层包裹形成假茎，最高可以达到9米！\r\n- 🎨 **紫外线下的香蕉**：成熟的香蕉在紫外光下会呈现亮蓝色荧光，这是由于叶绿素降解产物的神奇反应。\r\n- 🔊 **香蕉皮滑倒**：这是全球共识的幽默梗，虽然实际摩擦系数并不低。\r\n- 📞 **香蕉电话？** 安迪·沃霍尔为地下丝绒乐队设计的经典“香蕉”封面，成为流行文化标志。\r\n- 👕 **香蕉纤维可以做衣服**：香蕉茎秆纤维非常坚韧，可用于制作背包、纸和织物。\r\n- ⚡ **放射性？** 香蕉富含钾-40（天然放射性同位素），但微量到可以忽略——吃一根香蕉所受辐射约等于自然本底辐射的0.01%。\r\n\r\n---\r\n\r\n## 🍌 世界香蕉奇妙品种\r\n\r\n| 品种 | 特点 |\r\n|------|------|\r\n| 香芽蕉 | 最常见，超市里的标准香蕉 |\r\n| 苹果蕉 | 酸甜似苹果，小巧迷人 |\r\n| 红香蕉 | 外皮红紫，果肉奶油香 |\r\n| 千层蕉 | 花开多层，观赏性极佳 |\r\n| 大麦克香蕉 | 绝迹传说，据传更香甜 |\r\n| 煮食蕉(大蕉) | 烹饪用，淀粉含量高 |\r\n\r\n世界各地还有几百种野生和栽培香蕉，颜色从绿、黄到红、紫。\r\n\r\n---\r\n\r\n## 👩‍🍳 香蕉创意吃法\r\n\r\n**经典甜品区**：香蕉船、香蕉松饼、香蕉面包、炸香蕉、烤香蕉片、拔丝香蕉、冷冻香蕉蘸巧克力\r\n\r\n**咸口大冒险**：泰国香蕉花沙拉、非洲香蕉炖肉、哥斯达黎加甜煮大蕉、加勒比炸大蕉片\r\n\r\n**饮品界明星**：香蕉奶昔、香蕉燕麦能量饮、香蕉咖啡拿铁，甚至香蕉发酵酿造的啤酒\r\n\r\n> 🥄 烹饪小诀窍：香蕉皮内侧可以用来擦亮银器、滋润皮革，甚至能堆肥！\r\n\r\n---\r\n\r\n## 📈 香蕉经济\r\n\r\n香蕉是全球贸易量最大的水果之一，每年出口量超过2000万吨。**印度**是世界上最大的香蕉生产国（年产超过3000万吨），其次是巴西和中国。欧洲人和美国人平均每人每年吃掉约12公斤香蕉！\r\n\r\n> 🏅 你知道吗？美国每年消耗的香蕉比苹果和橙子加起来还多！\r\n\r\n---\r\n\r\n## 🎤 香蕉在流行文化中\r\n\r\n- 地下丝绒乐队那张黄色香蕉专辑封面，由安迪·沃霍尔设计\r\n- 《神偷奶爸》里小黄人对香蕉的疯狂热爱\r\n- 互联网模因“香蕉皮滑倒”\r\n- 艺术作品“胶带香蕉”以12万美元成交\r\n\r\n> 🎶 “Hollaback Girl”歌词中唱道 “This shit is bananas, B-A-N-A-N-A-S”\r\n\r\n---\r\n\r\n## 🌍 香蕉的未来\r\n\r\n当前全球商业化香蕉的品种过于单一（卡文迪什占国际贸易的99%），极易受到新出现的香蕉枯萎病TR4的打击。科学家正在努力寻找和培育抗病品种，保护野生香蕉基因库。\r\n\r\n✅ **行动起来**：支持多样化水果、购买有机或公平贸易香蕉、进行香蕉皮堆肥。\r\n\r\n---\r\n\r\n## 🤔 香蕉小测验\r\n\r\n**问1**：香蕉在植物学意义上属于哪一类水果？\r\n- A. 核果  B. 仁果  C. 浆果  D. 柑橘类\r\n> 答案：**C**（浆果！香蕉是多室浆果）\r\n\r\n**问2**：香蕉植株最高可以长到多少米？\r\n- A. 2米  B. 4米  C. 9米  D. 12米\r\n> 答案：**C**（某些野生品种可高达9米！）\r\n\r\n**问3**：哪个国家香蕉人均消费最高？\r\n- A. 美国  B. 乌干达  C. 菲律宾  D. 德国\r\n> 答案：**B**（乌干达当地香蕉是主食之一，每人每年吃掉约200公斤）\r\n\r\n---\r\n\r\n*最后更新：2026年 · 保持好奇，保持有趣，每天一根香蕉，让生活更美妙*\r\n\r\n🍌❤️ **祝你今天也像香蕉一样金灿灿**\r\n\r\n",
       "author": "codej-40404",
-      "last_edit": "2026-06-13 08:36",
-      "views": 52,
-      "tags": []
+      "last_edit": "2026-06-19 10:55",
+      "views": 99,
+      "tags": [],
+      "is_frozen": false
     },
     "wiki": {
       "title": "Omniwiki-介绍",
       "content": "# 🌍 寰宇维基 / OmniWiki\r\n\r\n![Python Version](https://img.shields.io/badge/Python-3.8+-blue.svg)  \r\n\r\n![Flask Version](https://img.shields.io/badge/Flask-2.0+-green.svg)  \r\n\r\n![License](https://img.shields.io/badge/License-MIT-yellow.svg)  \r\n\r\n![Status](https://img.shields.io/badge/Status-Active-brightgreen.svg)  \r\n\r\n\r\n**一个功能完整的本地Wiki系统，支持页面编辑、讨论区、用户系统等完整功能**  \r\n\r\n**A fully-featured local Wiki system with page editing, discussion forums, user system and more**  \r\n\r\n\r\n[快速开始](#-快速开始--quick-start) • [功能介绍](#-功能介绍--features) • [安装指南](#-安装指南--installation) • [截图](#-截图--screenshots)  \r\n\r\n\r\n---\r\n\r\n## 📖 目录 / Table of Contents\r\n\r\n- [项目简介 / Introduction](#-项目简介--introduction)  \r\n- [功能介绍 / Features](#-功能介绍--features)  \r\n- [技术栈 / Tech Stack](#-技术栈--tech-stack)  \r\n- [快速开始 / Quick Start](#-快速开始--quick-start)  \r\n- [详细安装 / Detailed Installation](#-详细安装--detailed-installation)  \r\n- [项目结构 / Project Structure](#-项目结构--project-structure)\r\n- [API 文档 / API Documentation](#-api-文档--api-documentation)\r\n- [配置说明 / Configuration](#-配置说明--configuration)\r\n- [截图 / Screenshots](#-截图--screenshots)\r\n- [常见问题 / FAQ](#-常见问题--faq)\r\n- [贡献指南 / Contributing](#-贡献指南--contributing)\r\n- [许可证 / License](#-许可证--license)\r\n\r\n---\r\n\r\n## 📋 项目简介 / Introduction\r\n\r\n### 中文\r\n\r\n**寰宇维基 (OmniWiki)** 是一个功能完整的本地Wiki系统，专为个人知识管理和团队协作设计。所有数据存储在本地，无需联网，完全保护您的隐私。系统采用现代化的Fandom风格界面，提供流畅的编辑体验和强大的讨论功能。\r\n\r\n### English\r\n\r\n**OmniWiki** is a fully-featured local Wiki system designed for personal knowledge management and team collaboration. All data is stored locally, requiring no internet connection and ensuring complete privacy. The system features a modern Fandom-style interface, providing a smooth editing experience and powerful discussion capabilities.\r\n**Notice!** there's only chinese version available now, eng version is still designing\r\n---\r\n\r\n## ✨ 功能介绍 / Features\r\n\r\n### 核心功能 / Core Features\r\n\r\n| 功能 / Feature | 描述 / Description |\r\n|---------------|-------------------|\r\n| 📝 **页面系统 / Page System** | 创建、编辑、浏览、删除Wiki页面，支持Markdown语法 |\r\n| 👤 **用户系统 / User System** | 注册、登录、个人主页、角色权限管理 |\r\n| 🔍 **搜索功能 / Search** | 实时搜索建议、全文检索、搜索结果高亮 |\r\n| 🏷️ **标签系统 / Tags** | 标签云、按标签筛选页面 |\r\n| 💬 **评论系统 / Comments** | 发表评论、回复、点赞、删除，支持Markdown |\r\n| 🗣️ **讨论区 / Discussions** | 发起话题、回复、置顶、关闭、热度排序 |\r\n| 📸 **图片上传 / Image Upload** | 上传图片并自动插入编辑器 |\r\n| 📜 **版本历史 / Version History** | 查看编辑历史、恢复到任意版本 |\r\n| 🎨 **视觉特效 / Visual Effects** | 点击烟花特效、鼠标几何图形跟随 |\r\n\r\n### 界面特性 / UI Features\r\n\r\n| 特性 / Feature | 描述 / Description |\r\n|---------------|-------------------|\r\n| 🌙 **深色主题 / Dark Theme** | 舒适的深色界面，保护眼睛 |\r\n| 📱 **响应式设计 / Responsive** | 适配桌面、平板、手机 |\r\n| 🎯 **Fandom风格 / Fandom Style** | 三栏布局，侧边栏导航 |\r\n| ⚡ **实时预览 / Live Preview** | 编辑时右侧实时渲染Markdown |\r\n| 🛠️ **富文本工具栏 / Rich Toolbar** | 快捷按钮支持Markdown语法 |\r\n\r\n---\r\n\r\n## 🛠️ 技术栈 / Tech Stack\r\n\r\n| 技术 / Technology | 用途 / Purpose |\r\n|------------------|----------------|\r\n| **Python 3.8+** | 后端语言 |\r\n| **Flask 2.0+** | Web框架 |\r\n| **Markdown** | 内容渲染 |\r\n| **Marked.js** | 前端Markdown解析 |\r\n| **Highlight.js** | 代码语法高亮 |\r\n| **Font Awesome 6** | 图标库 |\r\n| **JSON** | 数据存储 |\r\n\r\n---\r\n\r\n## 🚀 快速开始 / Quick Start\r\n\r\n### 中文\r\n\r\n```bash\r\n# 1. 克隆项目\r\ngit clone https://github.com/yourusername/omniwiki.git\r\ncd omniwiki\r\n\r\n# 2. 安装依赖\r\npip install flask markdown\r\n\r\n# 3. 运行服务器\r\npython Omniwiki.py\r\n\r\n# 4. 打开浏览器访问\r\n# http://localhost:5000\r\n\r\n# 5. 登录测试账号\r\n# 用户名: admin / 密码: admin123\r\n```\r\n\r\n### English\r\n\r\n```bash\r\n# 1. Clone the repository\r\ngit clone https://github.com/yourusername/omniwiki.git\r\ncd omniwiki\r\n\r\n# 2. Install dependencies\r\npip install flask markdown\r\n\r\n# 3. Run the server\r\npython Omniwiki.py\r\n\r\n# 4. Open your browser and visit\r\n# http://localhost:5000\r\n\r\n# 5. Login with test account\r\n# Username: admin / Password: admin123\r\n```\r\n\r\n---\r\n\r\n## 📦 详细安装 / Detailed Installation\r\n\r\n### 中文\r\n\r\n#### 系统要求\r\n- Python 3.8 或更高版本\r\n- pip 包管理器\r\n- 现代浏览器（Chrome, Firefox, Edge 等）\r\n\r\n#### 安装步骤\r\n\r\n1. **下载项目**\r\n   ```bash\r\n   git clone https://github.com/yourusername/omniwiki.git\r\n   cd omniwiki\r\n   ```\r\n\r\n2. **创建虚拟环境（推荐）**\r\n   ```bash\r\n   # Windows\r\n   python -m venv venv\r\n   venv\\Scripts\\activate\r\n\r\n   # macOS / Linux\r\n   python3 -m venv venv\r\n   source venv/bin/activate\r\n   ```\r\n\r\n3. **安装依赖**\r\n   ```bash\r\n   pip install flask markdown\r\n   ```\r\n\r\n4. **初始化数据**\r\n   ```bash\r\n   # 运行后会自动创建数据文件\r\n   python app.py\r\n   ```\r\n\r\n5. **访问系统**\r\n   - 打开浏览器访问 `http://localhost:5000`\r\n   - 使用测试账号登录：`admin / admin123`\r\n\r\n### English\r\n\r\n#### Requirements\r\n- Python 3.8 or higher\r\n- pip package manager\r\n- Modern browser (Chrome, Firefox, Edge, etc.)\r\n\r\n#### Installation Steps\r\n\r\n1. **Download the project**\r\n   ```bash\r\n   git clone https://github.com/yourusername/omniwiki.git\r\n   cd omniwiki\r\n   ```\r\n\r\n2. **Create virtual environment (recommended)**\r\n   ```bash\r\n   # Windows\r\n   python -m venv venv\r\n   venv\\Scripts\\activate\r\n\r\n   # macOS / Linux\r\n   python3 -m venv venv\r\n   source venv/bin/activate\r\n   ```\r\n\r\n3. **Install dependencies**\r\n   ```bash\r\n   pip install flask markdown\r\n   ```\r\n\r\n4. **Initialize data**\r\n   ```bash\r\n   # Data files will be created automatically when running\r\n   python app.py\r\n   ```\r\n\r\n5. **Access the system**\r\n   - Open your browser and visit `http://localhost:5000`\r\n   - Login with test account: `admin / admin123`\r\n\r\n---\r\n\r\n## 📁 项目结构 / Project Structure\r\n~~some are still designing~~\r\n\r\n```\r\nomniwiki/\r\n│\r\n├── Omniwiki.py                          # 主服务器程序\r\n├── wiki_data.json                  # Wiki数据文件（自动生成）\r\n├── discussions_data.json           # 讨论数据文件（自动生成）\r\n├── comments_data.json              # 评论数据文件（自动生成）\r\n├── uploads/                        # 上传的图片文件夹\r\n│\r\n├── templates/                      # 模板文件夹\r\n│   ├── base.html                   # 基础模板\r\n│   ├── index.html                  # 首页\r\n│   ├── wiki_page.html              # 页面浏览\r\n│   ├── edit.html                   # 编辑页面\r\n│   ├── create.html                 # 创建页面\r\n│   ├── discussions.html            # 讨论区\r\n│   ├── recent_discussions.html     # 最新讨论\r\n│   ├── hot_discussions.html        # 热门讨论\r\n│   ├── my_discussions.html         # 我的讨论\r\n│   ├── search.html                 # 搜索结果\r\n│   ├── login.html                  # 登录页\r\n│   ├── register.html               # 注册页\r\n│   ├── all_pages.html              # 所有页面\r\n│   ├── tags.html                   # 标签云\r\n│   ├── history.html                # 版本历史\r\n│   └── 404.html                    # 404页面\r\n│\r\n└── static/                         # 静态文件\r\n    ├── style.css                   # 主样式表\r\n    └── script.js                   # 前端脚本\r\n```\r\n\r\n---\r\n\r\n## 🔌 API 文档 / API Documentation\r\n\r\n### 中文\r\n\r\n| 端点 / Endpoint | 方法 / Method | 描述 / Description |\r\n|----------------|---------------|-------------------|\r\n| `/api/search?q={query}` | GET | 搜索建议API |\r\n| `/api/comments/{page}` | GET | 获取页面评论 |\r\n| `/api/comments/{page}` | POST | 添加评论 |\r\n| `/api/comments/{page}/{id}/like` | POST | 点赞评论 |\r\n| `/api/discussions/{page}` | GET | 获取讨论列表 |\r\n| `/api/discussions/{page}/topic` | POST | 创建话题 |\r\n| `/api/discussions/{page}/topic/{id}/reply` | POST | 回复话题 |\r\n| `/api/hot-discussions-full` | GET | 获取热门讨论 |\r\n| `/api/my-discussions-full` | GET | 获取我的讨论 |\r\n\r\n### English\r\n\r\n| Endpoint | Method | Description |\r\n|----------|--------|-------------|\r\n| `/api/search?q={query}` | GET | Search suggestions API |\r\n| `/api/comments/{page}` | GET | Get page comments |\r\n| `/api/comments/{page}` | POST | Add comment |\r\n| `/api/comments/{page}/{id}/like` | POST | Like comment |\r\n| `/api/discussions/{page}` | GET | Get discussion list |\r\n| `/api/discussions/{page}/topic` | POST | Create topic |\r\n| `/api/discussions/{page}/topic/{id}/reply` | POST | Reply to topic |\r\n| `/api/hot-discussions-full` | GET | Get hot discussions |\r\n| `/api/my-discussions-full` | GET | Get my discussions |\r\n\r\n---\r\n\r\n## ⚙️ 配置说明 / Configuration\r\n\r\n### 中文\r\n\r\n#### 环境变量\r\n\r\n| 变量 | 描述 | 默认值 |\r\n|------|------|--------|\r\n| `SECRET_KEY` | Flask会话密钥 | `huan-yu-wiki-secret-key-2026` |\r\n| `PORT` | 服务器端口 | `5000` |\r\n| `DEBUG` | 调试模式 | `True` |\r\n\r\n#### 修改端口\r\n\r\n```python\r\n# 在 app.py 中修改\r\napp.run(debug=True, host='127.0.0.1', port=8080)\r\n```\r\n\r\n### English\r\n\r\n#### Environment Variables\r\n\r\n| Variable | Description | Default |\r\n|----------|-------------|---------|\r\n| `SECRET_KEY` | Flask session secret key | `huan-yu-wiki-secret-key-2026` |\r\n| `PORT` | Server port | `5000` |\r\n| `DEBUG` | Debug mode | `True` |\r\n\r\n#### Change Port\r\n\r\n```python\r\n# Modify in app.py\r\napp.run(debug=True, host='127.0.0.1', port=8080)\r\n```\r\n\r\n---\r\n\r\n## 📸 截图 / Screenshots\r\n\r\n### 中文\r\n\r\n> 由于项目是本地运行，请自行启动后体验。界面风格类似于 Fandom Wiki，采用深色主题和三栏布局。\r\n\r\n### English\r\n\r\n> Since the project runs locally, please start it yourself to experience. The UI style is similar to Fandom Wiki, featuring a dark theme and three-column layout.\r\n\r\n---\r\n\r\n## ❓ 常见问题 / FAQ\r\n\r\n### 中文\r\n\r\n**Q: 保存页面后没有变化？**\r\nA: 检查 `app.py` 中 `/edit/<page_name>` 的 POST 处理逻辑是否正确。\r\n\r\n**Q: 图片上传失败？**\r\nA: 确保 `uploads/` 文件夹存在且有写入权限。\r\n\r\n**Q: 评论功能不工作？**\r\nA: 检查 `comments_data.json` 文件是否已创建。\r\n\r\n**Q: 如何备份数据？**\r\nA: 备份以下文件：`wiki_data.json`、`discussions_data.json`、`comments_data.json` 和 `uploads/` 文件夹。\r\n\r\n### English\r\n\r\n**Q: The page doesn't change after saving?**\r\nA: Check if the POST handling logic in `/edit/<page_name>` of `app.py` is correct.\r\n\r\n**Q: Image upload fails?**\r\nA: Make sure the `uploads/` folder exists and has write permissions.\r\n\r\n**Q: Comment feature doesn't work?**\r\nA: Check if the `comments_data.json` file has been created.\r\n\r\n**Q: How to backup data?**\r\nA: Backup the following files: `wiki_data.json`, `discussions_data.json`, `comments_data.json` and the `uploads/` folder.\r\n\r\n---\r\n\r\n## 👥 贡献指南 / Contributing\r\n\r\n### 中文\r\n\r\n欢迎贡献代码、报告问题或提出新功能建议！\r\n\r\n1. Fork 本项目\r\n2. 创建您的功能分支 (`git checkout -b feature/AmazingFeature`)\r\n3. 提交您的更改 (`git commit -m 'Add some AmazingFeature'`)\r\n4. 推送到分支 (`git push origin feature/AmazingFeature`)\r\n5. 打开 Pull Request\r\n\r\n### English\r\n\r\nContributions, issues, and feature requests are welcome!\r\n\r\n1. Fork the project\r\n2. Create your feature branch (`git checkout -b feature/AmazingFeature`)\r\n3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)\r\n4. Push to the branch (`git push origin feature/AmazingFeature`)\r\n5. Open a Pull Request\r\n\r\n---\r\n\r\n## 📄 许可证 / License\r\n\r\n### 中文\r\n\r\n本项目采用 MIT 许可证。详见 [LICENSE](LICENSE) 文件。\r\n\r\n### English\r\n\r\nThis project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.\r\n\r\n---\r\n\r\n## 🙏 致谢 / Acknowledgements\r\n\r\n### 中文\r\n\r\n- [Flask](https://flask.palletsprojects.com/) - 轻量级Web框架\r\n- [Marked.js](https://marked.js.org/) - Markdown解析器\r\n- [Highlight.js](https://highlightjs.org/) - 代码高亮\r\n- [Font Awesome](https://fontawesome.com/) - 图标库\r\n\r\n### English\r\n\r\n- [Flask](https://flask.palletsprojects.com/) - Lightweight web framework\r\n- [Marked.js](https://marked.js.org/) - Markdown parser\r\n- [Highlight.js](https://highlightjs.org/) - Code syntax highlighting\r\n- [Font Awesome](https://fontawesome.com/) - Icon library\r\n\r\n---\r\n\r\n**Made with 🍌 by OmniWiki Contributors**  \r\n\r\n*codej-40404*\r\n\r\n[⬆ 返回顶部 / Back to Top](#)\r\n\r\n",
       "author": "codej-40404",
-      "last_edit": "2026-06-13 08:33",
-      "views": 22,
+      "last_edit": "2026-06-14 11:48",
+      "views": 41,
       "tags": []
     },
     "markdown": {
@@ -51,7 +70,7 @@
       "content": "# markdown\r\n> it's ez\r\n# ez\r\nwell...\r\n[wow](http://localhost:5000/page/markdown)",
       "author": "codej-40404",
       "last_edit": "2026-06-13 12:07",
-      "views": 9,
+      "views": 18,
       "tags": []
     },
     "oxygen": {
@@ -59,310 +78,350 @@
       "content": "# 氧\r\n\r\n**氧**（英文：Oxygen）是一种化学元素，符号为 **O**，原子序数为 8。在元素周期表中，氧属于第16族（氧族元素），第二周期。氧是地球上最常见的元素之一，以单质形态和化合物形态广泛分布于地壳、大气圈和水圈之中。氧是生命维持过程中最关键的要素之一，几乎所有复杂的有机体均依赖氧气进行细胞呼吸以产生能量。\r\n\r\n## 基本性质\r\n\r\n| 属性 | 数值 |\r\n|------|------|\r\n| 名称、符号、序号 | 氧、O、8 |\r\n| 元素类别 | 非金属 / 氧族元素 |\r\n| 族、周期、区 | 16族、2周期、p区 |\r\n| 标准原子量 | 15.999 u |\r\n| 电子排布 | 1s² 2s² 2p⁴ |\r\n| 外观 | 无色气体（液氧呈淡蓝色） |\r\n\r\n### 物理性质\r\n\r\n- **状态**：常温常压下为无色、无味、无臭的双原子气体。\r\n- **密度**：在标准条件下，氧气密度为 1.429 g/L，略重于空气。\r\n- **熔点**：-218.79 °C（54.36 K）\r\n- **沸点**：-182.96 °C（90.18 K）\r\n- **三相点**：54.361 K，0.1463 kPa\r\n- **临界点**：154.581 K，5.043 MPa\r\n\r\n液氧和固氧均呈现淡蓝色，这是由于氧分子在可见光波段对红光的弱吸收所致。液氧具有顺磁性，可在强磁场中被吸引。\r\n\r\n### 化学性质\r\n\r\n氧的电负性极高（鲍林标度 3.44），仅次于氟。氧通常在化学反应中作为氧化剂，接受电子，被还原为氧化物（O²⁻）、过氧化物（O₂²⁻）或超氧化物（O₂⁻）。\r\n\r\n#### 常见氧化态\r\n\r\n- **-2**：绝大多数氧化物（如 H₂O、CO₂、SiO₂）\r\n- **-1**：过氧化物（如 H₂O₂）\r\n- **-½**：超氧化物（如 KO₂）\r\n- **0**：单质（O₂ 和 O₃）\r\n- **+1、+2**：极罕见（如 OF₂ 中氧为 +2）\r\n\r\n#### 燃烧与氧化\r\n\r\n氧本身不可燃，但强烈支持燃烧。几乎所有的元素都能与氧发生反应，生成对应的氧化物——但贵金属（如金、铂）在通常情况下不易直接氧化。\r\n\r\n某些非金属如磷、硫在纯氧中燃烧时放出耀眼的光芒和大量热。\r\n\r\n#### 同素异形体\r\n\r\n氧主要有三种同素异形体：\r\n\r\n1.  **氧气（O₂）**：最常见形态，占地球大气约 20.95%。\r\n2.  **臭氧（O₃）**：淡蓝色气体，有特殊刺激性气味。强氧化剂，在大气平流层吸收大部分太阳紫外线，保护地表生物。但在近地面则是污染物，对呼吸道有害。\r\n3.  **四聚氧（O₄）**：只在极端高压下稳定存在，如高压相中氧气固体的一种形式。\r\n\r\n此外还有不稳定的原子氧（O），存在于高层大气和星际空间中，化学性质极活泼。\r\n\r\n## 发现历史\r\n\r\n### 早期探索\r\n\r\n对氧的认识并非一蹴而就。早在 8 世纪，中国炼丹家马和在其著作《平龙认》中提及“阴气”与“阳气”，有学者认为“阴气”可能指代氧气，但描述较为模糊。\r\n\r\n17 世纪，罗伯特·波义耳通过实验发现，空气是维持燃烧和呼吸所必需的。而约翰·梅奥在 1674 年进一步证明：蜡烛在密闭容器中燃烧后，空气体积减少，且剩余空气无法支持燃烧或生命。他提出空气中存在“硝气精”（spiritus nitro-aereus），这实际上就是氧气。\r\n\r\n### 发现者之争\r\n\r\n1771–1772 年，瑞典化学家卡尔·威廉·舍勒通过加热硝酸盐、氧化物等物质制得一种“火空气”（fire air），并详细记录了其性质。但因舍勒的手稿延迟发表（1777 年），他的发现未能及时为世人所知。\r\n\r\n1774 年，英国化学家约瑟夫·普里斯特利采用加热氧化汞的方法，独立制得氧气：\r\n\r\n普里斯特利发现这种气体能使蜡烛燃烧得更为猛烈，且使小鼠活得更久。他将自己的发现告诉了法国化学家安托万·拉瓦锡。\r\n\r\n拉瓦锡在此基础上进行了精确的定量实验，于 1777 年提出燃烧并非“燃素”的释放，而是物质与空气中“活气”（oxygène，源于希腊语 “oxys” 意为酸，“genēs” 意为形成者）的结合。他正确解释了燃烧和金属锈蚀的本质，并命名了氧气。因此，拉瓦锡虽然并非最早制得氧气，但被公认为现代氧化理论的奠基人。\r\n\r\n## 自然界分布\r\n\r\n### 宇宙范围\r\n\r\n氧是宇宙中仅次于氢和氦的第三丰富的元素，质量占比约 1%。恒星内部的核聚变反应（特别是碳氮氧循环）会生成氧。在大质量恒星演化的后期，氧成为其核心层的重要组成。\r\n\r\n### 地球范围\r\n\r\n氧是地球上质量占比最高的元素，约占地壳质量的 46% 和海水质量的 85%。\r\n\r\n- **大气**：游离态氧气（O₂）约占干空气体积的 20.95%，主要来源于光合作用。\r\n- **水圈**：水（H₂O）由氢和氧组成。\r\n- **岩石圈**：硅酸盐矿物、碳酸盐矿物、氧化物矿物（如石英 SiO₂，赤铁矿 Fe₂O₃）中均含有大量氧。\r\n- **生物圈**：几乎所有有机分子——碳水化合物、蛋白质、脂类和核酸——都包含氧。\r\n\r\n### 氧循环\r\n\r\n地球上的氧通过生物、地质和化学过程持续循环：\r\n\r\n1. **光合作用**：植物、藻类和蓝细菌利用太阳能将水和二氧化碳转化为有机物和氧气。\r\n\r\n2. **呼吸作用**：好氧生物利用氧气氧化有机物，释放能量，生成二氧化碳和水。\r\n3. **风化与沉积**：大气中的氧气参与岩石的氧化风化，部分氧被封存在碳酸盐等沉积岩中。\r\n4. **火山作用与板块运动**：通过火山释放的还原性气体和俯冲带返回地幔的物质，氧以各种化合物形式参与深部地球循环。\r\n\r\n## 生物作用\r\n\r\n### 细胞呼吸\r\n\r\n对绝大多数真核生物（动物、植物、真菌、原生生物）以及许多原核生物而言，氧气是线粒体电子传递链的最终电子受体。有氧条件下，1 分子葡萄糖彻底氧化约产生 36–38 分子 ATP；无氧条件下（糖酵解）仅产生 2 分子 ATP。因此，氧气的存在极大地提高了能量利用效率，使复杂多细胞生物的出现成为可能。\r\n\r\n### 氧化应激与抗氧化\r\n\r\n氧气和氧的衍生物（活性氧，ROS，如超氧阴离子、过氧化氢、羟自由基）具有强氧化性，可损伤 DNA、蛋白质和脂膜。生物体进化出一系列抗氧化机制：\r\n\r\n- 酶类：超氧化物歧化酶（SOD）、过氧化氢酶、谷胱甘肽过氧化物酶。\r\n- 小分子：谷胱甘肽、维生素 C、维生素 E。\r\n\r\n### 进化意义\r\n\r\n约 24 亿年前发生的“大氧化事件”（Great Oxidation Event），因蓝细菌光合作用的兴起导致大气中氧气含量急剧上升，对当时的厌氧生命造成灭绝性灾难，但同时也为需氧生物和真核细胞的演化铺平了道路。随后氧含量的波动（如新元古代氧化事件、泥盆纪-石炭纪高氧期）与动物体型增大、陆生植物繁盛以及巨型昆虫的出现密切相关。\r\n\r\n## 工业与医学应用\r\n\r\n### 生产方法\r\n\r\n大规模制氧主要通过两种途径：\r\n\r\n1. **低温分馏法（林德循环）**：将空气液化，根据各组分沸点差异（氧 -183 °C，氮 -196 °C）通过分馏塔分离。该方法可获得纯度高达 99.5% 以上的氧气。\r\n2. **变压吸附法（PSA）**：利用沸石分子筛在高压下吸附氮气，流出富氧气体（通常 90–95%）。\r\n\r\n小型供氧设备（如医用制氧机）也采用 PSA 技术。\r\n\r\n### 重要用途\r\n\r\n#### 医疗\r\n\r\n- 低氧血症、呼吸衰竭、慢性阻塞性肺疾病（COPD）、新冠肺炎重症、一氧化碳中毒等情况下吸氧治疗。\r\n- 高压氧舱：治疗减压病、气性坏疽、放射性组织坏死、难愈性创面等。\r\n- 麻醉与急救：手术中维持血氧浓度。\r\n\r\n#### 工业\r\n\r\n- **钢铁冶炼**：高炉富氧喷吹、转炉炼钢，提高燃烧温度和反应速率。\r\n- **化工**：合成甲醇、环氧乙烷、乙二醇等的基础原料。\r\n- **废物处理**：废水中的好氧生物处理、垃圾焚烧炉富氧燃烧以减少二噁英。\r\n- **玻璃制造、陶瓷、水泥**：富氧燃烧节能降碳。\r\n- **航空航天**：液氧作为火箭推进剂的氧化剂（如与液氢组合用于 SpaceX、航天飞机等）。\r\n\r\n#### 环境与能源\r\n\r\n- 富氧燃烧碳捕集技术（Oxy-fuel combustion）：燃烧在纯氧和再循环烟气中进行，烟气中 CO₂ 浓度显著提高，便于捕集和封存。\r\n- 燃料电池（尤其是固体氧化物燃料电池）中氧作为阴极反应物。\r\n\r\n## 安全与危害\r\n\r\n### 火灾风险\r\n\r\n虽然氧气本身不可燃，但它是强氧化剂。在富氧环境中，普通可燃物（如衣服、油脂、钢铁）的着火点会显著降低，燃烧速度和剧烈程度急剧增加。富氧大气中，即使一个小小的火星也可能引发猛烈火灾。因此涉及高浓度氧气的设备必须禁油、禁脂，使用兼容的特殊材料。\r\n\r\n### 氧中毒\r\n\r\n长期吸入分压过高的氧气（通常超过 0.5 大气压，对应常压下氧气体积分数 > 50%）可导致氧中毒，主要分为两类：\r\n\r\n- **肺型氧中毒**：肺泡上皮和毛细血管内皮损伤，类似急性呼吸窘迫综合征（ARDS），表现为胸骨后疼痛、咳嗽、呼吸困难。\r\n- **中枢神经系统型氧中毒**：常发生于高压氧舱或深水潜水时，表现为肌肉抽搐、眩晕、视觉异常甚至癫痫。保罗·伯特和 J. 洛兰·史密斯在 19 世纪末首先报道了这一现象。\r\n\r\n### 新生儿安全\r\n\r\n早产儿若接受过高浓度氧气治疗，可能引发**早产儿视网膜病变（ROP）**，视网膜血管异常增生，严重时可致失明。因此新生儿供氧需要严格控制血氧饱和度。\r\n\r\n## 环境与气候\r\n\r\n大气中的氧气含量并非恒定不变。由于化石燃料燃烧、森林砍伐等人类活动，氧气浓度在过去一个世纪里出现了微小的下降（每年约 19 per meg，即千万分之十九）。虽然远未达到对人类健康的威胁水平，这一变化可作为碳循环失衡的敏感指标。\r\n\r\n臭氧（O₃）在平流层形成“臭氧层”，可吸收 97–99% 的中短波紫外线（UV-B、UV-C）。20 世纪下半叶，氟氯烃（CFCs）等物质造成南极春季臭氧层空洞的出现。《蒙特利尔议定书》签署后，全球逐步淘汰消耗臭氧层物质，臭氧层正在缓慢恢复。\r\n\r\n与之相反，对流层（近地面）臭氧是光化学烟雾的主要成分，由氮氧化物和挥发性有机物在阳光下反应形成，可损害肺功能、加重哮喘、降低农作物产量。\r\n\r\n## 同位素\r\n\r\n氧有三种稳定同位素：\r\n\r\n- **¹⁶O**：丰度 99.757%，最常见。\r\n- **¹⁷O**：丰度 0.038%。\r\n- **¹⁸O**：丰度 0.205%。\r\n\r\n此外还有十多种放射性同位素，半衰期均很短，如 ¹⁵O（半衰期 122 秒），用于正电子发射断层扫描（PET）中的示踪剂。\r\n\r\n### 古气候学应用\r\n\r\n海洋生物碳酸盐壳体中的 δ¹⁸O 比值（¹⁸O/¹⁶O 与标准海水的千分差）受海水温度和大陆冰量控制。通过分析有孔虫等微体化石的 δ¹⁸O，科学家能够重建过去数百万年的全球冰量和海水温度变化。这一方法为证实米兰科维奇循环和第四纪冰期-间冰期旋回提供了核心证据。\r\n\r\n## 文化与象征\r\n\r\n- **炼金术符号**：氧在古代并未被单独认识，现代化学符号 O 来自元素名称拉丁化后的首字母。\r\n- **生命元素**：在各种文化中，氧气常与“生命之气”“普拉纳”“气”等概念相关联。虽然近代科学才明确识别氧气，但人类对呼吸与生命之间联系的直觉由来已久。\r\n- **太空探索**：“阿波罗 13 号”任务中，服务舱液氧贮箱爆炸导致任务中止，宇航员依靠登月舱的氧气供应安全返回地球。这个故事后来成为“在危机中保持冷静和创新解决问题”的象征性案例。\r\n\r\n## 参见\r\n\r\n- 氧化还原反应\r\n- 光合作用\r\n- 呼吸作用\r\n- 臭氧层\r\n- 大氧化事件\r\n- 液氧\r\n- 高压氧治疗\r\n\r\n## 参考文献\r\n\r\n1. Greenwood, N. N.; Earnshaw, A. *Chemistry of the Elements* (2nd ed.). Butterworth-Heinemann, 1997.\r\n2. Lane, N. *Oxygen: The Molecule that Made the World*. Oxford University Press, 2002.\r\n3. Canfield, D. E. *Oxygen: A Four Billion Year History*. Princeton University Press, 2014.\r\n4. 国家药品监督管理局.《高压氧临床应用技术规范》. 2019.\r\n5. IUPAC. “Atomic Weights of the Elements 2021”.\r\n\r\n---\r\n\r\n> 氧不仅是一种化学元素，更是地球生命演化与人类技术文明交汇的核心角色。从呼吸的每一次起伏，到火箭穿越大气层的熊熊火焰，氧以其平凡又非凡的方式，塑造了我们所知的世界。",
       "author": "codej-40404",
       "last_edit": "2026-06-13 12:45",
-      "views": 2,
+      "views": 5,
+      "tags": []
+    },
+    "CodeJ-40404": {
+      "title": "CodeJ-40404  |  管理员",
+      "content": "# 👋 关于我 / About Me \r\n\r\n\r\n**一名 13 岁的 C++ 开发者，正在构建一个硬核的化学世界。**\r\n\r\n- 🔭 目前专注于：**化学世界 (Chemical World)** —— 一个强调真实反应、工业制造和太空探索的模拟游戏。\r\n- 🌱 技术栈：C++17, SQLite, Git, 正在攻克 FTXUI。\r\n- 🎯 目标：不做“火+水=蒸汽”的魔法合成，只做**真实的化学**。从烧杯开始，到火箭结束。\r\n- 📫 合作：欢迎通过 GitHub Issues 交流，或者关注我的开发进度。\r\n- ⚡ 趣事：我的项目获得了来自内罗毕和伊斯坦布尔开发者的关注，这让我相信开源无国界。\r\n\r\n> “活的仓库，比完美的代码更有趣。”\r\n\r\n## 不止*化学世界*\r\n我也是Omniwiki的创始人，我的宗旨是**比Wikipedia更现代化，比obsidian更便携**\r\n```cpp\r\n#include<iostream>\r\nusing namespace std;\r\nint main(){\r\n   cout<<\"hello Omniwiki!\"<<endl;\r\n   return 0;\r\n}\r\n```",
+      "author": "codej-40404",
+      "last_edit": "2026-06-14 17:49",
+      "views": 9,
+      "tags": []
+    },
+    "数论": {
+      "title": "浅谈数论",
+      "content": "这是一份关于数论的深度长文。我们将从最基本的整数性质出发，穿越同余、二次剩余，直达近代数论的核心——它不仅是纯数学的瑰宝，也是现代密码学的基石。\r\n\r\n> 注意：本文包含大量 $\\LaTeX$ 数学公式（通过 $\\KaTeX$ 渲染），阅读时请确保环境支持。\r\n\r\n---\r\n\r\n# 数论导论：从整除性到现代密码学\r\n\r\n## 目录\r\n1. 基础：整除性与最大公因数\r\n2. 素数：数论的原子\r\n3. 同余理论与模算术\r\n4. 中国剩余定理\r\n5. 费马小定理与欧拉定理\r\n6. 原根与指数\r\n7. 二次剩余与二次互反律\r\n8. 数论函数与狄利克雷卷积\r\n9. 丢番图逼近与 Pell 方程\r\n10. 解析数论一瞥\r\n11. 现代应用：RSA 与椭圆曲线\r\n\r\n---\r\n\r\n## 1. 基础：整除性与最大公因数\r\n\r\n### 1.1 整除关系\r\n\r\n设 $a, b \\in \\mathbb{Z}$，且 $b \\neq 0$。若存在整数 $c$ 使得 $a = bc$，则称 **$b$ 整除 $a$**，记作 $b \\mid a$。此时 $b$ 是 $a$ 的因数，$a$ 是 $b$ 的倍数。\r\n\r\n**性质：**\r\n- 若 $c \\mid b$ 且 $b \\mid a$，则 $c \\mid a$。\r\n- 若 $c \\mid a$ 且 $c \\mid b$，则 $c \\mid (ma + nb)$ 对任意整数 $m, n$。\r\n\r\n### 1.2 带余除法\r\n\r\n对任意整数 $a$ 与正整数 $b$，存在唯一的一对整数 $q, r$ 使得\r\n$$ a = bq + r, \\quad 0 \\le r < b. $$\r\n$q$ 称为商，$r$ 称为余数。\r\n\r\n### 1.3 最大公因数\r\n\r\n定义 $\\gcd(a, b)$ 为同时整除 $a$ 和 $b$ 的最大正整数。  \r\n**欧几里得算法：** 反复使用带余除法：\r\n$$\r\n\\begin{aligned}\r\na &= b q_1 + r_1 \\\\\r\nb &= r_1 q_2 + r_2 \\\\\r\nr_1 &= r_2 q_3 + r_3 \\\\\r\n&\\vdots \\\\\r\nr_{n-1} &= r_n q_{n+1} + 0\r\n\\end{aligned}\r\n$$\r\n则 $\\gcd(a, b) = r_n$。\r\n\r\n**贝祖等式：** 存在整数 $x, y$ 使得\r\n$$ \\gcd(a, b) = ax + by. $$\r\n\r\n**互质：** 若 $\\gcd(a, b) = 1$，称 $a$ 与 $b$ 互质。\r\n\r\n---\r\n\r\n## 2. 素数：数论的原子\r\n\r\n### 2.1 定义与基本定理\r\n\r\n素数 $p$ 是大于 1 的整数，其正因数只有 1 与 $p$。合数是大于 1 的非素数整数。\r\n\r\n**算术基本定理：** 任一整数 $n > 1$ 可唯一分解为\r\n$$ n = p_1^{e_1} p_2^{e_2} \\cdots p_k^{e_k} $$\r\n其中 $p_1 < p_2 < \\dots < p_k$ 是素数，$e_i$ 为正整数。\r\n\r\n> 这是数论最核心的定理之一，确立了素数为“乘法原子”的地位。\r\n\r\n### 2.2 无穷多素数（欧几里得证明）\r\n\r\n假设只有有限个素数 $p_1, \\dots, p_k$。令 $N = p_1 p_2 \\cdots p_k + 1$。$N$ 被任何 $p_i$ 除均余 1，故 $N$ 的素因子不在列表中，矛盾。因此素数无限。\r\n\r\n### 2.3 素数定理（解析数论先驱）\r\n\r\n定义 $\\pi(x)$ 为不超过 $x$ 的素数个数。  \r\n**素数定理：**\r\n$$ \\pi(x) \\sim \\frac{x}{\\ln x} \\quad (x \\to \\infty). $$\r\n这意味着素数密度约为 $1 / \\ln x$。\r\n\r\n---\r\n\r\n## 3. 同余理论与模算术\r\n\r\n### 3.1 定义与基本性质\r\n\r\n设 $m$ 为正整数。若 $m \\mid (a - b)$，则称 $a$ 与 $b$ 模 $m$ 同余，记作\r\n$$ a \\equiv b \\pmod m. $$\r\n\r\n**性质：**\r\n- 自反、对称、传递（等价关系）。\r\n- 若 $a \\equiv b \\pmod m$ 且 $c \\equiv d \\pmod m$，则\r\n  $$ a \\pm c \\equiv b \\pm d \\pmod m, \\quad ac \\equiv bd \\pmod m. $$\r\n- 若 $a \\equiv b \\pmod m$，则 $a^n \\equiv b^n \\pmod m$。\r\n\r\n### 3.2 模逆元\r\n\r\n若 $\\gcd(a, m) = 1$，则存在整数 $a^{-1}$ 使得\r\n$$ a a^{-1} \\equiv 1 \\pmod m. $$\r\n可通过扩展欧几里得算法求解 $ax + my = 1$ 得到 $x \\equiv a^{-1}$。\r\n\r\n### 3.3 完全剩余系与缩剩余系\r\n\r\n- **完全剩余系：** $\\{0, 1, 2, \\dots, m-1\\}$ 代表所有模 $m$ 的剩余类。\r\n- **缩剩余系：** 模 $m$ 下与 $m$ 互质的剩余类的代表元集合，元素个数为 $\\varphi(m)$（欧拉函数）。\r\n\r\n---\r\n\r\n## 4. 中国剩余定理（CRT）\r\n\r\n### 4.1 定理陈述\r\n\r\n设 $m_1, m_2, \\dots, m_k$ 两两互质，$M = m_1 m_2 \\cdots m_k$，$M_i = M / m_i$。则对任意整数 $a_1, a_2, \\dots, a_k$，同余方程组\r\n$$\r\n\\begin{cases}\r\nx \\equiv a_1 \\pmod{m_1} \\\\\r\nx \\equiv a_2 \\pmod{m_2} \\\\\r\n\\vdots \\\\\r\nx \\equiv a_k \\pmod{m_k}\r\n\\end{cases}\r\n$$\r\n在模 $M$ 下有唯一解，且解为\r\n$$ x \\equiv \\sum_{i=1}^k a_i M_i y_i \\pmod M, $$\r\n其中 $y_i$ 是 $M_i$ 模 $m_i$ 的逆元（即 $M_i y_i \\equiv 1 \\pmod{m_i}$）。\r\n\r\n### 4.2 示例\r\n\r\n解 $x \\equiv 2 \\pmod 3$, $x \\equiv 3 \\pmod 5$, $x \\equiv 2 \\pmod 7$。\r\n\r\n计算 $M = 105$，$M_1=35$，$M_2=21$，$M_3=15$。  \r\n$35^{-1} \\mod 3 = 2$，$21^{-1} \\mod 5 = 1$，$15^{-1} \\mod 7 = 1$。  \r\n$$ x = 2\\cdot 35\\cdot 2 + 3\\cdot 21\\cdot 1 + 2\\cdot 15\\cdot 1 = 140 + 63 + 30 = 233 \\equiv 23 \\pmod{105}. $$\r\n\r\nCRT 是现代 RSA 解密加速、密码学秘密共享的理论基础。\r\n\r\n---\r\n\r\n## 5. 费马小定理与欧拉定理\r\n\r\n### 5.1 费马小定理\r\n\r\n若 $p$ 是素数，且 $a$ 不被 $p$ 整除，则\r\n$$ a^{p-1} \\equiv 1 \\pmod p. $$\r\n等价形式：$a^p \\equiv a \\pmod p$ 对所有整数 $a$ 成立。\r\n\r\n### 5.2 欧拉定理\r\n\r\n对任意 $a$ 与 $m$ 互质，有\r\n$$ a^{\\varphi(m)} \\equiv 1 \\pmod m, $$\r\n其中欧拉函数 $\\varphi(m)$ 为 $1$ 到 $m$ 中与 $m$ 互质的数的个数。\r\n\r\n若 $m = p_1^{e_1} \\cdots p_k^{e_k}$，则\r\n$$ \\varphi(m) = m \\prod_{i=1}^k \\left(1 - \\frac{1}{p_i}\\right). $$\r\n\r\n费马小定理是欧拉定理当 $m$ 为素数时的特例。\r\n\r\n---\r\n\r\n## 6. 原根与指数\r\n\r\n### 6.1 阶\r\n\r\n设 $\\gcd(a, m) = 1$，使得 $a^d \\equiv 1 \\pmod m$ 的最小正整数 $d$ 称为 $a$ 模 $m$ 的阶，记作 $\\operatorname{ord}_m(a)$。\r\n\r\n阶整除 $\\varphi(m)$。\r\n\r\n### 6.2 原根\r\n\r\n若存在 $g$ 使得 $\\operatorname{ord}_m(g) = \\varphi(m)$，则 $g$ 称为模 $m$ 的原根。此时 $\\{g^0, g^1, \\dots, g^{\\varphi(m)-1}\\}$ 构成模 $m$ 的一个缩剩余系。\r\n\r\n**存在性：** 模 $m$ 存在原根当且仅当 $m = 2, 4, p^k, 2p^k$，其中 $p$ 为奇素数。\r\n\r\n### 6.3 离散对数\r\n\r\n若 $g$ 是原根，对任意 $a$ 与 $m$ 互质，存在唯一 $k \\in [0, \\varphi(m)-1]$ 使得\r\n$$ a \\equiv g^k \\pmod m, $$\r\n记 $k = \\operatorname{ind}_g(a)$，称为以 $g$ 为底的离散对数。\r\n\r\n离散对数在有限域上计算非常困难，这是 Diffie-Hellman 密钥交换的安全基础。\r\n\r\n---\r\n\r\n## 7. 二次剩余与二次互反律\r\n\r\n### 7.1 二次剩余\r\n\r\n设奇素数 $p$，$a$ 与 $p$ 互质。若存在 $x$ 使得 $x^2 \\equiv a \\pmod p$，则称 $a$ 是模 $p$ 的二次剩余，否则称为二次非剩余。\r\n\r\n**勒让德符号：**\r\n$$\r\n\\left(\\frac{a}{p}\\right) =\r\n\\begin{cases}\r\n0, & p \\mid a \\\\\r\n1, & a \\text{ 是二次剩余} \\\\\r\n-1, & a \\text{ 是二次非剩余}\r\n\\end{cases}\r\n$$\r\n**欧拉准则：**\r\n$$ \\left(\\frac{a}{p}\\right) \\equiv a^{(p-1)/2} \\pmod p. $$\r\n\r\n### 7.2 二次互反律（高斯）\r\n\r\n设 $p, q$ 为不同奇素数，则\r\n$$ \\left(\\frac{p}{q}\\right)\\left(\\frac{q}{p}\\right) = (-1)^{\\frac{p-1}{2} \\cdot \\frac{q-1}{2}}. $$\r\n\r\n这是数论最优雅的定理之一，深刻联系了两个不同素数的二次剩余性质。它提供了高效计算勒让德符号的方法。\r\n\r\n### 7.3 雅可比符号\r\n\r\n对奇数 $n = p_1^{e_1} \\cdots p_k^{e_k}$，定义\r\n$$ \\left(\\frac{a}{n}\\right) = \\prod_{i=1}^k \\left(\\frac{a}{p_i}\\right)^{e_i}. $$\r\n二次互反律可推广到雅可比符号，从而极大加速计算。\r\n\r\n---\r\n\r\n## 8. 数论函数与狄利克雷卷积\r\n\r\n### 8.1 常见数论函数\r\n\r\n- **常数函数** $1(n) = 1$。\r\n- **恒等函数** $\\operatorname{id}(n) = n$。\r\n- **欧拉函数** $\\varphi(n)$。\r\n- **除数函数** $\\sigma_k(n) = \\sum_{d|n} d^k$，$\\sigma_0(n)$ 常记作 $d(n)$（除数个数），$\\sigma_1(n) = \\sigma(n)$（除数和）。\r\n- **默比乌斯函数** $\\mu(n)$：\r\n  $$ \\mu(n) = \\begin{cases}\r\n  1, & n=1 \\\\\r\n  0, & n \\text{ 有平方因子} \\\\\r\n  (-1)^k, & n \\text{ 是 } k \\text{ 个不同素数之积}\r\n  \\end{cases} $$\r\n\r\n### 8.2 狄利克雷卷积\r\n\r\n对算术函数 $f, g$，定义\r\n$$ (f * g)(n) = \\sum_{d|n} f(d) g\\left(\\frac{n}{d}\\right). $$\r\n卷积满足交换律、结合律，且单位元为 $\\varepsilon(n) = [n=1]$（即 $\\varepsilon(1)=1$，否则 0）。\r\n\r\n### 8.3 默比乌斯反演公式\r\n\r\n若 $g(n) = \\sum_{d|n} f(d)$，则\r\n$$ f(n) = \\sum_{d|n} \\mu(d) g\\left(\\frac{n}{d}\\right). $$\r\n用卷积语言：$g = f * 1 \\iff f = g * \\mu$。\r\n\r\n应用示例：利用 $\\varphi = \\mu * \\operatorname{id}$ 可快速计算 $\\varphi$ 的求和。\r\n\r\n---\r\n\r\n## 9. 丢番图逼近与 Pell 方程\r\n\r\n### 9.1 丢番图逼近\r\n\r\n研究无理数被有理数逼近的程度。狄利克雷逼近定理：对任意无理数 $\\alpha$，存在无穷多有理数 $p/q$ 使得\r\n$$ \\left|\\alpha - \\frac{p}{q}\\right| < \\frac{1}{q^2}. $$\r\n\r\n### 9.2 Pell 方程\r\n\r\n方程\r\n$$ x^2 - D y^2 = 1, \\quad D \\text{ 非平方正整数}. $$\r\n**定理（拉格朗日）：** Pell 方程有无穷多整数解，所有解由 $\\sqrt{D}$ 的连分数展开的周期给出。\r\n\r\n连分数展开 $\\sqrt{D} = [a_0; \\overline{a_1, a_2, \\dots, a_{r}}]$，最小解 $(x_1, y_1)$ 对应于收敛项，通解为\r\n$$ x_k + y_k\\sqrt{D} = (x_1 + y_1\\sqrt{D})^k. $$\r\n\r\n---\r\n\r\n## 10. 解析数论一瞥\r\n\r\n### 10.1 黎曼 $\\zeta$ 函数\r\n\r\n$$ \\zeta(s) = \\sum_{n=1}^\\infty \\frac{1}{n^s}, \\quad \\operatorname{Re}(s) > 1. $$\r\n通过解析延拓到复平面（$s\\neq 1$），**黎曼假设**：$\\zeta(s)$ 的所有非平凡零点都位于直线 $\\operatorname{Re}(s) = 1/2$ 上。\r\n\r\n素数定理的证明依赖于 $\\zeta(s)$ 在 $\\operatorname{Re}(s)=1$ 上无零点。\r\n\r\n### 10.2 欧拉乘积公式\r\n\r\n对 $\\operatorname{Re}(s) > 1$，\r\n$$ \\zeta(s) = \\prod_{p \\text{ 素数}} \\frac{1}{1 - p^{-s}}. $$\r\n这建立了素数与解析函数的深刻联系。\r\n\r\n### 10.3 狄利克雷特征与 $L$ 函数\r\n\r\n狄利克雷证明了：对任意互质 $a, m$，算术级数 $\\{a + km\\}$ 中包含无穷多素数。他引入了 $L$ 函数\r\n$$ L(s, \\chi) = \\sum_{n=1}^\\infty \\frac{\\chi(n)}{n^s} $$\r\n与狄利克雷特征 $\\chi$，成为解析数论的核心工具。\r\n\r\n---\r\n\r\n## 11. 现代应用：RSA 与椭圆曲线\r\n\r\n### 11.1 RSA 密码体制\r\n\r\n1. **密钥生成**：\r\n   - 选两个大素数 $p, q$，计算 $n = pq$，$\\varphi(n) = (p-1)(q-1)$。\r\n   - 选 $e$ 满足 $\\gcd(e, \\varphi(n)) = 1$，计算 $d \\equiv e^{-1} \\pmod{\\varphi(n)}$。\r\n   - 公钥 $(n, e)$，私钥 $d$。\r\n2. **加密**：$c \\equiv m^e \\pmod n$。\r\n3. **解密**：$m \\equiv c^d \\pmod n$。\r\n\r\n正确性基于欧拉定理：$m^{ed} \\equiv m \\pmod n$。\r\n\r\n安全性基于大整数因数分解的困难性。\r\n\r\n### 11.2 椭圆曲线密码学\r\n\r\n椭圆曲线 $E: y^2 = x^3 + ax + b$ 在有限域 $\\mathbb{F}_p$ 上构成一个加法群。椭圆曲线离散对数问题（ECDLP）比整数上的 DLP 更难，因此可以用更小的密钥实现同等安全。\r\n\r\n**例子（secp256k1，比特币所用曲线）**：\r\n$$ y^2 = x^3 + 7 \\pmod p, \\quad p = 2^{256} - 2^{32} - 977. $$\r\n\r\n---\r\n\r\n## 尾声\r\n\r\n数论从古老的整除性问题出发，贯穿了同余、原根、二次互反律、解析方法，最终成为现代密码学和计算科学的基石。文中每一个定理背后都有百年甚至千年的探索史，是数学中“最纯粹”却又“最实用”的领域之一。\r\n\r\n> “数学是科学的女王，数论是数学的女王。” —— 高斯\r\n\r\n希望这篇长文能带你领略数论的深邃与美丽。",
+      "author": "codej-40404",
+      "last_edit": "2026-06-14 22:04",
+      "views": 5,
+      "tags": []
+    },
+    "搞笑世界纪录": {
+      "title": "盘点笑到肚子疼的世界纪录",
+      "content": "# 一本正经的荒诞：那些让你笑到腹肌疼的世界纪录\r\n\r\n> 当人类把“闲得蛋疼”发挥到极致，吉尼斯世界纪录就成了最搞笑的剧本。\r\n\r\n---\r\n\r\n## 目录\r\n1. 写在前面：纪录就是用来“搞笑”的\r\n2. 面部极限运动：鼻子、嘴巴、舌头的逆天操作\r\n3. 身体的“超能力”：从火中后空翻到用眼睛喷牛奶\r\n4. 动物界的神奇宝贝：滑板猪、长睫毛狗、会开锁的鹦鹉\r\n5. 那些“有味道”的纪录：放屁、打嗝、粪便收藏\r\n6. 坚持就是胜利：耗时数十年换来的“奇葩荣耀”\r\n7. 根本没人想打破的纪录：因为它们太蠢了\r\n8. 2025年新鲜出炉的搞笑纪录\r\n9. 结语：人类的脑洞，永远没有天花板\r\n\r\n---\r\n\r\n## 1. 写在前面：纪录就是用来“搞笑”的\r\n\r\n自1955年《吉尼斯世界纪录大全》首次出版以来，这本奇书就成了人类“闲得发慌”的最佳证明。每年约有5万人申请挑战，最终只有6000个能被收录——不是因为不够厉害，而是因为……实在**太奇葩了**，编辑都怕把读者笑死。\r\n\r\n从用鼻子打字到用眼皮提人，从在鼻子里塞81根火柴到用嘴巴碾碎46个核桃——人类在“无聊”这件事上，从来没有天花板。\r\n\r\n---\r\n\r\n## 2. 面部极限运动：鼻子、嘴巴、舌头的逆天操作\r\n\r\n### 2.1 鼻孔塞火柴：81根，不能再多了\r\n\r\n2025年，42岁的瑞典人马丁·斯特罗比创造了一项让人鼻子一酸的纪录——在鼻孔里**同时塞进81根火柴**。\r\n\r\n据他本人透露，这个灵感来自他的孩子们——“爸爸，你能打破个世界纪录吗？”于是这位老哥上网搜了一圈，发现自己鼻孔弹性还不错，就开始了这项“辣鼻子”的挑战。\r\n\r\n> 最难的并不是塞进去，而是**不让它们掉出来**。——马丁·斯特罗比\r\n\r\n### 2.2 嘴巴最宽：17厘米的微笑\r\n\r\n如果你觉得自己的笑容够大，那安哥拉的多明戈·若阿金会告诉你什么叫“笑裂了嘴”——他的嘴巴宽度达到了**17厘米**（约6.69英寸）。\r\n\r\n想象一下，他吃汉堡的时候大概**不需要咬**。\r\n\r\n### 2.3 舌头最长：从舌尖到上唇10.1厘米\r\n\r\n加州的尼克·斯托伯尔拥有一根长达**10.1厘米**的舌头——比一张扑克牌还长。他可以轻松舔到自己的鼻子、下巴，甚至**手肘**（好吧最后这个夸张了，但也不一定）。\r\n\r\n斯托伯尔的舌头保持这项纪录多年，顺便一提，他用舌头舔自己鼻子**62次**的纪录也同样令人费解。\r\n\r\n### 2.4 用眼睛喷牛奶：34.9秒命中5个目标\r\n\r\n这是真的。美国的布兰登可以**用眼睛喷出牛奶**，并在34.9秒内准确命中5个目标物。\r\n\r\n原理？他的泪腺和鼻腔之间有特殊通道，喝下去的牛奶可以从眼角“射”出来。这个技能在**烧烤灭火**方面应该很有市场。\r\n\r\n### 2.5 眼球最突出：突出眼眶0.74英寸\r\n\r\n2025年，生活在意大利的乌拉圭人威廉·马丁·桑切斯·洛佩兹刷新了一项让人“不忍直视”的纪录——他的**眼球可以突出眼眶0.74英寸**（约1.88厘米）。\r\n\r\n这个技能是他八九岁时偶然发现的，从此成了他的“派对绝活”。他甚至专门找医生验证过，医生说这确实是一个记录。\r\n\r\n> 这个技能就像“眼球版的抬手礼”——虽然不知道为什么，但你就是会盯着看。\r\n\r\n---\r\n\r\n## 3. 身体的“超能力”：从火中后空翻到用头撞碎马桶圈\r\n\r\n### 3.1 全身着火后空翻：30秒7个\r\n\r\n2025年，28岁的英国特技演员瑞安·卢尼穿上防护装备，**点燃全身**，然后在30秒内完成了**7个后空翻**。\r\n\r\n有趣的是，他事后表示：最大的挑战**不是火焰的高温**，而是防护凝胶的**低温**——因为凝胶需要在冰箱里冷藏24小时才能使用。\r\n\r\n> 所以这个故事告诉我们：**比起被烧，你更可能被冻着。**\r\n\r\n### 3.2 单指做俯卧撑：124个\r\n\r\n1992年，英国人保罗·林奇在伦敦用**一根手指**做了**124个俯卧撑**。\r\n\r\n他的手指现在还好吗？没人知道。但可以肯定的是，他一定不需要**买握力器**。\r\n\r\n### 3.3 头撞马桶圈：一分钟46个\r\n\r\n2008年，凯文·谢利在德国科隆创造了一项让人“脑壳疼”的纪录——**一分钟内用头撞碎46个马桶圈**。\r\n\r\n没错，是**马桶圈**。陶瓷的那种。这位老哥要么是铁头功传人，要么就是**跟马桶有仇**。\r\n\r\n### 3.4 用下巴顶啤酒杯：75个，持续10.6秒\r\n\r\n2001年，阿什里塔·福曼在纽约用下巴顶起了**75个啤酒杯**，并保持了10.6秒。\r\n\r\n这位阿什里塔是个**纪录狂魔**，他拥有多项世界纪录，包括“用下巴顶最多啤酒杯”“连续高跷跳次数最多”等。\r\n\r\n### 3.5 皮肤拉伸之王：拉长16厘米\r\n\r\n加里·特纳的皮肤弹性惊人，他可以把自己腹部的皮肤**拉长近16厘米**。他应该去演《神奇四侠》里的**神奇先生**。\r\n\r\n### 3.6 在身上贴勺子：96把\r\n\r\n2025年，54岁的伊朗人阿博法兹尔·萨贝尔·莫赫塔里第三次刷新自己的纪录——在身体上**同时粘住96把勺子**。\r\n\r\n他第一次在2021年创下85把的纪录，2023年提升到88把，2025年直接冲到96把。他说他从小就喜欢往身上贴东西，甚至可以用皮肤的粘性**提起另一个成年人**。\r\n\r\n> 我们不确定这是“超能力”还是“皮肤上的双面胶”。\r\n\r\n### 3.7 最长时间不眨眼：1小时20分钟\r\n\r\n2010年代，朱莉娅·艾尔保持眼睛不眨眼长达**1小时20分钟**。\r\n\r\n挑战结束后，她的眼睛可能**干了整整三天**。\r\n\r\n### 3.8 嚼碎核桃最多：46个\r\n\r\n日本人中松义郎用嘴巴**成功粉碎了46个核桃**。他的牙医一定赚了不少钱。\r\n\r\n---\r\n\r\n## 4. 动物界的神奇宝贝：滑板猪、长睫毛狗、会开锁的鹦鹉\r\n\r\n### 4.1 滑板最快的猪：10米仅用11.32秒\r\n\r\n2025年，美国伊利诺伊州的诺伯特——一只重达**175磅（约79公斤）**的猪——以**11.32秒**的成绩完成了10米滑板滑行。\r\n\r\n它的主人给它起了个外号叫**“托尼·猪”**（Tony Pork），致敬传奇滑板手托尼·霍克（Tony Hawk）。这头猪不仅有天赋，还**自带减震系统**（毕竟脂肪厚）。\r\n\r\n### 4.2 滑板最快的猫：12.85秒\r\n\r\n2024年，中国的“包子”（Bao Zi）以**12.85秒**的成绩完成了10米滑板滑行。虽然比猪慢了1秒多，但猫的**高冷气质**为它赢得了额外加分。\r\n\r\n### 4.3 跑得最快的乌龟：6分钟爬完100米\r\n\r\n是的，你没看错——乌龟**也能破纪录**。一只名叫伯蒂的乌龟以**6分钟**的时间爬完了100米全程。\r\n\r\n对乌龟来说，这可能相当于**博尔特的速度**。\r\n\r\n### 4.4 狗中睫毛精：6.69英寸\r\n\r\n一只澳大利亚拉布拉多贵宾犬“兰丸”拥有世界上最长的狗睫毛——**6.69英寸（约17厘米）**。它眨一下眼睛能**扇起一阵风**。\r\n\r\n### 4.5 会开锁的鹦鹉：10秒内取下22个钥匙扣\r\n\r\n一只名叫斯玛奇的鹦鹉可以在不到两分钟内从钥匙圈上**取下10个钥匙扣**。2009年，它把这个数字刷新到了**22个**。\r\n\r\n这只鸟如果越狱，**监狱大门都拦不住**。\r\n\r\n### 4.6 接球最快的狗：60秒14次\r\n\r\n一只名叫普林的狗狗在60秒内完成了**14次接球**。它的反应速度让很多**人类守门员**自愧不如。\r\n\r\n---\r\n\r\n## 5. 那些“有味道”的纪录：放屁、打嗝、粪便收藏\r\n\r\n### 5.1 放屁熄灭蜡烛最多：5支\r\n\r\n菲律宾人杰拉德·杰西创造了一项“后燃”奇迹——用**一个屁**精准熄灭了**5支蜡烛**。\r\n\r\n我们不知道他吃了什么才能达到这种**喷射推进级别**的威力，但他的室友一定很**佩服**他的勇气。\r\n\r\n> 同一人还保持着“一分钟用头撞碎46个马桶圈”的纪录。这位老哥的人生，只能用“五味杂陈”来形容。\r\n\r\n### 5.2 打嗝音量最大：109.9分贝\r\n\r\n保罗·汉恩的打嗝声达到了**109.9分贝**——相当于**坐在前排听交响乐团演奏**。\r\n\r\n如果他在图书馆打嗝，整栋楼的**书架都会震动**。\r\n\r\n### 5.3 收集动物粪便最多：1277种\r\n\r\n美国人乔治·弗兰森（也有报道名字为“弗兰森”）是全世界最爱“屎”的人——他收集了**1277种动物的粪便**，包括**史前粪便化石**。\r\n\r\n他把这些“宝贝”视若珍宝，爱不释手。你问他最大的遗憾是什么？大概是**霸王龙的屎实在太难找了**。\r\n\r\n### 5.4 从嘴里喷水最长时间：56.36秒\r\n\r\n埃塞俄比亚的基鲁贝尔·伊尔马可以从嘴里**持续喷水56.36秒**。这需要极强的肺活量和对喉部肌肉的精准控制。\r\n\r\n这技能在古代消防队应该很吃香。\r\n\r\n---\r\n\r\n## 6. 坚持就是胜利：耗时数十年换来的“奇葩荣耀”\r\n\r\n### 6.1 最长指甲：8.65米（然后毁于车祸）\r\n\r\n李·雷德蒙德拥有世界上最长的指甲，总长度加起来**8.65米**。她涂一次指甲油大概需要**一整瓶**，洗一次手需要**半小时**。\r\n\r\n不幸的是，2009年的一场车祸让她失去了这些“陪伴多年的老朋友”。但也有人说，这对她来说可能是**一种解脱**——毕竟**上厕所真的太难了**。\r\n\r\n### 6.2 最长时间不睡觉：40天\r\n\r\n泰勒·希尔斯创造了人类**连续40天不睡觉**的纪录。挑战结束后，他大概**连睡了40天**。\r\n\r\n> 医学警告：**不要在家尝试**，除非你想被送进医院。\r\n\r\n### 6.3 接吻时间最长：58小时35分钟58秒\r\n\r\n泰国夫妻Ekkachai和Laksana Tiranarat用一次长达**58小时35分钟**的接吻打破了世界纪录。\r\n\r\n他们要应对的挑战包括：**上厕所怎么办**、**饿了怎么办**、**睡着了一方还在吻怎么办**。只能说，这是**真·爱到窒息**。\r\n\r\n### 6.4 活埋最长时间：10天\r\n\r\n捷克男子兹德涅克·扎赫拉德卡被埋在地下**10天**，没有食物和水，仅靠一根通风管呼吸。\r\n\r\n他出土后的第一句话大概是：**“上面的空气，真新鲜。”**\r\n\r\n### 6.5 被蜜蜂覆盖最多：109公斤\r\n\r\n中国的高丙国让**109.05公斤**的蜜蜂爬满全身。这相当于被**两三个成年人的体重**的蜜蜂覆盖。\r\n\r\n你问被蜇了没？那必须的。但为了纪录，**忍了**。\r\n\r\n### 6.6 左手痛了66年只为破纪录\r\n\r\n一位82岁的老人为了让左手“痛”出名，**整整66年**没有治疗左手的疼痛，就为了能打破某个与疼痛相关的纪录。\r\n\r\n> 这已经不是“毅力”了，这是**跟自己过不去**的最高境界。\r\n\r\n---\r\n\r\n## 7. 根本没人想打破的纪录：因为它们太蠢了\r\n\r\n### 7.1 收集粪便最多（有味道，No.2）\r\n\r\n这位我们前面已经介绍了——乔治·弗兰森，1277种粪便。\r\n\r\n**为什么没人挑战？** 因为你得去**非洲大草原捡大象屎**、**去北极挖北极熊屎**、**去深海捞鱼屎**……然后还要**带回家珍藏**。\r\n\r\n### 7.2 最长时间不眨眼（眼睛会瞎的）\r\n\r\n1小时20分钟不眨眼，挑战者的眼睛大概**干成了葡萄干**。\r\n\r\n**为什么没人挑战？** 因为眼科医生会拦住你。\r\n\r\n### 7.3 头撞马桶圈（脑震荡预定）\r\n\r\n一分钟用头撞碎46个马桶圈，凯文·谢利做到了。\r\n\r\n**为什么没人挑战？** 因为**瓷器的硬度**和**头骨的健康**不可兼得。\r\n\r\n### 7.4 全身着火后空翻（除非你是消防员）\r\n\r\n2025年的瑞安·鲁尼把这项纪录带到了新高度。\r\n\r\n**为什么没人挑战？** 因为你得先买**防火凝胶**，然后说服自己：“被烧一下没事的。”\r\n\r\n---\r\n\r\n## 8. 2025年新鲜出炉的搞笑纪录（热乎的）\r\n\r\n以下是2025年吉尼斯世界纪录中的“年度最怪”精选：\r\n\r\n| 纪录 | 保持者 | 数据 | 搞笑指数 |\r\n|------|--------|------|----------|\r\n| 鼻孔塞火柴最多 | Martin Ströby（瑞典） | 81根 | ⭐⭐⭐⭐⭐ |\r\n| 滑板最快的猪 | Norbert（美国） | 10米/11.32秒 | ⭐⭐⭐⭐⭐ |\r\n| 四足百米跑 | Ryusei Yonee（日本） | 14.55秒 | ⭐⭐⭐⭐ |\r\n| 身体粘勺子最多 | Abolfazl Saber Mokhtari（伊朗） | 96把 | ⭐⭐⭐⭐ |\r\n| 火中后空翻最多 | Ryan Luney（英国） | 30秒7个 | ⭐⭐⭐⭐⭐ |\r\n| 眼球最突出 | Williams Martin Sanchez Lopez（意大利） | 0.74英寸 | ⭐⭐⭐⭐⭐ |\r\n| 头发插高尔夫球钉最多 | Anya Bannasch（美国） | 711个 | ⭐⭐⭐ |\r\n| 最快移动花园棚屋 | Brian Cade（英国） | 123.43 mph | ⭐⭐⭐⭐ |\r\n| 最快饥饿河马游戏 | David Rush & Peter Rush（美国） | 5.8秒 | ⭐⭐⭐ |\r\n\r\n---\r\n\r\n## 9. 结语：人类的脑洞，永远没有天花板\r\n\r\n看完这些纪录，你可能会有两个感受：\r\n\r\n1. **“这些人到底在想什么？”**\r\n2. **“我也能做到……不对，我为什么要做？”**\r\n\r\n这正是吉尼斯世界纪录的魅力所在——它不评判你的爱好是否“正常”，它只看你有没有**做到极致**。\r\n\r\n从用鼻子塞火柴到用头撞马桶圈，从收集动物粪便到全身着火后空翻——每一个纪录背后，都是一个**拒绝无聊的灵魂**。\r\n\r\n正如一位纪录保持者所说：\r\n\r\n> “最难的不是破纪录，而是向别人解释你为什么要破纪录。”\r\n\r\n所以，下次当你觉得自己“闲得蛋疼”的时候，记得——**你可能正在创造历史**。\r\n\r\n当然，**别用头撞马桶圈**。认真的，别。\r\n\r\n---\r\n\r\n## 参考文献\r\n\r\n1. [吉尼斯世界纪录官方网站](https://www.guinnessworldrecords.cn/)\r\n2. [UPI Odd News, “Odd 2025: The 10 oddest Guinness World Records of the year,” 2025](https://www.upi.com/Odd_News/2025/12/23/Odd-2025-The-10-oddest-Guinness-World-Records-of-the-year/6251766439052/)  \r\n3.如有更多还请补充",
+      "author": "codej-40404",
+      "last_edit": "2026-06-14 22:09",
+      "views": 3,
+      "tags": []
+    },
+    "Markdown与Katex使用文档": {
+      "title": "Markdown与Katex使用文档",
+      "content": "# Markdown + $\\KaTeX$ 完全使用指南\r\n\r\n> **版本**：v2.0 | **最后更新**：2026-06-18  \r\n> **适用场景**：技术文档、学术论文、博客、GitHub README、Jupyter Notebook等\r\n\r\n---\r\n\r\n## 📖 目录\r\n\r\n- [1. Markdown 基础语法](#1-markdown-基础语法)\r\n- [2. Markdown 扩展语法](#2-markdown-扩展语法)\r\n- [3. $\\KaTeX$ 数学公式](#3-katex-数学公式)\r\n- [4. 进阶技巧与最佳实践](#4-进阶技巧与最佳实践)\r\n- [5. 常见问题 FAQ](#5-常见问题-faq)\r\n\r\n---\r\n\r\n## 1. Markdown 基础语法\r\n\r\n### 1.1 标题（Headings）\r\n\r\n使用 `#` 符号创建标题，从 H1 到 H6：\r\n\r\n```markdown\r\n# 一级标题\r\n## 二级标题\r\n### 三级标题\r\n#### 四级标题\r\n##### 五级标题\r\n###### 六级标题\r\n```\r\n\r\n**渲染效果**：\r\n\r\n# 一级标题\r\n## 二级标题\r\n### 三级标题  \r\n\r\n\r\n---\r\n\r\n### 1.2 段落与换行\r\n\r\n- **段落**：连续文本块，使用空行分隔\r\n- **换行**：行末加两个空格 + 回车，或使用 `<br>` 标签\r\n\r\n```markdown\r\n这是第一段。\r\n\r\n这是第二段（中间有空行）。\r\n\r\n这是第一行（行末有两个空格）  \r\n这是第二行（紧接上一行）。\r\n```\r\n\r\n**渲染效果**：\r\n\r\n这是第一段。\r\n\r\n这是第二段（中间有空行）。\r\n\r\n这是第一行（行末有两个空格）  \r\n这是第二行（紧接上一行）。\r\n\r\n---\r\n\r\n### 1.3 文本样式\r\n\r\n| 样式 | 语法 | 示例 |\r\n|------|------|------|\r\n| **粗体** | `**文本**` 或 `__文本__` | **粗体文字** |\r\n| *斜体* | `*文本*` 或 `_文本_` | *斜体文字* |\r\n| ***粗斜体*** | `***文本***` | ***粗斜体文字*** |\r\n| ~~删除线~~ | `~~文本~~` | ~~删除线文字~~ |\r\n| <u>下划线</u> | `<u>文本</u>` | <u>下划线文字</u> |\r\n| `行内代码` | `` `代码` `` | `console.log(\"hello\")` |\r\n| <mark>高亮</mark> | `<mark>文本</mark>` | <mark>高亮文字</mark> |\r\n\r\n---\r\n\r\n### 1.4 列表（Lists）\r\n\r\n#### 无序列表\r\n使用 `-`、`+` 或 `*`：\r\n\r\n```markdown\r\n- 项目 1\r\n- 项目 2\r\n  - 子项目 2.1\r\n  - 子项目 2.2\r\n- 项目 3\r\n```\r\n\r\n**渲染**：\r\n- 项目 1\r\n- 项目 2\r\n  - 子项目 2.1\r\n  - 子项目 2.2\r\n- 项目 3\r\n\r\n#### 有序列表\r\n使用数字加 `.`：\r\n\r\n```markdown\r\n1. 第一步\r\n2. 第二步\r\n   1. 子步骤 2.1\r\n   2. 子步骤 2.2\r\n3. 第三步\r\n```\r\n\r\n**渲染**：\r\n1. 第一步\r\n2. 第二步\r\n   1. 子步骤 2.1\r\n   2. 子步骤 2.2\r\n3. 第三步\r\n\r\n#### 任务列表（Task Lists）\r\n```markdown\r\n- [x] 已完成任务\r\n- [ ] 未完成任务\r\n- [ ] 待办事项 1\r\n```\r\n\r\n**渲染**：\r\n- [x] 已完成任务\r\n- [ ] 未完成任务\r\n- [ ] 待办事项 1\r\n\r\n---\r\n\r\n### 1.5 链接（Links）\r\n\r\n#### 行内链接\r\n```markdown\r\n[显示文本](https://example.com \"可选标题\")\r\n```\r\n\r\n**示例**：[访问 GitHub](https://github.com \"点击前往\")\r\n\r\n#### 引用链接\r\n```markdown\r\n[显示文本][引用ID]\r\n\r\n[引用ID]: https://example.com \"标题\"\r\n```\r\n\r\n#### 自动链接\r\n```markdown\r\n<https://example.com>\r\n<user@example.com>\r\n```\r\n\r\n#### 锚点链接（页面内跳转）\r\n```markdown\r\n[跳转到顶部](#目录)\r\n```\r\n\r\n---\r\n\r\n### 1.6 图片（Images）\r\n\r\n```markdown\r\n![替代文本](图片URL \"可选标题\")\r\n```\r\n\r\n**带尺寸的图片**（使用 HTML）：\r\n```html\r\n<img src=\"图片URL\" alt=\"替代文本\" width=\"300\" height=\"200\">\r\n```\r\n\r\n**图片链接**：\r\n```markdown\r\n[![替代文本](图片URL)](https://example.com)\r\n```\r\n\r\n---\r\n\r\n### 1.7 引用（Blockquotes）\r\n\r\n```markdown\r\n> 这是一段引用文字。\r\n> 可以跨越多行。\r\n>\r\n> > 嵌套引用\r\n```\r\n\r\n**渲染效果**：\r\n\r\n> 这是一段引用文字。\r\n> 可以跨越多行。\r\n>\r\n> > 嵌套引用\r\n\r\n---\r\n\r\n### 1.8 代码块（Code Blocks）\r\n\r\n#### 行内代码\r\n使用反引号：`` `code` ``\r\n\r\n#### 围栏代码块\r\n使用三个反引号并指定语言：\r\n\r\n````markdown\r\n```javascript\r\nfunction hello() {\r\n  console.log(\"Hello, World!\");\r\n}\r\n```\r\n````\r\n\r\n**支持的语言**：python、javascript、java、c、cpp、go、rust、bash、sql、html、css 等。\r\n\r\n#### 缩进代码块\r\n每行缩进 4 个空格或 1 个 Tab：\r\n\r\n```markdown\r\n    def hello():\r\n        print(\"Hello\")\r\n```\r\n\r\n---\r\n\r\n### 1.9 分割线（Horizontal Rules）\r\n\r\n使用三个或更多 `---`、`***` 或 `___`：\r\n\r\n```markdown\r\n---\r\n***\r\n___\r\n```\r\n\r\n**渲染**：\r\n\r\n---\r\n\r\n---\r\n\r\n### 1.10 转义字符\r\n\r\n使用反斜杠 `\\` 转义 Markdown 特殊字符：\r\n\r\n```markdown\r\n\\* 这不是斜体 \\*\r\n\\_ 这不是下划线 \\_\r\n\\# 这不是标题\r\n\\[ 这不是链接 \\]\r\n```\r\n\r\n**渲染**：\\* 这不是斜体 \\*\r\n\r\n---\r\n\r\n## 2. Markdown 扩展语法\r\n\r\n### 2.1 表格（Tables）\r\n\r\n```markdown\r\n| 左对齐 | 居中对齐 | 右对齐 |\r\n|:-------|:--------:|-------:|\r\n| 内容 1  | 内容 2   | 内容 3  |\r\n| 内容 4  | 内容 5   | 内容 6  |\r\n```\r\n\r\n**渲染效果**：\r\n\r\n| 左对齐 | 居中对齐 | 右对齐 |\r\n|:-------|:--------:|-------:|\r\n| 内容 1  | 内容 2   | 内容 3  |\r\n| 内容 4  | 内容 5   | 内容 6  |\r\n\r\n#### 表格内换行\r\n使用 `<br>` 标签：\r\n\r\n```markdown\r\n| 列1 | 列2 |\r\n|-----|-----|\r\n| 第一行<br>第二行 | 内容 |\r\n```\r\n\r\n---\r\n\r\n### 2.2 脚注（Footnotes）\r\n\r\n```markdown\r\n这是带脚注的文本[^1]。\r\n\r\n[^1]: 这是脚注内容。\r\n```\r\n\r\n**渲染**：这是带脚注的文本[^1]。\r\n\r\n[^1]: 这是脚注内容。\r\n\r\n---\r\n\r\n### 2.3 定义列表（Definition Lists）\r\n\r\n```markdown\r\n术语 1\r\n: 定义 1\r\n\r\n术语 2\r\n: 定义 2\r\n: 另一个定义\r\n```\r\n\r\n**渲染**：\r\n\r\n术语 1\r\n: 定义 1\r\n\r\n术语 2\r\n: 定义 2\r\n: 另一个定义\r\n\r\n---\r\n\r\n### 2.4 缩写（Abbreviations）\r\n\r\n```markdown\r\n*[HTML]: Hyper Text Markup Language\r\n*[CSS]: Cascading Style Sheets\r\n\r\nHTML 和 CSS 是前端基础。\r\n```\r\n\r\n---\r\n\r\n### 2.5 上下标\r\n\r\n```markdown\r\nH~2~O          <!-- 下标 -->\r\nX^2^           <!-- 上标 -->\r\n```\r\n\r\n**注意**：部分 Markdown 渲染器不支持此语法，可使用 HTML 标签：\r\n\r\n```html\r\nH<sub>2</sub>O\r\nX<sup>2</sup>\r\n```\r\n\r\n---\r\n\r\n### 2.6 嵌入 HTML\r\n\r\nMarkdown 支持直接嵌入 HTML 标签：\r\n\r\n```html\r\n<div style=\"color: red; background: yellow; padding: 10px;\">\r\n  这是自定义样式的 HTML 块\r\n</div>\r\n```\r\n\r\n**常用 HTML 标签**：\r\n- `<span>`：行内样式\r\n- `<div>`：块级容器\r\n- `<kbd>`：键盘按键 `<kbd>Ctrl</kbd>`\r\n- `<details>` 和 `<summary>`：折叠内容\r\n\r\n```html\r\n<details>\r\n<summary>点击展开详情</summary>\r\n这里是隐藏的内容。\r\n</details>\r\n```\r\n\r\n<details>\r\n<summary>点击展开详情</summary>\r\n<p>这里是隐藏的内容。</p>\r\n</details>\r\n\r\n---\r\n\r\n## 3. KaTeX 数学公式\r\n\r\n### 3.1 快速入门\r\n\r\n$\\KaTeX$ 是**最快的 $\\LaTeX$ 数学公式渲染引擎**，专为 **Web** 设计。\r\n\r\n#### 行内公式\r\n使用单个 `$` 包裹：\r\n\r\n```latex\r\n$E = mc^2$\r\n```\r\n\r\n**渲染**：$E = mc^2$\r\n\r\n#### 块级公式（独立显示）\r\n使用双 `$$` 或 `\\[...\\]`：\r\n\r\n```latex\r\n$$E = mc^2$$\r\n```\r\n\r\n**渲染**：\r\n$$E = mc^2$$\r\n\r\n---\r\n\r\n### 3.2 希腊字母\r\n\r\n| 大写 | 命令 | 小写 | 命令 |\r\n|------|------|------|------|\r\n| Α | `A` | α | `\\alpha` |\r\n| Β | `B` | β | `\\beta` |\r\n| Γ | `\\Gamma` | γ | `\\gamma` |\r\n| Δ | `\\Delta` | δ | `\\delta` |\r\n| Ε | `E` | ε | `\\epsilon` |\r\n| Ζ | `Z` | ζ | `\\zeta` |\r\n| Η | `H` | η | `\\eta` |\r\n| Θ | `\\Theta` | θ | `\\theta` |\r\n| Λ | `\\Lambda` | λ | `\\lambda` |\r\n| Μ | `M` | μ | `\\mu` |\r\n| Ξ | `\\Xi` | ξ | `\\xi` |\r\n| Π | `\\Pi` | π | `\\pi` |\r\n| Σ | `\\Sigma` | σ | `\\sigma` |\r\n| Φ | `\\Phi` | φ | `\\phi` |\r\n| Ψ | `\\Psi` | ψ | `\\psi` |\r\n| Ω | `\\Omega` | ω | `\\omega` |\r\n\r\n**示例**：\r\n```latex\r\n$\\alpha, \\beta, \\gamma, \\Delta, \\Theta, \\Lambda, \\Omega$\r\n```\r\n$\\alpha, \\beta, \\gamma, \\Delta, \\Theta, \\Lambda, \\Omega$\r\n\r\n---\r\n\r\n### 3.3 上标与下标\r\n\r\n| 语法 | 说明 | 示例 |\r\n|------|------|------|\r\n| `x^2` | 上标 | $x^2$ |\r\n| `x_2` | 下标 | $x_2$ |\r\n| `x^{2y}` | 复合上标 | $x^{2y}$ |\r\n| `x_{2y}` | 复合下标 | $x_{2y}$ |\r\n| `\\sum_{i=1}^{n}` | 上下标组合 | $\\sum_{i=1}^{n}$ |\r\n| `\\int_{0}^{\\infty}` | 积分上下限 | $\\int_{0}^{\\infty}$ |\r\n\r\n**示例**：\r\n```latex\r\n$$x^{2} + y_{3} = \\sum_{i=1}^{n} i^2$$\r\n```\r\n$$x^{2} + y_{3} = \\sum_{i=1}^{n} i^2$$\r\n\r\n---\r\n\r\n### 3.4 分数与根式\r\n\r\n| 语法 | 说明 | 示例 |\r\n|------|------|------|\r\n| `\\frac{a}{b}` | 分数 | $\\frac{a}{b}$ |\r\n| `\\sqrt{x}` | 平方根 | $\\sqrt{x}$ |\r\n| `\\sqrt[n]{x}` | n 次根 | $\\sqrt[3]{x}$ |\r\n\r\n**示例**：\r\n```latex\r\n$$\\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}$$\r\n```\r\n$$\\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}$$\r\n\r\n---\r\n\r\n### 3.5 运算符\r\n\r\n| 语法 | 符号 | 语法 | 符号 |\r\n|------|------|------|------|\r\n| `+` | $+$ | `-` | $-$ |\r\n| `\\times` | $\\times$ | `\\div` | $\\div$ |\r\n| `\\cdot` | $\\cdot$ | `\\pm` | $\\pm$ |\r\n| `\\mp` | $\\mp$ | `\\oplus` | $\\oplus$ |\r\n| `\\otimes` | $\\otimes$ | `\\odot` | $\\odot$ |\r\n| `\\ast` | $\\ast$ | `\\star` | $\\star$ |\r\n| `\\circ` | $\\circ$ | `\\bullet` | $\\bullet$ |\r\n\r\n---\r\n\r\n### 3.6 关系运算符\r\n\r\n| 语法 | 符号 | 语法 | 符号 |\r\n|------|------|------|------|\r\n| `=` | $=$ | `\\neq` | $\\neq$ |\r\n| `\\approx` | $\\approx$ | `\\equiv` | $\\equiv$ |\r\n| `\\sim` | $\\sim$ | `\\simeq` | $\\simeq$ |\r\n| `\\le` | $\\le$ | `\\ge` | $\\ge$ |\r\n| `\\ll` | $\\ll$ | `\\gg` | $\\gg$ |\r\n| `\\subset` | $\\subset$ | `\\supset` | $\\supset$ |\r\n| `\\subseteq` | $\\subseteq$ | `\\supseteq` | $\\supseteq$ |\r\n| `\\in` | $\\in$ | `\\notin` | $\\notin$ |\r\n| `\\propto` | $\\propto$ | `\\perp` | $\\perp$ |\r\n\r\n---\r\n\r\n### 3.7 逻辑与集合\r\n\r\n| 语法 | 符号 | 语法 | 符号 |\r\n|------|------|------|------|\r\n| `\\forall` | $\\forall$ | `\\exists` | $\\exists$ |\r\n| `\\neg` | $\\neg$ | `\\land` | $\\land$ |\r\n| `\\lor` | $\\lor$ | `\\to` | $\\to$ |\r\n| `\\implies` | $\\implies$ | `\\iff` | $\\iff$ |\r\n| `\\cup` | $\\cup$ | `\\cap` | $\\cap$ |\r\n| `\\setminus` | $\\setminus$ | `\\emptyset` | $\\emptyset$ |\r\n| `\\mathbb{R}` | $\\mathbb{R}$ | `\\mathbb{N}` | $\\mathbb{N}$ |\r\n\r\n---\r\n\r\n### 3.8 箭头\r\n\r\n| 语法 | 符号 | 语法 | 符号 |\r\n|------|------|------|------|\r\n| `\\leftarrow` | $\\leftarrow$ | `\\rightarrow` | $\\rightarrow$ |\r\n| `\\Leftarrow` | $\\Leftarrow$ | `\\Rightarrow` | $\\Rightarrow$ |\r\n| `\\leftrightarrow` | $\\leftrightarrow$ | `\\Leftrightarrow` | $\\Leftrightarrow$ |\r\n| `\\longleftarrow` | $\\longleftarrow$ | `\\longrightarrow` | $\\longrightarrow$ |\r\n| `\\mapsto` | $\\mapsto$ | `\\longmapsto` | $\\longmapsto$ |\r\n| `\\nearrow` | $\\nearrow$ | `\\searrow` | $\\searrow$ |\r\n| `\\nwarrow` | $\\nwarrow$ | `\\swarrow` | $\\swarrow$ |\r\n\r\n---\r\n\r\n### 3.9 括号与定界符\r\n\r\n| 语法 | 符号 | 语法 | 符号 |\r\n|------|------|------|------|\r\n| `(` `)` | $( )$ | `[` `]` | $[ ]$ |\r\n| `\\{` `\\}` | $\\{ \\}$ | `\\langle` `\\rangle` | $\\langle \\rangle$ |\r\n| `\\|` | $\\|$ | `\\lfloor` `\\rfloor` | $\\lfloor \\rfloor$ |\r\n| `\\lceil` `\\rceil` | $\\lceil \\rceil$ | `\\backslash` | $\\backslash$ |\r\n\r\n**自适应括号**：使用 `\\left` 和 `\\right`\r\n\r\n```latex\r\n$$\\left( \\frac{1}{2} \\right) \\quad \\left[ \\frac{1}{2} \\right]$$\r\n```\r\n$$\\left( \\frac{1}{2} \\right) \\quad \\left[ \\frac{1}{2} \\right]$$\r\n\r\n---\r\n\r\n### 3.10 矩阵与行列式\r\n\r\n#### 矩阵环境\r\n\r\n```latex\r\n$$\\begin{matrix}\r\n1 & 2 \\\\\r\n3 & 4\r\n\\end{matrix}$$\r\n```\r\n$$\\begin{matrix}\r\n1 & 2 \\\\\r\n3 & 4\r\n\\end{matrix}$$\r\n\r\n#### 带括号的矩阵\r\n\r\n```latex\r\n$$\\begin{pmatrix}\r\n1 & 2 \\\\\r\n3 & 4\r\n\\end{pmatrix} \\quad\r\n\\begin{bmatrix}\r\n1 & 2 \\\\\r\n3 & 4\r\n\\end{bmatrix} \\quad\r\n\\begin{Bmatrix}\r\n1 & 2 \\\\\r\n3 & 4\r\n\\end{Bmatrix}$$\r\n```\r\n$$\\begin{pmatrix}\r\n1 & 2 \\\\\r\n3 & 4\r\n\\end{pmatrix} \\quad\r\n\\begin{bmatrix}\r\n1 & 2 \\\\\r\n3 & 4\r\n\\end{bmatrix} \\quad\r\n\\begin{Bmatrix}\r\n1 & 2 \\\\\r\n3 & 4\r\n\\end{Bmatrix}$$\r\n\r\n#### 行列式\r\n\r\n```latex\r\n$$\\begin{vmatrix}\r\na & b \\\\\r\nc & d\r\n\\end{vmatrix} = ad - bc$$\r\n```\r\n$$\\begin{vmatrix}\r\na & b \\\\\r\nc & d\r\n\\end{vmatrix} = ad - bc$$\r\n\r\n#### 带省略号的矩阵\r\n\r\n```latex\r\n$$\\begin{bmatrix}\r\n1 & 2 & \\cdots & n \\\\\r\n2 & 3 & \\cdots & n+1 \\\\\r\n\\vdots & \\vdots & \\ddots & \\vdots \\\\\r\nn & n+1 & \\cdots & 2n-1\r\n\\end{bmatrix}$$\r\n```\r\n$$\\begin{bmatrix}\r\n1 & 2 & \\cdots & n \\\\\r\n2 & 3 & \\cdots & n+1 \\\\\r\n\\vdots & \\vdots & \\ddots & \\vdots \\\\\r\nn & n+1 & \\cdots & 2n-1\r\n\\end{bmatrix}$$\r\n\r\n---\r\n\r\n### 3.11 函数与特殊符号\r\n\r\n| 语法 | 符号 |\r\n|------|------|\r\n| `\\sin` $\\sin$ | `\\cos` $\\cos$ | `\\tan` $\\tan$ |\r\n| `\\log` $\\log$ | `\\ln` $\\ln$ | `\\lg` $\\lg$ |\r\n| `\\lim` $\\lim$ | `\\max` $\\max$ | `\\min` $\\min$ |\r\n| `\\inf` $\\inf$ | `\\sup` $\\sup$ | `\\deg` $\\deg$ |\r\n| `\\det` $\\det$ | `\\arg` $\\arg$ | `\\dim` $\\dim$ |\r\n| `\\exp` $\\exp$ | `\\mod` $\\mod$ | `\\bmod` $\\bmod$ |\r\n\r\n---\r\n\r\n### 3.12 微积分\r\n\r\n| 语法 | 符号 |\r\n|------|------|\r\n| `\\frac{d}{dx}` | $\\frac{d}{dx}$ |\r\n| `\\int_{a}^{b}` | $\\int_{a}^{b}$ |\r\n| `\\oint` | $\\oint$ |\r\n| `\\iint` | $\\iint$ |\r\n| `\\iiint` | $\\iiint$ |\r\n| `\\nabla` | $\\nabla$ |\r\n| `\\partial` | $\\partial$ |\r\n| `\\lim_{x \\to \\infty}` | $\\lim_{x \\to \\infty}$ |\r\n\r\n**示例**：\r\n```latex\r\n$$\\int_{0}^{\\infty} e^{-x^2} dx = \\frac{\\sqrt{\\pi}}{2}$$\r\n```\r\n$$\\int_{0}^{\\infty} e^{-x^2} dx = \\frac{\\sqrt{\\pi}}{2}$$\r\n\r\n---\r\n\r\n### 3.13 文本与样式\r\n\r\n#### 文本模式\r\n```latex\r\n$$\\text{这是文本} \\quad \\text{在公式中}$$\r\n```\r\n$$\\text{这是文本} \\quad \\text{在公式中}$$\r\n\r\n#### 字体样式\r\n\r\n| 命令 | 效果 | 示例 |\r\n|------|------|------|\r\n| `\\mathrm{ABC}` | 罗马体 | $\\mathrm{ABC}$ |\r\n| `\\mathbf{ABC}` | 粗体 | $\\mathbf{ABC}$ |\r\n| `\\mathsf{ABC}` | 无衬线体 | $\\mathsf{ABC}$ |\r\n| `\\mathit{ABC}` | 斜体 | $\\mathit{ABC}$ |\r\n| `\\mathcal{ABC}` | 花体 | $\\mathcal{ABC}$ |\r\n| `\\mathbb{ABC}` | 黑板粗体 | $\\mathbb{ABC}$ |\r\n| `\\mathfrak{ABC}` | 哥特体 | $\\mathfrak{ABC}$ |\r\n\r\n---\r\n\r\n### 3.14 颜色\r\n\r\n```latex\r\n\\textcolor{red}{红色文字} \\quad\r\n\\textcolor{blue}{蓝色文字} \\quad\r\n\\textcolor{green}{绿色文字}\r\n```\r\n$$\\textcolor{red}{红色文字} \\quad \\textcolor{blue}{蓝色文字} \\quad \\textcolor{green}{绿色文字}$$\r\n\r\n**可用颜色**：red, blue, green, yellow, cyan, magenta, purple, orange, pink, gray, black, white\r\n\r\n---\r\n\r\n### 3.15 对齐与换行\r\n\r\n#### align 环境\r\n```latex\r\n$$\\begin{align}\r\na &= b + c \\\\\r\n  &= d + e + f \\\\\r\n  &= g\r\n\\end{align}$$\r\n```\r\n$$\\begin{align}\r\na &= b + c \\\\\r\n  &= d + e + f \\\\\r\n  &= g\r\n\\end{align}$$\r\n\r\n#### 多行公式（gather）\r\n```latex\r\n$$\\begin{gather}\r\nx + y = z \\\\\r\n2x + 3y = 5z\r\n\\end{gather}$$\r\n```\r\n\r\n#### 条件定义（cases）\r\n```latex\r\n$$f(x) = \\begin{cases}\r\n0 & x < 0 \\\\\r\n1 & x = 0 \\\\\r\n2 & x > 0\r\n\\end{cases}$$\r\n```\r\n$$f(x) = \\begin{cases}\r\n0 & x < 0 \\\\\r\n1 & x = 0 \\\\\r\n2 & x > 0\r\n\\end{cases}$$\r\n\r\n---\r\n\r\n### 3.16 常见公式示例\r\n\r\n#### 二次方程求根公式\r\n```latex\r\n$$x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}$$\r\n```\r\n$$x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}$$\r\n\r\n#### 欧拉公式\r\n```latex\r\n$$e^{i\\pi} + 1 = 0$$\r\n```\r\n$$e^{i\\pi} + 1 = 0$$\r\n\r\n#### 傅里叶变换\r\n```latex\r\n$$\\hat{f}(\\xi) = \\int_{-\\infty}^{\\infty} f(x) e^{-2\\pi i x \\xi} dx$$\r\n```\r\n$$\\hat{f}(\\xi) = \\int_{-\\infty}^{\\infty} f(x) e^{-2\\pi i x \\xi} dx$$\r\n\r\n#### 正态分布\r\n```latex\r\n$$f(x) = \\frac{1}{\\sigma\\sqrt{2\\pi}} e^{-\\frac{(x-\\mu)^2}{2\\sigma^2}}$$\r\n```\r\n$$f(x) = \\frac{1}{\\sigma\\sqrt{2\\pi}} e^{-\\frac{(x-\\mu)^2}{2\\sigma^2}}$$\r\n\r\n#### 麦克斯韦方程组\r\n```latex\r\n$$\\nabla \\cdot \\mathbf{E} = \\frac{\\rho}{\\epsilon_0}$$\r\n$$\\nabla \\cdot \\mathbf{B} = 0$$\r\n$$\\nabla \\times \\mathbf{E} = -\\frac{\\partial \\mathbf{B}}{\\partial t}$$\r\n$$\\nabla \\times \\mathbf{B} = \\mu_0 \\mathbf{J} + \\mu_0 \\epsilon_0 \\frac{\\partial \\mathbf{E}}{\\partial t}$$\r\n```\r\n$$\\nabla \\cdot \\mathbf{E} = \\frac{\\rho}{\\epsilon_0}$$\r\n$$\\nabla \\cdot \\mathbf{B} = 0$$\r\n$$\\nabla \\times \\mathbf{E} = -\\frac{\\partial \\mathbf{B}}{\\partial t}$$\r\n$$\\nabla \\times \\mathbf{B} = \\mu_0 \\mathbf{J} + \\mu_0 \\epsilon_0 \\frac{\\partial \\mathbf{E}}{\\partial t}$$\r\n\r\n---\r\n\r\n### 3.17 KaTeX vs MathJax\r\n\r\n| 特性 | $\\KaTeX$ | MathJax |\r\n|------|-------|---------|\r\n| 渲染速度 | ⚡ 极快（同步） | 🐢 较慢（异步） |\r\n| 文件大小 | ~70KB | ~1MB+ |\r\n| 支持 LaTeX | 完整支持 | 完整支持 + 更多宏包 |\r\n| SVG 输出 | ✅ | ✅ |\r\n| 无障碍支持 | 有限 | 优秀 |\r\n| 浏览器兼容性 | 现代浏览器 | 所有浏览器 |\r\n\r\n**推荐**：$\\KaTeX$ 适用于大多数场景，尤其对性能有要求的页面。\r\n\r\n---\r\n\r\n### 3.18 KaTeX 配置（HTML）\r\n\r\n```html\r\n<!-- 引入 KaTeX -->\r\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css\">\r\n<script src=\"https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js\"></script>\r\n\r\n<!-- 自动渲染所有公式 -->\r\n<script src=\"https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js\"></script>\r\n<script>\r\n  document.addEventListener(\"DOMContentLoaded\", function() {\r\n    renderMathInElement(document.body, {\r\n      delimiters: [\r\n        {left: '$$', right: '$$', display: true},\r\n        {left: '$', right: '$', display: false}\r\n      ]\r\n    });\r\n  });\r\n</script>\r\n```\r\n\r\n---\r\n\r\n## 4. 进阶技巧与最佳实践\r\n\r\n### 4.1 文档结构最佳实践\r\n\r\n#### 推荐的文件头结构\r\n```markdown\r\n# 文档标题\r\n\r\n> **作者**：Your Name  \r\n> **日期**：2026-06-18  \r\n> **版本**：v1.0  \r\n> **摘要**：这是文档的简短描述。\r\n\r\n---\r\n\r\n## 目录\r\n\r\n- [章节1](#章节1)\r\n- [章节2](#章节2)\r\n\r\n---\r\n\r\n## 章节1\r\n...\r\n```\r\n\r\n---\r\n\r\n### 4.2 避免常见陷阱\r\n\r\n| 问题 | 解决方案 |\r\n|------|----------|\r\n| 公式中的 `_` 被解释为斜体 | 使用 `\\_` 转义或 `$x\\_y$` |\r\n| 中文与公式混合 | 使用 `\\text{中文}` |\r\n| 表格中的竖线 `\\|` | 使用 `\\|` 转义或 `\\vert` |\r\n| 大括号 | 使用 `\\{` 和 `\\}` |\r\n\r\n---\r\n\r\n### 4.3 代码块中使用数学公式\r\n\r\n有些平台支持在代码块中嵌入数学（如 Jupyter）：\r\n\r\n````markdown\r\n```python\r\n# 欧拉公式：$e^{i\\pi} + 1 = 0$\r\nimport math\r\nprint(math.e ** (math.pi * 1j) + 1)  # 输出 0j\r\n```\r\n````\r\n\r\n---\r\n\r\n### 4.4 跨平台兼容性提示\r\n\r\n| 平台 | Markdown 支持 | $\\KaTeX$ 支持 |\r\n|------|--------------|------------|\r\n| GitHub | GFM | ❌（不支持） |\r\n| GitLab | GFM | ✅（有限支持） |\r\n| Typora | ✅ | ✅ |\r\n| Obsidian | ✅ | ✅ |\r\n| Notion | 有限 | ❌ |\r\n| Jupyter | ✅ | ✅ |\r\n| 知乎 | 有限 | ✅ |\r\n| 语雀 | ✅ | ✅ |\r\n| 掘金 | ✅ | ✅ |\r\n\r\n**提示**：GitHub 不支持 KaTeX，但支持用 `\\` 转义的 LaTeX 语法，通过 MathJax 渲染。\r\n\r\n---\r\n\r\n### 4.5 命名与标签\r\n\r\n使用注释帮助理解复杂公式：\r\n\r\n```latex\r\n$$\\underbrace{1 + 2 + \\cdots + n}_{\\text{前 n 项和}} = \\frac{n(n+1)}{2}$$\r\n```\r\n$$\\underbrace{1 + 2 + \\cdots + n}_{\\text{前 n 项和}} = \\frac{n(n+1)}{2}$$\r\n\r\n---\r\n\r\n### 4.6 响应式设计\r\n\r\n在移动端显示时，公式可能溢出。可使用 CSS 控制：\r\n\r\n```css\r\n.katex-display {\r\n  overflow-x: auto;\r\n  overflow-y: hidden;\r\n  padding: 0.5rem 0;\r\n}\r\n```\r\n\r\n---\r\n\r\n## 5. 常见问题 FAQ\r\n\r\n### Q1：公式不显示怎么办？\r\n**A**：检查是否正确引入 KaTeX CDN，以及定界符是否正确（`$...$` 或 `$$...$$`）。\r\n\r\n### Q2：如何在 GitHub README 中使用公式？\r\n**A**：GitHub 原生不支持 KaTeX，但可以使用以下方案：\r\n1. 使用 [github-math](https://github.com/orsinium/github-math) 浏览器扩展\r\n2. 使用图片生成服务：`![公式](https://latex.codecogs.com/svg.latex?E=mc^2)`\r\n3. 使用 TeXify 等工具\r\n\r\n### Q3：`\\begin{align}` 不生效？\r\n**A**：确保在 `$$...$$` 块内，且正确转义换行符 `\\\\`。\r\n\r\n### Q4：公式中的特殊字符怎么打？\r\n**A**：使用反斜杠加命令，如 `\\alpha`、`\\beta`、`\\leq`、`\\geq`。\r\n\r\n### Q5：怎样让公式居中显示？\r\n**A**：使用 `$$...$$` 块级公式会自动居中。\r\n\r\n---\r\n\r\n## 📚 参考资料\r\n\r\n- [Markdown 官方指南](https://daringfireball.net/projects/markdown/)\r\n- [GitHub Flavored Markdown](https://github.github.com/gfm/)\r\n- [$\\KaTeX$ 官方文档](https://katex.org/docs/supported.html)\r\n- [$\\LaTeX$ 数学符号大全](https://oeis.org/wiki/List_of_LaTeX_mathematical_symbols)\r\n\r\n---\r\n\r\n## 📝 总结\r\n\r\n- **Markdown**：轻量级标记语言，专注内容而非排版\r\n- **$\\KaTeX$**：最快的 $\\LaTeX$ 数学渲染引擎\r\n- **组合使用**：Markdown 负责文档结构，$\\KaTeX$ 负责数学公式\r\n- **适用场景**：技术文档、学术论文、博客、笔记\r\n\r\n---\r\n\r\n**最后更新**：2026-06-18  \r\n**许可协议**：MIT License\r\n\r\n---\r\n\r\n> 💡 **提示**：本文档完全使用 Markdown + $\\KaTeX$ 编写，所有公式均在支持的渲染器中正确显示。你可以将此文档作为模板，快速开始你的写作之旅！",
+      "author": "寰宇行者",
+      "last_edit": "2026-06-19 10:45",
+      "views": 13,
+      "tags": []
+    },
+    "tests": {
+      "title": "P1039[NOIP 2003 提高组] 侦探推理",
+      "content": "## 题意\r\n模拟每个人是罪犯和今天的日期，模拟每一句话，发现始终说谎的人数。  \r\n如果有人真假话都说或者大于 N 个直接跳过该情景。 \r\n如果发现和前面情景推定的凶手不同或者有多个凶手可能性即输出 Cannot Determine。\r\n如果所有情景都没有凶手即输出 Impossible。\r\n否则即输出名字。\r\n\r\n---\r\n## 注意\r\n这边输入与判断建议用 string，容易发现 string 比较好比较，插入也很方便。\r\n\r\n假设该字符串为 y，删除最后一个字符用 `y.erase(y.length()-1,1);`。\r\n\r\n##\r\n```cpp\r\n#include<bits/stdc++.h>\r\nusing namespace std;\r\nint num[25],rub[105];\r\nint n,m,p,wer=0,tf[21];\r\nstring name[21];\r\nstring bish[105],ans[21];\r\nvoid dat(int x,int y)\r\n{\r\n\tint i,j,t=0,f=0;\r\n\tfor(i=0;i<p;i++)\r\n\t{\r\n\t\tint flag;\r\n\t\tif(bish[i]==\"Today is Monday.\")\r\n\t\t{\r\n\t\t\tif(y==1)flag=1;\r\n\t\t\telse flag=0;\r\n\t\t\tif(tf[rub[i]]==-1)tf[rub[i]]=flag;\r\n\t\t\tif(tf[rub[i]]!=flag)return;\r\n\t\t}\r\n\t\tif(bish[i]==\"Today is Tuesday.\")\r\n\t\t{\r\n\t\t\tif(y==2)flag=1;\r\n\t\t\telse flag=0;\r\n\t\t\tif(tf[rub[i]]==-1)tf[rub[i]]=flag;\r\n\t\t\tif(tf[rub[i]]!=flag)return;\r\n\t\t}\r\n\t\tif(bish[i]==\"Today is Wednesday.\")\r\n\t\t{\r\n\t\t\tif(y==3)flag=1;\r\n\t\t\telse flag=0;\r\n\t\t\tif(tf[rub[i]]==-1)tf[rub[i]]=flag;\r\n\t\t\tif(tf[rub[i]]!=flag)return;\r\n\t\t}\r\n\t\tif(bish[i]==\"Today is Thursday.\")\r\n\t\t{\r\n\t\t\tif(y==4)flag=1;\r\n\t\t\telse flag=0;\r\n\t\t\tif(tf[rub[i]]==-1)tf[rub[i]]=flag;\r\n\t\t\tif(tf[rub[i]]!=flag)return;\r\n\t\t}\r\n\t\tif(bish[i]==\"Today is Friday.\")\r\n\t\t{\r\n\t\t\tif(y==5)flag=1;\r\n\t\t\telse flag=0;\r\n\t\t\tif(tf[rub[i]]==-1)tf[rub[i]]=flag;\r\n\t\t\tif(tf[rub[i]]!=flag)return;\r\n\t\t}\r\n\t\tif(bish[i]==\"Today is Saturday.\")\r\n\t\t{\r\n\t\t\tif(y==6)flag=1;\r\n\t\t\telse flag=0;\r\n\t\t\tif(tf[rub[i]]==-1)tf[rub[i]]=flag;\r\n\t\t\tif(tf[rub[i]]!=flag)return;\r\n\t\t}\r\n\t\tif(bish[i]==\"Today is Sunday.\")\r\n\t\t{\r\n\t\t\tif(y==7)flag=1;\r\n\t\t\telse flag=0;\r\n\t\t\tif(tf[rub[i]]==-1)tf[rub[i]]=flag;\r\n\t\t\tif(tf[rub[i]]!=flag)return;\r\n\t\t}\r\n\t\tif(bish[i]==\"I am guilty.\")\r\n\t\t{\r\n\t\t\tif(rub[i]==x)flag=1;\r\n\t\t\telse flag=0;\r\n\t\t\tif(tf[rub[i]]==-1)tf[rub[i]]=flag;\r\n\t\t\tif(tf[rub[i]]!=flag)return;\r\n\t\t}\r\n\t\tif(bish[i]==\"I am not guilty.\")\r\n\t\t{\r\n\t\t\tif(rub[i]!=x)flag=1;\r\n\t\t\telse flag=0;\r\n\t\t\tif(tf[rub[i]]==-1)tf[rub[i]]=flag;\r\n\t\t\tif(tf[rub[i]]!=flag)return;\r\n\t\t}\r\n\t\tfor(j=0;j<m;j++)\r\n\t\t{\r\n\t\t\tstring d=name[j]+\" is guilty.\";\r\n\t\t\tif(d==bish[i])\r\n\t\t\t{\r\n\t\t\t\tif(j==x)flag=1;\r\n\t\t\t\telse flag=0;\r\n\t\t\t\tif(tf[rub[i]]==-1)tf[rub[i]]=flag;\r\n\t\t\t\tif(tf[rub[i]]!=flag)return;\r\n\t\t\t}\r\n\t\t}\r\n\t\tfor(j=0;j<m;j++)\r\n\t\t{\r\n\t\t\tstring d=name[j]+\" is not guilty.\";\r\n\t\t\tif(d==bish[i])\r\n\t\t\t{\r\n\t\t\t\tif(j!=x)flag=1;\r\n\t\t\t\telse flag=0;\r\n\t\t\t\tif(tf[rub[i]]==-1)tf[rub[i]]=flag;\r\n\t\t\t\tif(tf[rub[i]]!=flag)return;\r\n\t\t\t}\r\n\t\t}\r\n\t}\r\n\tfor(i=0;i<m;i++)\r\n\t{\r\n\t\tif(tf[i]==1)t++;\r\n\t\tif(tf[i]==0)f++;\r\n\t}\r\n\tif(f>n||t>m-n)return;\r\n\tans[wer++]=name[x];\r\n}\r\nint main()\r\n{\r\n\tint i,j;\r\n\tscanf(\"%d%d%d\",&m,&n,&p);\r\n\tfor(i=0;i<m;i++)\r\n\t\tcin>>name[i];\r\n\tfor(i=0;i<p;i++)\r\n\t{\r\n\t\tstring x,y;\r\n\t\tcin>>x;\r\n\t\tx.erase(x.length()-1,1);\r\n\t\tfor(j=0;j<m;j++)\r\n\t\t\tif(name[j]==x)rub[i]=j;\r\n\t\tgetline(cin,y);\r\n\t\ty.erase(0,1);\r\n\t\tif(y[y.length()-1]=='\\n'||y[y.length()-1]=='\\r')\r\n\t\t\ty.erase(y.length()-1,1);\r\n\t\tbish[i]=y;\r\n\t}\r\n\tfor(i=0;i<m;i++)\r\n\t{\r\n\t\tfor(j=1;j<=7;j++)\r\n\t\t{\r\n\t\t\tmemset(tf,-1,sizeof(tf));\r\n\t\t\tdat(i,j);\r\n\t\t}\r\n\t}\r\n\tif(wer<1)\r\n\t{\r\n\t\tprintf(\"Impossible\");\r\n\t\treturn 0;\r\n\t}\r\n\tstring lan=ans[0];\r\n\tfor(i=1;i<wer;i++)\r\n\t{\r\n\t\tif(ans[i]!=lan)\r\n\t\t{\r\n\t\t\tprintf(\"Cannot Determine\");\r\n\t\t\treturn 0;\r\n\t\t}\r\n\t}\r\n\tcout<<lan;\r\n\treturn 0;\r\n}\r\n\r\n```",
+      "author": "codej-40404",
+      "last_edit": "2026-06-19 11:59",
+      "views": 10,
       "tags": []
     }
   },
   "recent_activity": [
     {
-      "action": "在「oxygen」的讨论区回复了话题「有个小问题」",
+      "action": "解冻了页面「香蕉」",
       "user": "codej-40404",
-      "page": "oxygen",
-      "time": "2026-06-13 12:47"
+      "page": "香蕉",
+      "time": "2026-06-19 12:03"
     },
     {
-      "action": "在「oxygen」的讨论区回复了话题「有个小问题」",
+      "action": "冻结了页面「香蕉」",
       "user": "codej-40404",
-      "page": "oxygen",
-      "time": "2026-06-13 12:47"
+      "page": "香蕉",
+      "time": "2026-06-19 12:03"
     },
     {
-      "action": "在「oxygen」的讨论区回复了话题「有个小问题」",
+      "action": "编辑了页面「tests」",
       "user": "codej-40404",
-      "page": "oxygen",
-      "time": "2026-06-13 12:47"
+      "page": "tests",
+      "time": "2026-06-19 11:59"
     },
     {
-      "action": "在「oxygen」的讨论区回复了话题「有个小问题」",
+      "action": "编辑了页面「tests」",
       "user": "codej-40404",
-      "page": "oxygen",
-      "time": "2026-06-13 12:47"
+      "page": "tests",
+      "time": "2026-06-19 11:59"
     },
     {
-      "action": "在「oxygen」的讨论区发起了新话题「有个小问题」",
+      "action": "编辑了页面「tests」",
       "user": "codej-40404",
-      "page": "oxygen",
-      "time": "2026-06-13 12:46"
+      "page": "tests",
+      "time": "2026-06-19 11:55"
     },
     {
-      "action": "在页面「oxygen」发表了评论",
+      "action": "编辑了页面「tests」",
       "user": "codej-40404",
-      "page": "oxygen",
-      "time": "2026-06-13 12:46"
+      "page": "tests",
+      "time": "2026-06-19 11:55"
     },
     {
-      "action": "创建了新页面「oxygen」",
+      "action": "创建了新页面「tests」",
       "user": "codej-40404",
-      "page": "oxygen",
-      "time": "2026-06-13 12:45"
-    },
-    {
-      "action": "编辑了页面「markdown」",
-      "user": "codej-40404",
-      "page": "markdown",
-      "time": "2026-06-13 12:07"
-    },
-    {
-      "action": "在页面「markdown」发表了评论",
-      "user": "codej-40404",
-      "page": "markdown",
-      "time": "2026-06-13 11:59"
-    },
-    {
-      "action": "在页面「markdown」发表了评论",
-      "user": "codej-40404",
-      "page": "markdown",
-      "time": "2026-06-13 11:59"
+      "page": "tests",
+      "time": "2026-06-19 11:55"
     },
     {
       "action": "登录了系统",
       "user": "codej-40404",
       "page": null,
-      "time": "2026-06-13 11:56"
-    },
-    {
-      "action": "在「香蕉」的讨论区回复了话题「wow」",
-      "user": "codej-40404",
-      "page": "香蕉",
-      "time": "2026-06-13 08:37"
-    },
-    {
-      "action": "在「香蕉」的讨论区回复了话题「wow」",
-      "user": "codej-40404",
-      "page": "香蕉",
-      "time": "2026-06-13 08:37"
-    },
-    {
-      "action": "在「香蕉」的讨论区发起了新话题「wow」",
-      "user": "codej-40404",
-      "page": "香蕉",
-      "time": "2026-06-13 08:36"
-    },
-    {
-      "action": "编辑了页面「香蕉」",
-      "user": "codej-40404",
-      "page": "香蕉",
-      "time": "2026-06-13 08:36"
-    },
-    {
-      "action": "在「wiki」的讨论区回复了话题「这是个惊人的GitHub的README！」",
-      "user": "codej-40404",
-      "page": "wiki",
-      "time": "2026-06-13 08:34"
-    },
-    {
-      "action": "在「wiki」的讨论区发起了新话题「这是个惊人的GitHub的README！」",
-      "user": "codej-40404",
-      "page": "wiki",
-      "time": "2026-06-13 08:34"
-    },
-    {
-      "action": "编辑了页面「wiki」",
-      "user": "codej-40404",
-      "page": "wiki",
-      "time": "2026-06-13 08:33"
-    },
-    {
-      "action": "编辑了页面「wiki」",
-      "user": "codej-40404",
-      "page": "wiki",
-      "time": "2026-06-13 08:31"
-    },
-    {
-      "action": "编辑了页面「wiki」",
-      "user": "codej-40404",
-      "page": "wiki",
-      "time": "2026-06-13 08:31"
-    },
-    {
-      "action": "编辑了页面「wiki」",
-      "user": "codej-40404",
-      "page": "wiki",
-      "time": "2026-06-13 08:30"
-    },
-    {
-      "action": "编辑了页面「wiki」",
-      "user": "codej-40404",
-      "page": "wiki",
-      "time": "2026-06-13 08:29"
-    },
-    {
-      "action": "登录了系统",
-      "user": "codej-40404",
-      "page": null,
-      "time": "2026-06-13 08:28"
-    },
-    {
-      "action": "编辑了页面「markdown」",
-      "user": "codej-40404",
-      "page": "markdown",
-      "time": "2026-06-12 22:46"
-    },
-    {
-      "action": "在页面「markdown」发表了评论",
-      "user": "codej-40404",
-      "page": "markdown",
-      "time": "2026-06-12 22:46"
-    },
-    {
-      "action": "创建了新页面「markdown」",
-      "user": "codej-40404",
-      "page": "markdown",
-      "time": "2026-06-12 22:46"
-    },
-    {
-      "action": "编辑了页面「首页」",
-      "user": "codej-40404",
-      "page": "首页",
-      "time": "2026-06-12 22:35"
-    },
-    {
-      "action": "在「首页」的讨论区回复了话题「这里说一下」",
-      "user": "codej-40404",
-      "page": "首页",
-      "time": "2026-06-12 22:31"
-    },
-    {
-      "action": "在「首页」的讨论区发起了新话题「这里说一下」",
-      "user": "codej-40404",
-      "page": "首页",
-      "time": "2026-06-12 22:29"
-    },
-    {
-      "action": "在「香蕉」的讨论区发起了新话题「你觉得这个怎样」",
-      "user": "codej-40404",
-      "page": "香蕉",
-      "time": "2026-06-12 22:19"
-    },
-    {
-      "action": "登录了系统",
-      "user": "codej-40404",
-      "page": null,
-      "time": "2026-06-12 22:18"
-    },
-    {
-      "action": "删除了「香蕉」讨论区的话题「你觉得这个怎样」",
-      "user": "codej-40404",
-      "page": "香蕉",
-      "time": "2026-06-12 22:13"
-    },
-    {
-      "action": "在「香蕉」的讨论区发起了新话题「你觉得这个怎样」",
-      "user": "codej-40404",
-      "page": "香蕉",
-      "time": "2026-06-12 22:12"
-    },
-    {
-      "action": "登录了系统",
-      "user": "codej-40404",
-      "page": null,
-      "time": "2026-06-12 22:08"
-    },
-    {
-      "action": "登录了系统",
-      "user": "codej-40404",
-      "page": null,
-      "time": "2026-06-07 20:03"
-    },
-    {
-      "action": "编辑了页面「香蕉」",
-      "user": "codej-40404",
-      "page": "香蕉",
-      "time": "2026-06-07 19:21"
-    },
-    {
-      "action": "登录了系统",
-      "user": "codej-40404",
-      "page": null,
-      "time": "2026-06-07 19:20"
-    },
-    {
-      "action": "在页面「wiki」发表了评论",
-      "user": "codej-40404",
-      "page": "wiki",
-      "time": "2026-06-07 17:40"
-    },
-    {
-      "action": "登录了系统",
-      "user": "codej-40404",
-      "page": null,
-      "time": "2026-06-07 17:40"
+      "time": "2026-06-19 11:49"
     },
     {
       "action": "登出系统",
       "user": "codej-40404",
       "page": null,
-      "time": "2026-06-07 17:40"
+      "time": "2026-06-19 11:49"
     },
     {
-      "action": "在页面「香蕉」发表了评论",
+      "action": "登录了系统",
       "user": "codej-40404",
-      "page": "香蕉",
-      "time": "2026-06-07 17:40"
+      "page": null,
+      "time": "2026-06-19 11:49"
     },
     {
-      "action": "在页面「香蕉」发表了评论",
+      "action": "登出系统",
       "user": "codej-40404",
-      "page": "香蕉",
-      "time": "2026-06-07 17:39"
+      "page": null,
+      "time": "2026-06-19 11:45"
     },
     {
-      "action": "在页面「香蕉」发表了评论",
+      "action": "登录了系统",
+      "user": "codej-40404",
+      "page": null,
+      "time": "2026-06-19 11:30"
+    },
+    {
+      "action": "登出系统",
+      "user": "codej-40404",
+      "page": null,
+      "time": "2026-06-19 11:30"
+    },
+    {
+      "action": "编辑了页面「首页」",
+      "user": "codej-40404",
+      "page": "首页",
+      "time": "2026-06-19 10:58"
+    },
+    {
+      "action": "批准了页面「首页」的审核",
+      "user": "codej-40404",
+      "page": "首页",
+      "time": "2026-06-19 10:58"
+    },
+    {
+      "action": "登录了系统",
+      "user": "codej-40404",
+      "page": null,
+      "time": "2026-06-19 10:57"
+    },
+    {
+      "action": "登出系统",
+      "user": "蕉学家",
+      "page": null,
+      "time": "2026-06-19 10:57"
+    },
+    {
+      "action": "提交了页面「首页」的审核",
+      "user": "蕉学家",
+      "page": "首页",
+      "time": "2026-06-19 10:57"
+    },
+    {
+      "action": "登录了系统",
+      "user": "蕉学家",
+      "page": null,
+      "time": "2026-06-19 10:56"
+    },
+    {
+      "action": "登出系统",
+      "user": "codej-40404",
+      "page": null,
+      "time": "2026-06-19 10:56"
+    },
+    {
+      "action": "拒绝了页面「香蕉」的审核",
       "user": "codej-40404",
       "page": "香蕉",
-      "time": "2026-06-07 17:39"
+      "time": "2026-06-19 10:56"
     },
     {
       "action": "编辑了页面「香蕉」",
       "user": "codej-40404",
       "page": "香蕉",
-      "time": "2026-06-07 17:39"
+      "time": "2026-06-19 10:55"
     },
     {
-      "action": "在页面「wiki」发表了评论",
+      "action": "登录了系统",
       "user": "codej-40404",
-      "page": "wiki",
-      "time": "2026-06-07 17:29"
+      "page": null,
+      "time": "2026-06-19 10:55"
     },
     {
-      "action": "创建了新页面「wiki」",
+      "action": "登出系统",
+      "user": "蕉学家",
+      "page": null,
+      "time": "2026-06-19 10:55"
+    },
+    {
+      "action": "提交了页面「香蕉」的审核",
+      "user": "蕉学家",
+      "page": "香蕉",
+      "time": "2026-06-19 10:54"
+    },
+    {
+      "action": "登录了系统",
+      "user": "蕉学家",
+      "page": null,
+      "time": "2026-06-19 10:54"
+    },
+    {
+      "action": "登出系统",
       "user": "codej-40404",
-      "page": "wiki",
-      "time": "2026-06-07 17:29"
+      "page": null,
+      "time": "2026-06-19 10:54"
     },
     {
-      "action": "编辑了页面「香蕉」",
+      "action": "批准了页面「香蕉」的审核",
       "user": "codej-40404",
       "page": "香蕉",
-      "time": "2026-06-07 17:22"
+      "time": "2026-06-19 10:54"
     },
     {
-      "action": "在页面「香蕉」发表了评论",
+      "action": "登录了系统",
       "user": "codej-40404",
-      "page": "香蕉",
-      "time": "2026-06-07 17:20"
+      "page": null,
+      "time": "2026-06-19 10:54"
     },
     {
-      "action": "在页面「香蕉」发表了评论",
-      "user": "codej-40404",
-      "page": "香蕉",
-      "time": "2026-06-07 17:19"
+      "action": "登出系统",
+      "user": "蕉学家",
+      "page": null,
+      "time": "2026-06-19 10:54"
     },
     {
-      "action": "编辑了页面「香蕉」",
+      "action": "提交了页面「香蕉」的审核",
+      "user": "蕉学家",
+      "page": "香蕉",
+      "time": "2026-06-19 10:53"
+    },
+    {
+      "action": "注册了新账号",
+      "user": "蕉学家",
+      "page": null,
+      "time": "2026-06-19 10:53"
+    },
+    {
+      "action": "登出系统",
+      "user": "codej-40404",
+      "page": null,
+      "time": "2026-06-19 10:53"
+    },
+    {
+      "action": "解冻了页面「香蕉」",
       "user": "codej-40404",
       "page": "香蕉",
-      "time": "2026-06-07 17:10"
+      "time": "2026-06-19 10:46"
+    },
+    {
+      "action": "冻结了页面「香蕉」",
+      "user": "codej-40404",
+      "page": "香蕉",
+      "time": "2026-06-19 10:46"
+    },
+    {
+      "action": "登录了系统",
+      "user": "codej-40404",
+      "page": null,
+      "time": "2026-06-19 10:45"
+    },
+    {
+      "action": "登出系统",
+      "user": "寰宇行者",
+      "page": null,
+      "time": "2026-06-19 10:45"
+    },
+    {
+      "action": "编辑了页面「Markdown与Katex使用文档」",
+      "user": "寰宇行者",
+      "page": "Markdown与Katex使用文档",
+      "time": "2026-06-19 10:45"
+    },
+    {
+      "action": "登录了系统",
+      "user": "寰宇行者",
+      "page": null,
+      "time": "2026-06-19 10:45"
+    },
+    {
+      "action": "登出系统",
+      "user": "codej-40404",
+      "page": null,
+      "time": "2026-06-19 10:45"
+    },
+    {
+      "action": "编辑了页面「Markdown与Katex使用文档」",
+      "user": "codej-40404",
+      "page": "Markdown与Katex使用文档",
+      "time": "2026-06-19 10:25"
+    },
+    {
+      "action": "登录了系统",
+      "user": "codej-40404",
+      "page": null,
+      "time": "2026-06-19 10:24"
+    },
+    {
+      "action": "删除了页面「namemcw」",
+      "user": "codej-40404",
+      "page": "namemcw",
+      "time": "2026-06-18 19:05"
+    },
+    {
+      "action": "编辑了页面「Markdown与Katex使用文档」",
+      "user": "codej-40404",
+      "page": "Markdown与Katex使用文档",
+      "time": "2026-06-18 19:02"
+    },
+    {
+      "action": "编辑了页面「Markdown与Katex使用文档」",
+      "user": "codej-40404",
+      "page": "Markdown与Katex使用文档",
+      "time": "2026-06-18 18:58"
+    },
+    {
+      "action": "创建了新页面「Markdown与Katex使用文档」",
+      "user": "codej-40404",
+      "page": "Markdown与Katex使用文档",
+      "time": "2026-06-18 18:56"
+    },
+    {
+      "action": "编辑了页面「首页」",
+      "user": "codej-40404",
+      "page": "首页",
+      "time": "2026-06-18 18:53"
+    },
+    {
+      "action": "编辑了页面「首页」",
+      "user": "codej-40404",
+      "page": "首页",
+      "time": "2026-06-18 18:52"
+    },
+    {
+      "action": "编辑了页面「首页」",
+      "user": "codej-40404",
+      "page": "首页",
+      "time": "2026-06-18 18:49"
+    },
+    {
+      "action": "编辑了页面「首页」",
+      "user": "codej-40404",
+      "page": "首页",
+      "time": "2026-06-18 18:48"
     }
   ]
 }
