@@ -96,7 +96,7 @@
 
 ```bash
 # 1. 克隆项目
-git clone https://github.com/yourusername/omniwiki.git
+git clone https://github.com/CodeJ-40404/Omniwiki.git
 cd omniwiki
 
 # 2. 安装依赖
@@ -116,7 +116,7 @@ python Omniwiki.py
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/yourusername/omniwiki.git
+git clone https://github.com/CodeJ-40404/Omniwiki.git
 cd omniwiki
 
 # 2. Install dependencies
@@ -147,8 +147,8 @@ python Omniwiki.py
 
 1. **下载项目**
    ```bash
-   git clone https://github.com/yourusername/omniwiki.git
-   cd omniwiki
+   git clone https://github.com/CodeJ-40404/Omniwiki.git
+   cd Omniwiki
    ```
 
 2. **创建虚拟环境（推荐）**
@@ -188,7 +188,7 @@ python Omniwiki.py
 
 1. **Download the project**
    ```bash
-   git clone https://github.com/yourusername/omniwiki.git
+   git clone https://github.com/CodeJ-40404/Omniwiki.git
    cd omniwiki
    ```
 
@@ -222,7 +222,6 @@ python Omniwiki.py
 
 ## 📁 项目结构 / Project Structure
 ~~some are still designing~~
-
 ```
 omniwiki/
 │
@@ -429,5 +428,5 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 *codej-40404*
 
-[👆 返回顶部 / Back to Top](#)
+[⬆ 返回顶部 / Back to Top](#)
 
